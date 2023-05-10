@@ -7,8 +7,9 @@ import os
 
 
 class User(AbstractUser):
-    followers = models.ManyToManyField(
-        'self', symmetrical=False, related_name='following')
+    followings = models.ManyToManyField('self',
+                                        symmetrical=False,
+                                        related_name='followers')
 
     def profile(instance, filename):
         return f'profiles/{instance.username}/{filename}'
@@ -18,13 +19,17 @@ class User(AbstractUser):
                                         format='JPEG',
                                         options={'quality': 80},
                                         )
-
+    '''
+    user 삭제시 프로필 이미지 삭제
+    '''
     def delete(self, *args, **kargs):
         if self.profile_image:
             os.remove(os.path.join(
                 settings.MEDIA_ROOT, self.profile_image.path))
         super(User, self).delete(*args, **kargs)
-
+    '''
+    user 프로필 이미지 변경시 과거 이미지 삭제
+    '''
     def save(self, *args, **kwargs):
         if self.id:
             old_user = User.objects.get(id=self.id)
