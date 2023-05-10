@@ -41,7 +41,13 @@
   <div class="container">
     <!-- 최신 영화 -->
     <div>
-      
+      {% for popular_movie in popular_movies %}
+      <div>
+        <img class="poster" src="https://image.tmdb.org/t/p/w500{{ popular_movie.poster_path }}" alt="">
+        <p>{{ p }}</p>
+
+      </div>
+      {% endfor %}
     </div>
   </div>
 </div>
