@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h3>리뷰</h3>
+  <h4>{{user}}</h4>
+  <hr>
+  {% for review in reviews %}
+    <a href="{% url 'reviews:detail' review.pk %}">{{ review.title }}</a>
+    <form action="{% url 'reviews:review_emote' review.pk 1 %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="좋아요">
+      <span>{{ review.num_likes }}</span>
+    </form>
+    <form action="{% url 'reviews:review_emote' review.pk 0 %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="싫어요">
+      <span>{{ review.num_dislikes }}</span>
+    </form>
+    <hr>
+  {% endfor %}
+
+  <br>
+  <a href="{% url 'reviews:review_create' %}">리뷰작성</a>
+</body>
+</html>
