@@ -9,5 +9,5 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('accounts/', include('allauth.urls')),
     path('movies/', include('movies.urls')),
-    path('', views.redirect_index),
+    # path('', views.redirect_index),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
