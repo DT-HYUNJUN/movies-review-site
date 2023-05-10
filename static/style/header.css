@@ -1,0 +1,15 @@
+.header-color {
+  /* color: #7E7E7E; */
+  color: #7E7E7E
+}
+.header-color a {
+  color: inherit !important;
+}
+
+.signup-color {
+  color: #353535;
+  text-decoration: none;
+  border: 1px solid #74747b80;
+  border-radius: 5px;
+  padding: 3px 10px
+}
