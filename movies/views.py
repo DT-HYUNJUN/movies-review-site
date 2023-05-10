@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
+from .forms import CollectionForm, MovieCollectionForm
 from dotenv import load_dotenv
 import os
 import requests
 
 load_dotenv()
-
 base_url = 'https://api.themoviedb.org/3'
 api_key = os.getenv('TMDB_API_KEY')
+
 
 def index(request):
     # 현재 상영 영화 인기순으로 5개
@@ -69,3 +70,19 @@ def detail(request, movie_id):
         'movie': movie,
     }
     return render(request, 'movies/detail.html', context)
+
+
+def create(request):
+    if request.method == 'POST':
+        pass
+    else:
+        collection_form = CollectionForm()
+        movie_form = MovieCollectionForm()
+    context = {
+        'collection_form': collection_form,
+        'movie_form': movie_form,
+    }
+
+
+def update(request, collection_pk):
+    pass
