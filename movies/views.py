@@ -56,6 +56,7 @@ def index(request):
         'top_movies': top_movies,
         'upcoming_movies': sorted(upcoming_movies, key=lambda x: x['release_date'])
     }
+    
     return render(request, 'movies/index.html', context)
 
 
