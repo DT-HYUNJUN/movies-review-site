@@ -3,8 +3,8 @@
   color: #a5a5a7;
   width: 100%;
   height: 239px;
-  position: fixed;
-  bottom: 0;
+  /* position : relative;
+  transform : translateY(-100%); */
 }
 
 .footer a {
