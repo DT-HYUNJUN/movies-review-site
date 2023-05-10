@@ -1,4 +1,26 @@
+.time {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  color: white;
+  padding: 14px 8px 14px;
+  margin-right: 3px;
+  font-size: 12px;
+}
+
 .poster {
+  display: inline-block;
+}
+
+.white-font {
+  color: white;
+}
+
+.title-size {
+  font-size: 22px;
+}
+.poster-size {
   width: 250px; 
   height: 360px;
+  margin: 3px;
 }
