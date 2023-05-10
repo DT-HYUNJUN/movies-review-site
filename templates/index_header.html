@@ -1,13 +1,19 @@
-<nav class="navbar navbar-expand-lg bg-body border-bottom">
+{% load static %}
+
+<head>
+  <link rel="stylesheet" href="{% static 'style/index_header.css' %}">
+</head>
+
+<nav class="position-fixed fixed-top navbar navbar-expand-lg dark-header w-100 z-5">
   <div class="d-flex container">
     <a class="navbar-brand" href="#">SEENEMA</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon"></span> 
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
         </li>
       </ul>
       <form class="d-flex" role="search">
@@ -18,7 +24,7 @@
         <button class="" type="submit" hidden>Search</button>
       </form>
       <!-- 로그인 / 회원가입 -->
-      <div>
+      <div class="">
         <a class="btn btn-outline-dark-subtle mx-2" href="#" role="button">로그인</a>
         <a class="btn btn-sm btn-outline-dark" href="#" role="button">회원가입</a>
       </div>
