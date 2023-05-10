@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>{{ review.title }}'s detail</h1>
+  <a href="{% url 'reviews:review_update' review.pk %}">리뷰수정</a>
+  <p>작성자 - {{ review.user }}</p>
+  <hr>
+
+
+  
+  <h3>코멘트 작성</h3>
+  <form action="{% url 'reviews:comment_create' review.pk %}" method="POST">
+    {% csrf_token %}
+    <div>{{ comment_form.as_p }}</div>
+    <input type="submit" value="작성">
+  </form>
+  <hr>
+  {% for comment in review_comments %}
+    <p>{{ comment.content }}</p>
+    <form action="{% url 'reviews:comment_emote' review.pk comment.pk 1 %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="좋아요">
+      <span>{{ comment.num_likes }}</span>
+    </form>
+    <form action="{% url 'reviews:comment_emote' review.pk comment.pk 0 %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="싫어요">
+      <span>{{ comment.num_dislikes }}</span>
+    </form>
+    <hr>
+  {% endfor %}
+</body>
+</html>
