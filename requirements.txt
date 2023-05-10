@@ -10,7 +10,9 @@ decorator==5.1.1
 defusedxml==0.7.1
 Django==3.2.18
 django-allauth==0.54.0
+django-appconf==1.0.5
 django-extensions==3.2.1
+django-imagekit==4.1.0
 executing==1.2.0
 idna==3.4
 ipython==8.13.2
@@ -18,9 +20,12 @@ jedi==0.18.2
 matplotlib-inline==0.1.6
 oauthlib==3.2.2
 parso==0.8.3
+pexpect==4.8.0
 pickleshare==0.7.5
+pilkit==2.0
 Pillow==9.5.0
 prompt-toolkit==3.0.38
+ptyprocess==0.7.0
 pure-eval==0.2.2
 pycparser==2.21
 Pygments==2.15.1
