@@ -11,4 +11,4 @@ class CollectionForm(forms.ModelForm):
 class MovieCollectionForm(forms.ModelForm):
     class Meta:
         model = MovieCollection
-        fields = ('movie_id')
+        fields = ('movie_id',)
