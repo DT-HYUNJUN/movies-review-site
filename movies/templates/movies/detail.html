@@ -6,11 +6,15 @@
 
 {% block content %}
 
-<div class="back-poster">
-  <div class="back-poster" style="background-image: url('https://image.tmdb.org/t/p/w500{{ movie.backdrop_path }}')">
+<div class="bg-poster">
+  <img class="bg-poster-size"src="https://image.tmdb.org/t/p/w1280{{ movie.backdrop_path }}" alt="">
+  <div class="bg-title-color">
+    <p>{{ movie.title }}</p>
+    <p class="bg-title-origin">{{ movie.original_title }}</ps=>
+  </div>
 </div>
 
-<div class="container container-pt">
+<div class="container">
   <div class="d-flex align-items-center gap-3">
     <!---->
     <img class="poster shadow-lg" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="">
@@ -56,7 +60,7 @@
 </div>
 
 <div>
-  {% comment %} 인물 정보 {% endcomment %}
+  <!--인물 정보-->
   {% for crew in crews %}
   <a href="{% url 'movies:person_detail' crew.id %}" class="d-flex">
     <img src="https://image.tmdb.org/t/p/w500{{ crew.profile_path }}" alt="감독">
