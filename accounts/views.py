@@ -35,8 +35,7 @@ class Login(View):
         context = {
         'form': form,
         }
-        return None
-        # return render(request, 'accounts/login.html', context) <-- 나중에 바꾸기
+        return render(request, 'moives/index.html', context) # <-- 나중에 바꾸기
     
     def post(self, request):
         form = AuthenticationForm(request, request.POST)

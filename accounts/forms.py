@@ -1,5 +1,6 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm, AuthenticationForm
 from django.contrib.auth import get_user_model
+from django import forms
 
 #회원가입
 class CustomUserCreationForm(UserCreationForm):
@@ -46,3 +47,21 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         self.fields['new_password1'].widget.attrs['class'] = 'form-control'
         self.fields['new_password2'].widget.attrs['placeholder'] = '새 비밀번호를 다시 입력해 주세요'
         self.fields['new_password2'].widget.attrs['class'] = 'form-control'
+        self.fields['new_password2'].widget.attrs['placeholder'] = '새 비밀번호를 다시 입력해 주세요'
+
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
