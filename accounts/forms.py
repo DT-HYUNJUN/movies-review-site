@@ -4,9 +4,41 @@ from django import forms
 
 #회원가입
 class CustomUserCreationForm(UserCreationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control account-field',
+                'placeholder': '아이디'
+            }
+        ),
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'form-control account-field',
+                'placeholder': '이메일'
+            }
+        ),
+    )
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control account-field',
+                'placeholder': '비밀번호'
+            }
+        ),
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control account-field',
+                'placeholder': '비밀번호 확인'
+            }
+        ),
+    )
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2', 'profile_image',)
+        fields = ('username', 'email', 'password1', 'password2',)
 
 #회원정보 수정
 class CustomUserChangeForm(UserChangeForm):
