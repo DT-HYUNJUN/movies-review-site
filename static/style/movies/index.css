@@ -1,4 +1,26 @@
+.poster-wrapper {
+  position: relative;
+  width: 250px; 
+  height: 360px;
+}
+
 .poster {
   width: 250px; 
   height: 360px;
+}
+
+.rank {
+  text-align: center;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  color: white;
+  width: 2em;
+  height: 2em;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -3,6 +3,7 @@ from .forms import CollectionForm, MovieCollectionForm
 from dotenv import load_dotenv
 import os
 import requests
+import pycountry
 
 load_dotenv()
 base_url = 'https://api.themoviedb.org/3'
@@ -67,8 +68,30 @@ def detail(request, movie_id):
         'language': 'ko-kr'
     }
     movie = requests.get(base_url+path, params=params).json()
+    
+    # 개봉연도
+    year = movie['release_date'][:4]
+    
+    # 장르 불러오기
+    genres_list = movie['genres']
+    tmp = []
+    for genre in genres_list:
+        tmp.append(genre['name'])
+    genres = '/'.join(tmp)
+    
+    # 국가 코드
+    country_code = movie['production_countries'][0]['iso_3166_1']
+    try:
+        country = pycountry.countries.get(alpha_2=country_code).name
+    except AttributeError:
+        pass
+
+    
     context = {
+        'year': year,
+        'country': country,
         'movie': movie,
+        'genres': genres,
     }
     return render(request, 'movies/detail.html', context)
 

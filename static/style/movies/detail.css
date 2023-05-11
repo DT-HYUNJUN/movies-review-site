@@ -1,0 +1,25 @@
+.back-poster {
+  height: 303px;
+  width: 100%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.poster {
+  padding: 3px;
+  width: 150px;
+  height: 220px;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.do-rating {
+  font-size: 14px;
+}
+
+.vertical-line {
+  width: 1px;
+  height: 100%;
+}
