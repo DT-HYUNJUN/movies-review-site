@@ -2,14 +2,14 @@
   position: relative;
   width: 250px; 
   height: 360px;
-  box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.2); */
   border-radius: 5px;
 }
-
+/* 테없그있 */
 .poster-size {
   width: 250px; 
   height: 360px;
-  padding: 3px;
+  /* padding: 3px; */
   /* border: 1px solid gray; */
   background-color: white;
   border-radius: 5px;
@@ -112,7 +112,7 @@
   content: "";
   position: absolute;
   display: block;
-  background-color: white;
+  background-color: #252451;
   left: 0;
   right: 0;
   width: 100%;
