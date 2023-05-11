@@ -10,6 +10,7 @@ class Review(models.Model):
     movie = models.PositiveIntegerField()
     rating = models.FloatField()
     emote_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='emote_reviews', through='Emote')
+    is_spoiler = models.BooleanField(default=False)
 
     @property
     def num_likes(self):

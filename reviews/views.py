@@ -7,8 +7,10 @@ from django.contrib.auth.decorators import login_required
 # 테스트용 인덱스
 def index(request):
     reviews = Review.objects.order_by('-pk')
+    form = ReviewForm()
     context = {
         'reviews': reviews,
+        'form': form,
     }
     return render(request, 'reviews/index.html', context)
 
@@ -20,6 +22,7 @@ def review_create(request):
         if form.is_valid():
             form = form.save(commit=False)
             form.user = request.user
+            form.rating = (request.POST.get('rating'))
             form.save()
             return redirect('reviews:index')
     else:
