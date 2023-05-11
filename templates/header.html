@@ -6,7 +6,7 @@
 
 <nav class="position-absolute fixed-top navbar navbar-expand-lg border-bottom w-100 z-2 header-color">
   <div class="d-flex container">
-    <a class="navbar-brand" href="{% url 'movies:index' %}">SEENEMA</a>
+    <a class="navbar-brand fs-4" href="{% url 'movies:index' %}"><span class="pink-color">SEE</span>NEMA</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -19,7 +19,7 @@
       <form class="d-flex" role="search">
         <div id="search" class="d-flex align-items-center dark-search rounded-1 ps-3">
           <i class="bi bi-search"></i>
-          <input class="px-1 py-2 bg-transparent border-0 rounded-1" type="search" placeholder="검색" aria-label="Search">
+          <input class="px-1 py-2 bg-transparent border-0 rounded-1 search" type="search" placeholder="검색" aria-label="Search">
         </div>
         <button class="" type="submit" hidden>Search</button>
       </form>
@@ -36,11 +36,11 @@
         </a>
         <form action="{% url 'accounts:logout' %}" method="POST">
           {% csrf_token %}
-          <input class="btn btn-outline-danger" type="submit" value="로그아웃">
+          <input id="logout" class="logout py-2" type="submit" value="로그아웃">
         </form>
         <!--비 로그인 시-->
         {% else %}
-        <a class=" dark-signup-color border-0 bg-transparent header-color" href="{% url 'accounts:login' %}">로그인</a>
+        <a class="dark-signup-color border-0 bg-transparent header-color" href="{% url 'accounts:login' %}">로그인</a>
         <a class="signup-color py-2" href="{% url 'accounts:signup' %}">회원가입</a>
         {% endif %}
       </div>

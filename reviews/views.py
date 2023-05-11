@@ -22,9 +22,10 @@ def review_create(request):
         if form.is_valid():
             form = form.save(commit=False)
             form.user = request.user
-            form.title = (request.POST.get('title'))
-            form.movie = (request.POST.get('movie-id'))
-            form.rating = (request.POST.get('rating'))
+            form.title = request.POST.get('title')
+            form.movie = request.POST.get('movie-id')
+            form.rating = request.POST.get('rating')
+            form.is_spoiler = request.POST.get('is_spoiler')
             form.save()
             movie_id = request.POST.get('movie-id')
             return redirect('movies:detail', movie_id)

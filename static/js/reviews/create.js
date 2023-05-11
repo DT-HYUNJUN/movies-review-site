@@ -82,3 +82,34 @@ $(document).ready(function() {
     }
   });
 });
+
+
+const reviewField = document.getElementById('review-field')
+const reviewBtn = document.getElementById('review-btn')
+const spoilerLabel = document.getElementById('spoiler-label')
+const spoilerField = document.getElementById('spoiler-field')
+const icon = spoilerLabel.querySelector('i')
+let spoilerLabelValue = 0
+
+
+spoilerLabel.addEventListener('click', () => {
+  if (spoilerLabelValue === 0) {
+    icon.classList.remove('bi-emoji-angry')
+    icon.classList.add('bi-emoji-angry-fill')
+    spoilerLabelValue = 1
+  } else {
+    icon.classList.remove('bi-emoji-angry-fill')
+    icon.classList.add('bi-emoji-angry')
+    spoilerLabelValue = 0
+  }
+  spoilerField.value = spoilerLabelValue
+})
+
+
+
+
+if (reviewField.value === '') {
+  reviewBtn.removeAttribute('disabled')
+} else {
+  reviewBtn.setAttribute('disabled')
+}
