@@ -12,3 +12,7 @@
 .account-field::placeholder {
   color: #a0a0a0;
 }
+
+.username {
+  text-decoration: none;
+}

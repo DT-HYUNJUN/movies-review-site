@@ -6,7 +6,7 @@
 
 <nav class="position-absolute fixed-top navbar navbar-expand-lg border-bottom w-100 z-2 header-color">
   <div class="d-flex container">
-    <a class="navbar-brand logo-font" href="http://127.0.0.1:8000/movies/">SEENEMA</a>
+    <a class="navbar-brand" href="{% url 'movies:index' %}">SEENEMA</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -25,8 +25,24 @@
       </form>
       <!-- 로그인 / 회원가입 -->
       <div class="d-flex align-items-center">
+        <!--로그인 시-->
+        {% if request.user.is_authenticated %}
+        <a class="ms-3 username fs-5 me-3" href="{% url 'accounts:profile' request.user.username %}">
+          {% if request.user.profile_image %}
+            <img class="header-profile-img rounded-circle" src="{{ request.user.profile_image.url }}" alt="">
+          {% else %}
+            <img src="{% static 'img/profile-img.png' %}" alt="" class="header-profile-img">
+          {% endif %}
+        </a>
+        <form action="{% url 'accounts:logout' %}" method="POST">
+          {% csrf_token %}
+          <input class="btn btn-outline-danger" type="submit" value="로그아웃">
+        </form>
+        <!--비 로그인 시-->
+        {% else %}
         <a class=" dark-signup-color border-0 bg-transparent header-color" href="{% url 'accounts:login' %}">로그인</a>
         <a class="signup-color py-2" href="{% url 'accounts:signup' %}">회원가입</a>
+        {% endif %}
       </div>
     </div>
   </div>

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container container-pt profile">
+  <div class="border rounded-3 mt-5">
+    <!--상단 배너-->
+    <div class="banner rounded-top">
+      <div class="dropdown">
+        <button class="border-0 bg-transparent profile-update-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-gear"></i>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="{% url 'accounts:update' %}">프로필 수정</a></li>
+          <li><a class="dropdown-item" href="{% url 'accounts:change_password' %}">비밀번호 수정</a></li>
+          <li>
+            <form action="{% url 'accounts:delete' %}" method="POST">
+              {% csrf_token %}
+              <button class="dropdown-item" onclick="return confirm('탈퇴?')" type="submit">탈퇴하기</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+      
+    </div>
+    <!--하단 영역-->
+    <div class="px-3 pb-3 z-3">
+      <!--프로필 이미지, 유저이름-->
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="profile-img text-center">
+          {% if request.user.profile_image %}
+            <img class="profile-img rounded-circle" src="{{ request.user.profile_image.url }}" alt="">
+          {% else %}
+            <img class="profile-img" src="{% static 'img/profile-img.png' %}" alt="">
+          {% endif %}
+          <p class="fs-4">{{ person.username }}</p>
+        </div>
+        <div>
+          <form action="{% url 'accounts:follow' person.pk %}" method="POST">
+            {% csrf_token %}
+            {% if request.user != person %}
+              {% if request.user in person.followers.all %}
+                <input class='btn btn-outline-primary' type="submit" value="unfollow">
+              {% else %}
+                <input class="btn btn-outline-primary" type="submit" value="follow">
+              {% endif %}
+            {% else %}
+            {% endif %}
+          </form>
+        </div>
+      </div>
+      <!--평가, 보고싶어요, 보는중-->
+      <hr>
+      <p class="fs-5">평가</p>
+      <hr>
+      <p class="fs-5">보고싶어요</p>
+      <hr>
+      <p class="fs-5">보는중</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
