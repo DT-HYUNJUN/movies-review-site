@@ -52,7 +52,7 @@ table {
 
 #wrapper{
   height: auto;
-  min-height: calc(100vh - 300px);
+  min-height: calc(100vh - 60px);
 }
 
 .pink-color {

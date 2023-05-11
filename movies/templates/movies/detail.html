@@ -5,60 +5,91 @@
 {% load static %}
 
 {% block content %}
+
 <link rel="stylesheet" href="{% static 'style/reviews/create.css' %}">
-<div class="back-poster">
-  <div class="back-poster" style="background-image: url('https://image.tmdb.org/t/p/w500{{ movie.backdrop_path }}')">
+
+<div class="bg-poster">
+  <img class="bg-poster-size"src="https://image.tmdb.org/t/p/w1280{{ movie.backdrop_path }}" alt="">
+  <div class="bg-title-color">
+    <p>{{ movie.title }}</p>
+    <p class="bg-title-origin">{{ movie.original_title }}</ps=>
+  </div>
 </div>
 
-<div class="container container-pt">
+<div class="container">
   <div class="d-flex align-items-center gap-3">
     <!---->
     <img class="poster shadow-lg" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="">
     <div>
       <!--제목, 개봉일, 장르, 국가-->
-      <div>
-        <p class="fs-2 fw-bold mb-2">{{ movie.title }}</p>
-        <div class='text-body-secondary'>
-          <span>{{ year}} ・</span>
-          <span>{{ genres }} ・</span>
-          <span>{{ country }}</span>
+        <div>
+          <p class="fs-2 fw-bold mb-2">{{ movie.title }}</p>
+          <div class='text-body-secondary'>
+            <span>{{ year}} ・</span>
+            <span>{{ genres }} ・</span>
+            <span>{{ country }}</span>
+          </div>
+          <hr>
         </div>
+        <p>평균 ★</p>
         <hr>
-      </div>
-      <p>평균 ★</p>
-      <hr>
-      <!--상호작용-->
-      <div class="d-flex align-items-center justify-content-between">
-        <!--평가하기-->
-        <div>
-          <button data-bs-toggle="modal" data-bs-target="#review-create">
-            <p class="do-rating text-center">평가하기</p>
-          </button>
-          <span>★★★★★</span>
-        </div>
-        <div class="vertical-line"></div>
-        <div>
-          <i class="bi bi-plus-lg"></i>
-          보고싶어요
-        </div>
-        <div>
-          <i class="bi bi-pen-fill"></i>
-          코멘트
-        </div>
-        <div>
-          <i class="bi bi-eye-fill"></i>
-          보는중
+        <!--상호작용-->
+        <div class="d-flex align-items-center justify-content-between">
+          <!--평가하기-->
+          <div>
+            <button data-bs-toggle="modal" data-bs-target="#review-create">
+              <p class="do-rating text-center">평가하기</p>
+            </button>
+            <span>★★★★★</span>
+          </div>
+          <div class="vertical-line"></div>
+          <div>
+            <i class="bi bi-plus-lg"></i>
+            보고싶어요
+          </div>
+          <div>
+            <i class="bi bi-pen-fill"></i>
+            코멘트
+          </div>
+          <div>
+            <i class="bi bi-eye-fill"></i>
+            보는중
+          </div>
         </div>
       </div>
+  
     </div>
-
+  
+    <div>{{ movie }}</div>
+  </div>
+  
+  <div>
+    {% comment %} 인물 정보 {% endcomment %}
+    {% for crew in crews %}
+    <a href="{% url 'movies:person_detail' crew.id %}" class="d-flex">
+      <img src="https://image.tmdb.org/t/p/w500{{ crew.profile_path }}" alt="감독">
+      <div>
+        <p>{{ crew.name }}</p>
+        <p>감독</p>
+      </div>
+    </a>
+    {% endfor %}
+    {% for cast in casts %}
+    <a href="{% url 'movies:person_detail' cast.id %}" class="d-flex">
+      <img src="https://image.tmdb.org/t/p/w500{{ cast.profile_path }}" alt="출연진">
+      <div>
+        <p>{{ cast.name }}</p>
+        <p>{{ cast.character }}</p>
+      </div>
+    </a>
+    {% endfor %}
   </div>
 
   <div>{{ movie }}</div>
 </div>
 
 <div>
-  {% comment %} 인물 정보 {% endcomment %}
+  <!--인물 정보-->
   {% for crew in crews %}
   <a href="{% url 'movies:person_detail' crew.id %}" class="d-flex">
     <img src="https://image.tmdb.org/t/p/w500{{ crew.profile_path }}" alt="감독">
