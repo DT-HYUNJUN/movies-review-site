@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import CollectionForm, MovieCollectionForm
 from dotenv import load_dotenv
+from django.utils import timezone
 import os
 import requests
 import pycountry
@@ -11,6 +12,9 @@ api_key = os.getenv('TMDB_API_KEY')
 
 
 def index(request):
+    # 현재 시간
+    now_time = timezone.now()
+
     # 현재 상영 영화 인기순으로 5개
     path = '/movie/now_playing'
     params = {
@@ -52,6 +56,7 @@ def index(request):
     upcoming_movies = sorted(upcoming_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:5]
 
     context = {
+        'now_time': now_time,
         'playing_movies': playing_movies,
         'popular_movies': popular_movies,
         'top_movies': top_movies,
