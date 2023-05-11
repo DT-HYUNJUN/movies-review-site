@@ -27,14 +27,16 @@ class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control',
+                'class': 'form-control account-field',
+                'placeholder': '아이디',
             }
         )
     )
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                'class': 'form-control',
+                'class': 'form-control account-field',
+                'placeholder': '비밀번호',
             }
         )
     )
