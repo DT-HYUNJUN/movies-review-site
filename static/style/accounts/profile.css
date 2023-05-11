@@ -28,7 +28,7 @@
 
 .profile-info {
   position: absolute;
-  top: 180px;
+  top: 270px;
 }
 
 .profile-update-btn {
@@ -37,4 +37,8 @@
   position: absolute;
   top: 5px;
   right: 5px;
+}
+
+.movie-section {
+  margin-top: 100px;
 }
