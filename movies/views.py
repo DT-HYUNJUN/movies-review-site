@@ -73,6 +73,7 @@ def detail(request, movie_id):
         'language': 'ko-kr'
     }
     movie = requests.get(base_url+path, params=params).json()
+    movie_credits = requests.get(base_url+path+'/credits', params=params).json()
     
     # 개봉연도
     year = movie['release_date'][:4]
@@ -91,27 +92,45 @@ def detail(request, movie_id):
     except AttributeError:
         pass
 
+    # 감독
+    crews = []
+    for crew in movie_credits['crew']:
+        if crew['job'] == 'Director':
+            crews.append(crew)
+
+    # 출연진
+    casts = movie_credits['cast']
+    if len(casts) > 12 - len(crews):
+        casts = casts[:12-len(crews)]
     
     context = {
         'year': year,
         'country': country,
         'movie': movie,
         'genres': genres,
+        'crews': crews,
+        'casts': casts,
     }
     return render(request, 'movies/detail.html', context)
 
 
-def create(request):
-    if request.method == 'POST':
-        pass
-    else:
-        collection_form = CollectionForm()
-        movie_form = MovieCollectionForm()
-    context = {
-        'collection_form': collection_form,
-        'movie_form': movie_form,
-    }
-
-
-def update(request, collection_pk):
+def person_detail(request, person_id):
     pass
+
+
+
+# ---------------collection---------------------
+# def create(request):
+#     if request.method == 'POST':
+#         pass
+#     else:
+#         collection_form = CollectionForm()
+#         movie_form = MovieCollectionForm()
+#     context = {
+#         'collection_form': collection_form,
+#         'movie_form': movie_form,
+#     }
+
+
+# def update(request, collection_pk):
+#     pass
