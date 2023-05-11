@@ -42,24 +42,8 @@
   </div>
 
   <div class="container">
-
-    <!-- 최신 영화 -->
-    <div class="row row-cols-2 row-cols-md-5 g-5">
-      {% for p_movie in popular_movies %}
-      <a href="{% url 'movies:detail' p_movie.id %}">
-        <div class="movie-card">
-          <div class="poster-wrapper">
-            <img class="poster" src="https://image.tmdb.org/t/p/w500{{ p_movie.poster_path }}" alt="">
-            <p class="rank">{{ forloop.counter }}</p>
-          </div>
-          <p>{{ p_movie.title }}</p>
-          <p>{{ p_movie.release_date }} | </p>
-        </div>
-      </a>
-
     <!-- popular_movie -->
     <div class="popular_movie">
-      
       <div class="time">
         <p class="title-size white-font me-auto">인기 영화</p>
         <svg class="me-2"xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
@@ -68,28 +52,40 @@
         </svg>
         {{ now_time|date:"m.d H:i"}} 기준
       </div>
-      {% for popular_movie in popular_movies %}
-      <div class="poster white-font">
-        <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ popular_movie.poster_path }}" alt="">
-        <p>{{ popular_movie.title }}</p>
-        <p>{{ popular_movie.release_date }}</p>
+      <div class="row row-cols-2 row-cols-md-5 g-5">
+        {% for p_movie in popular_movies %}
+        <a class="white-font" href="{% url 'movies:detail' p_movie.id %}">
+          <div class="movie-card">
+            <div class="index-poster-wrapper">
+              <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ p_movie.poster_path }}" alt="">
+              <p class="rank">{{ forloop.counter }}</p>
+            </div>
+          </div>
+          <p>{{ p_movie.title }}</p>
+          <p>{{ p_movie.release_date }} | </p>
+        </a>
+        {% endfor %}
       </div>
-
-      {% endfor %}
     </div>
-    
+
     <!-- now_playing -->
-    
-    <div class="playing_movie">
-      {% for playing_movie in playing_movies %}
-      <div class="poster">
-        <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ playing_movie.poster_path }}" alt="">
-        <p>{{ playing_movie.title }}</p>
-        <p>{{ playing_movie.release_date }}</p>
+    <div class="playing_movie mt-3">
+      <p class="title-size black-font mb-3">상영중인 영화</p>
+      <div class="row row-cols-2 row-cols-md-5 g-5">
+        {% for p_movie in playing_movies %}
+        <a class="black-font" href="{% url 'movies:detail' p_movie.id %}">
+          <div class="movie-card">
+            <div class="index-poster-wrapper">
+              <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ p_movie.poster_path }}" alt="">
+              <p class="rank">{{ forloop.counter }}</p>
+            </div>
+          </div>
+          <p>{{ p_movie.title }}</p>
+          <p>{{ p_movie.release_date }} | </p>
+        </a>
+        {% endfor %}
       </div>
-      {% endfor %}
     </div>
-
 </div>
 
 <!--비디오 모달창 3개-->

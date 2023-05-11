@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form class="account-form mx-auto" action="{% url 'accounts:login' %}" method="POST">
+  {% csrf_token %}
+  {% for field in form %}
+    <div class="input-group mb-3">
+      {{ field }}
+    </div>
+  {% endfor %}
+  <div class="d-grid">
+    <button class="btn btn-primary" type="submit">로그인</button>
+  </div>
+</form>
+{% endblock content %}
+
+

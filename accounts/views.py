@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View 
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm, CustomAuthenticationForm
 
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
@@ -31,14 +31,14 @@ class Signup(View):
 
 class Login(View):
     def get(self, request):
-        form = AuthenticationForm()
+        form = CustomAuthenticationForm()
         context = {
         'form': form,
         }
-        return render(request, 'moives/index.html', context) # <-- 나중에 바꾸기
+        return render(request, 'accounts/login.html', context) # <-- 나중에 바꾸기
     
     def post(self, request):
-        form = AuthenticationForm(request, request.POST)
+        form = CustomAuthenticationForm(request, request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
 
@@ -48,8 +48,7 @@ class Login(View):
         'form': form,
         }
         return None
-        # return render(request, 'accounts/login.html', context) <-- 나중에 바꾸기
-    
+        # return render(request, 'accounts/login.html', context) <-- 나중에 바꾸기 
 
 @login_required
 def logout(request):
