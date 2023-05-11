@@ -21,8 +21,7 @@ class Signup(View):
         if form.is_valid():
             user = form.save()
             auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            pass
-            # return redirect('메인페이지') <-- 나중에 바꾸기
+            return redirect('메인페이지')
 
         # 양식에 어긋났을때
         form = CustomUserCreationForm()
@@ -41,14 +40,11 @@ class Login(View):
         form = CustomAuthenticationForm(request, request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-
-            return None
-            # return redirect('메인페이지') <-- 나중에 바꾸기
+            return redirect('movies:index')
         context = {
         'form': form,
         }
-        return None
-        # return render(request, 'accounts/login.html', context) <-- 나중에 바꾸기 
+        return render(request, 'accounts/login.html', context)
 
 @login_required
 def logout(request):
