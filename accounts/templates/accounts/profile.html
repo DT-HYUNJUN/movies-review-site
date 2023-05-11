@@ -4,7 +4,7 @@
 <div class="container container-pt profile">
   <div class="border rounded-3 mt-5">
     <!--상단 배너-->
-    <div class="banner rounded-top">
+    <div class="banner rounded-top position-relative">
       <div class="dropdown">
         <button class="border-0 bg-transparent profile-update-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="bi bi-gear"></i>
@@ -15,7 +15,7 @@
           <li>
             <form action="{% url 'accounts:delete' %}" method="POST">
               {% csrf_token %}
-              <button class="dropdown-item" onclick="return confirm('탈퇴?')" type="submit">탈퇴하기</button>
+              <button class="dropdown-item" onclick="return confirm('찐탈퇴?')" type="submit">탈퇴하기</button>
             </form>
           </li>
         </ul>
@@ -25,7 +25,7 @@
     <!--하단 영역-->
     <div class="px-3 pb-3 z-3">
       <!--프로필 이미지, 유저이름-->
-      <div class="d-flex align-items-center justify-content-between">
+      <div class="profile-info d-flex align-items-end">
         <div class="profile-img text-center">
           {% if request.user.profile_image %}
             <img class="profile-img rounded-circle" src="{{ request.user.profile_image.url }}" alt="">
@@ -49,8 +49,7 @@
         </div>
       </div>
       <!--평가, 보고싶어요, 보는중-->
-      <hr>
-      <p class="fs-5">평가</p>
+      <p class="fs-5 movie-section">평가</p>
       <hr>
       <p class="fs-5">보고싶어요</p>
       <hr>

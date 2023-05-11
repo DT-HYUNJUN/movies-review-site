@@ -52,6 +52,7 @@
         </svg>
         {{ now_time|date:"m.d H:i"}} 기준
       </div>
+      <!--영화 리스트-->
       <div class="row row-cols-2 row-cols-md-5 g-5">
         {% for p_movie in popular_movies %}
         <a class="white-font" href="{% url 'movies:detail' p_movie.id %}">
