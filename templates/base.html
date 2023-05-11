@@ -13,15 +13,17 @@
   <link rel="stylesheet" href="{% static 'style/movies/index.css' %}">
   <link rel="stylesheet" href="{% static 'style/movies/detail.css' %}">
   <link rel="stylesheet" href="{% static 'style/accounts/account.css' %}">
+  <link rel="stylesheet" href="{% static 'style/accounts/profile.css' %}">
   <link rel="stylesheet" href="{% static 'style/footer.css' %}">
 </head>
 <body>
   {% include 'header.html' %}
   <div id='wrapper'>
-  {% block content %}
+    {% block content %}
 
-  {% endblock content %}
+    {% endblock content %}
   </div>
+
   {% include 'footer.html' %}
   <script src="{% static 'js/video.js' %}"></script>
   <script src="{% static 'js/navbar.js' %}"></script>
