@@ -116,8 +116,44 @@ def detail(request, movie_id):
 
 
 def person_detail(request, person_id):
-    pass
+    path = f'/person/{person_id}'
+    params = {
+        'api_key': api_key,
+        'language': 'ko-kr',
+    }
+    person = requests.get(base_url+path, params=params).json()
 
+    # 카테고리 별 영화 리스트(최신순 정렬)
+    info = requests.get(base_url+path+'/movie_credits', params=params).json()
+    category = {'감독': [], '출연': [], '각본': []}
+    if info.get('cast', False):
+        category['출연'] = sorted(info['cast'], key=lambda x: x['release_date'], reverse=True)
+    if info.get('crew', False):
+        for movie in info['crew']:
+            if movie['job'] == 'Director':
+                category['감독'].append(movie)
+            elif movie['job'] == 'Writer':
+                category['각본'].append(movie)
+        category['감독'].sort(key=lambda x: x['release_date'], reverse=True)
+        category['각본'].sort(key=lambda x: x['release_date'], reverse=True)
+
+    # 인물 직업
+    job = []
+    for key, movies in category.items():
+        if movies:
+            if key == '출연':
+                job.append('배우')
+            elif key == '각본':
+                job.append('작가')
+            else:
+                job.append('감독')
+
+    context = {
+        'person': person,
+        'category': category.items(),
+        'job': '/'.join(job),
+    }
+    return render(request, 'movies/person_detail.html', context)
 
 
 # ---------------collection---------------------
