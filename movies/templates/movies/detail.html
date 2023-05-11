@@ -6,6 +6,8 @@
 
 {% block content %}
 
+<link rel="stylesheet" href="{% static 'style/reviews/create.css' %}">
+
 <div class="bg-poster">
   <img class="bg-poster-size"src="https://image.tmdb.org/t/p/w1280{{ movie.backdrop_path }}" alt="">
   <div class="bg-title-color">
@@ -20,9 +22,6 @@
     <img class="poster shadow-lg" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="">
     <div>
       <!--제목, 개봉일, 장르, 국가-->
-
-      <div>
-        <!--제목, 개봉일, 장르, 국가-->
         <div>
           <p class="fs-2 fw-bold mb-2">{{ movie.title }}</p>
           <div class='text-body-secondary'>
@@ -38,7 +37,9 @@
         <div class="d-flex align-items-center justify-content-between">
           <!--평가하기-->
           <div>
-            <p class="do-rating text-center">평가하기</p>
+            <button data-bs-toggle="modal" data-bs-target="#review-create">
+              <p class="do-rating text-center">평가하기</p>
+            </button>
             <span>★★★★★</span>
           </div>
           <div class="vertical-line"></div>
@@ -109,4 +110,72 @@
   {% endfor %}
 
 </div>
+
+<!-- 리뷰 작성 모달 -->
+<div class="modal fade" id="review-create" tabindex="-1" aria-labelledby="review-createLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="review-createLabel">{{ movie.title }}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{% url 'reviews:review_create' %}" method="POST">
+        <div class="modal-body">
+          {% csrf_token %}
+          <div class="star-container">
+            <div class="star-empty">
+              <svg width="44" height="44" viewbox="0 0 44 44" fill="#eee" class="empty-star clickable-star" id="star-1">
+                <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+              </svg>
+              <svg width="44" height="44" viewbox="0 0 44 44" fill="#eee" class="empty-star clickable-star" id="star-2">
+                <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+              </svg>
+              <svg width="44" height="44" viewbox="0 0 44 44" fill="#eee" class="empty-star clickable-star" id="star-3">
+                <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+              </svg>
+              <svg width="44" height="44" viewbox="0 0 44 44" fill="#eee" class="empty-star clickable-star" id="star-4">
+                <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+              </svg>
+              <svg width="44" height="44" viewbox="0 0 44 44" fill="#eee" class="empty-star clickable-star" id="star-5">
+                <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+              </svg>
+  
+              <div class="fill-star-width" id="star-full">
+                <svg width="44" height="44" viewbox="0 0 44 44" fill="#ffdd63" class="fill-star clickable-star" id="star-1">
+                  <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+                </svg>
+                <svg width="44" height="44" viewbox="0 0 44 44" fill="#ffdd63" class="fill-star clickable-star" id="star-2">
+                  <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+                </svg>
+                <svg width="44" height="44" viewbox="0 0 44 44" fill="#ffdd63" class="fill-star clickable-star" id="star-3">
+                  <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+                </svg>
+                <svg width="44" height="44" viewbox="0 0 44 44" fill="#ffdd63" class="fill-star clickable-star" id="star-4">
+                  <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+                </svg>
+                <svg width="44" height="44" viewbox="0 0 44 44" fill="#ffdd63" class="fill-star clickable-star" id="star-5">
+                  <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+                </svg>
+              </div>
+            </div>
+            <input type="number" hidden name="rating" value="" id="rating">
+  
+          </div>
+          <div>
+            {{ review_form.as_p }}
+          </div>
+          <input type="text" hidden name="title" value="{{ movie.title }}">
+          <input type="number" hidden name="movie-id" value="{{ movie.id }}">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">작성</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="http://code.jquery.com/jquery-latest.js"></script> 
+<script src="{% static 'js/reviews/create.js' %}"></script>
 {% endblock content %}

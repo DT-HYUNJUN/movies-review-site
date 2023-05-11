@@ -11,7 +11,7 @@ class ReviewForm(forms.ModelForm):
     )
     class Meta:
         model = Review
-        fields = ('title', 'movie', 'content', 'is_spoiler',)
+        fields = ('content', 'is_spoiler',)
 
 
 
