@@ -52,5 +52,9 @@ table {
 
 #wrapper{
   height: auto;
-  min-height: calc(100vh - 240px);
+  min-height: calc(100vh - 300px);
+}
+
+.pink-color {
+	color: #ff0558;
 }
