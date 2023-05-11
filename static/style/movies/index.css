@@ -18,7 +18,6 @@
 .time {
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
   color: white;
   padding: 14px 8px 14px;
   margin-right: 3px;
@@ -37,9 +36,64 @@
 
 .title-size {
   font-size: 22px;
+  font-weight: 600;
 }
 
+.black-movie-title {
+  color: #292a32;
+  font-size: 16px;
+  margin: 3px 0px 4px;
+  line-height: 22px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis
+}
 
+.black-movie-content {
+  padding-bottom: 3px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #292a32;
+}
+.black-movie-avg {
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #555765;
+}
+
+.white-movie-title {
+  color: white;
+  font-size: 16px;
+  margin: 3px 0px 4px;
+  line-height: 22px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+
+.white-movie-content {
+  padding-bottom: 3px;
+  font-size: 14px;
+  font-weight: 400;
+  color: white;
+}
+.white-movie-avg {
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 400;
+  color: white;
+  display: flex;
+  align-items: flex-end; 
+}
+
+.star-size {
+  height: 12px;
+  width: 12px;
+  margin-inline: 5px;
+}
 .rank {
   text-align: center;
   position: absolute;
@@ -109,6 +163,36 @@
   height: 500px;
 }
 .playing_movie::before {
+  content: "";
+  position: absolute;
+  display: block;
+  background-color: white;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 500px;
+  z-index: -1;
+}
+
+.top_movie {
+  height: 500px;
+}
+.top_movie::before {
+  content: "";
+  position: absolute;
+  display: block;
+  background-color: white;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 500px;
+  z-index: -1;
+}
+
+.upcoming_movie {
+  height: 500px;
+}
+.upcoming_movie::before {
   content: "";
   position: absolute;
   display: block;
