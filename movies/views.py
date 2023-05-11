@@ -25,6 +25,7 @@ def index(request):
     playing_movies_response = requests.get(base_url+path, params=params).json()
     playing_movies = sorted(playing_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:5]
 
+
     # 인기영화 5개
     path = '/movie/popular'
     params = {
