@@ -5,15 +5,22 @@
 {% load static %}
 
 {% block content %}
-<div>
-  <div class="back-poster">
-    <div class="back-poster" style="background-image: url('https://image.tmdb.org/t/p/w500{{ movie.backdrop_path }}')">
+
+<div class="bg-poster">
+  <img class="bg-poster-size"src="https://image.tmdb.org/t/p/w1280{{ movie.backdrop_path }}" alt="">
+  <div class="bg-title-color">
+    <p>{{ movie.title }}</p>
+    <p class="bg-title-origin">{{ movie.original_title }}</ps=>
   </div>
-  
-  <div class="container container-pt">
-    <div class="d-flex align-items-center gap-3">
-      <!---->
-      <img class="poster shadow-lg" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="">
+</div>
+
+<div class="container">
+  <div class="d-flex align-items-center gap-3">
+    <!---->
+    <img class="poster shadow-lg" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="">
+    <div>
+      <!--제목, 개봉일, 장르, 국가-->
+
       <div>
         <!--제목, 개봉일, 장르, 국가-->
         <div>
@@ -76,5 +83,30 @@
     </a>
     {% endfor %}
   </div>
+
+  <div>{{ movie }}</div>
+</div>
+
+<div>
+  <!--인물 정보-->
+  {% for crew in crews %}
+  <a href="{% url 'movies:person_detail' crew.id %}" class="d-flex">
+    <img src="https://image.tmdb.org/t/p/w500{{ crew.profile_path }}" alt="감독">
+    <div>
+      <p>{{ crew.name }}</p>
+      <p>감독</p>
+    </div>
+  </a>
+  {% endfor %}
+  {% for cast in casts %}
+  <a href="{% url 'movies:person_detail' cast.id %}" class="d-flex">
+    <img src="https://image.tmdb.org/t/p/w500{{ cast.profile_path }}" alt="출연진">
+    <div>
+      <p>{{ cast.name }}</p>
+      <p>{{ cast.character }}</p>
+    </div>
+  </a>
+  {% endfor %}
+
 </div>
 {% endblock content %}
