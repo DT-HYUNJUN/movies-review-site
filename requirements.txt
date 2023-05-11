@@ -27,6 +27,7 @@ Pillow==9.5.0
 prompt-toolkit==3.0.38
 ptyprocess==0.7.0
 pure-eval==0.2.2
+pycountry==22.3.5
 pycparser==2.21
 Pygments==2.15.1
 PyJWT==2.7.0

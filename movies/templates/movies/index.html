@@ -7,7 +7,7 @@
 
 {% block content %}
 <div class="">
-  <div class="z-3">
+  <div class="z-3 text-center">
     <!-- 캐러셀 -->
     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
@@ -42,6 +42,21 @@
   </div>
 
   <div class="container">
+
+    <!-- 최신 영화 -->
+    <div class="row row-cols-2 row-cols-md-5 g-5">
+      {% for p_movie in popular_movies %}
+      <a href="{% url 'movies:detail' p_movie.id %}">
+        <div class="movie-card">
+          <div class="poster-wrapper">
+            <img class="poster" src="https://image.tmdb.org/t/p/w500{{ p_movie.poster_path }}" alt="">
+            <p class="rank">{{ forloop.counter }}</p>
+          </div>
+          <p>{{ p_movie.title }}</p>
+          <p>{{ p_movie.release_date }} | </p>
+        </div>
+      </a>
+
     <!-- popular_movie -->
     <div class="popular_movie">
       
@@ -59,6 +74,7 @@
         <p>{{ popular_movie.title }}</p>
         <p>{{ popular_movie.release_date }}</p>
       </div>
+
       {% endfor %}
     </div>
     
