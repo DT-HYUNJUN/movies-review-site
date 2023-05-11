@@ -52,4 +52,27 @@
 
   <div>{{ movie }}</div>
 </div>
+
+<div>
+  {% comment %} 인물 정보 {% endcomment %}
+  {% for crew in crews %}
+  <a href="{% url 'movies:person_detail' crew.id %}" class="d-flex">
+    <img src="https://image.tmdb.org/t/p/w500{{ crew.profile_path }}" alt="감독">
+    <div>
+      <p>{{ crew.name }}</p>
+      <p>감독</p>
+    </div>
+  </a>
+  {% endfor %}
+  {% for cast in casts %}
+  <a href="{% url 'movies:person_detail' cast.id %}" class="d-flex">
+    <img src="https://image.tmdb.org/t/p/w500{{ cast.profile_path }}" alt="출연진">
+    <div>
+      <p>{{ cast.name }}</p>
+      <p>{{ cast.character }}</p>
+    </div>
+  </a>
+  {% endfor %}
+
+</div>
 {% endblock content %}
