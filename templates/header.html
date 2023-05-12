@@ -4,29 +4,45 @@
   <link rel="stylesheet" href="{% static 'style/header.css' %}">
 </head>
 
-<nav class="position-fixed fixed-top navbar navbar-expand-lg border-bottom w-100 z-1 header-color">
+<nav class="position-absolute fixed-top navbar navbar-expand-lg border-bottom w-100 z-2 header-color">
   <div class="d-flex container">
-    <a class="navbar-brand" href="#">SEENEMA</a>
+    <a class="navbar-brand fs-4" href="{% url 'movies:index' %}"><span class="pink-color">SEE</span>NEMA</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse " id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/movies/">Home</a>
         </li>
       </ul>
       <form class="d-flex" role="search">
-        <div class="d-flex align-items-center bg-body-secondary rounded-1 ps-3">
+        <div id="search" class="d-flex align-items-center dark-search rounded-1 ps-3">
           <i class="bi bi-search"></i>
-          <input class="px-1 py-2 bg-transparent border-0 rounded-1" type="search" placeholder="검색" aria-label="Search">
+          <input class="px-1 py-2 bg-transparent border-0 rounded-1 search" type="search" placeholder="검색" aria-label="Search">
         </div>
         <button class="" type="submit" hidden>Search</button>
       </form>
       <!-- 로그인 / 회원가입 -->
       <div class="d-flex align-items-center">
-        <a class="btn btn-outline-dark-subtle mx-2 header-color" href="#" role="button">로그인</a>
-        <a class="signup-color py-2" href="#" role="button">회원가입</a>
+        <!--로그인 시-->
+        {% if request.user.is_authenticated %}
+        <a class="ms-3 username fs-5 me-3" href="{% url 'accounts:profile' request.user.username %}">
+          {% if request.user.profile_image %}
+            <img class="header-profile-img rounded-circle" src="{{ request.user.profile_image.url }}" alt="">
+          {% else %}
+            <img src="{% static 'img/profile-img.png' %}" alt="" class="header-profile-img">
+          {% endif %}
+        </a>
+        <form action="{% url 'accounts:logout' %}" method="POST">
+          {% csrf_token %}
+          <input id="logout" class="logout py-2" type="submit" value="로그아웃">
+        </form>
+        <!--비 로그인 시-->
+        {% else %}
+        <a class="dark-signup-color border-0 bg-transparent header-color" href="{% url 'accounts:login' %}">로그인</a>
+        <a class="signup-color py-2" href="{% url 'accounts:signup' %}">회원가입</a>
+        {% endif %}
       </div>
     </div>
   </div>

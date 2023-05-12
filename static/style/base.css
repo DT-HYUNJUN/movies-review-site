@@ -27,6 +27,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
+	/* background-color: #14181C; */
 	line-height: 1;
 }
 ol, ul {
@@ -45,4 +46,16 @@ table {
 	border-spacing: 0;
 }
 
+.container-pt {
+	padding-top: 56px;
+}
 
+
+#wrapper{
+  height: auto;
+  min-height: calc(100vh - 60px);
+}
+
+.pink-color {
+	color: #ff0558;
+}

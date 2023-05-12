@@ -1,0 +1,67 @@
+.star-empty {
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  height: 44px;
+}
+
+#star-full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  height: 44px;
+  overflow: hidden;
+}
+
+.fill-star-width {
+  width: 0%;
+}
+
+.fill-star-width-1 {
+  width: 10%;
+}
+
+.fill-star-width-2 {
+  width: 20%;
+}
+
+.fill-star-width-3 {
+  width: 30%;
+}
+
+.fill-star-width-4 {
+  width: 40%;
+}
+
+.fill-star-width-5 {
+  width: 50%;
+}
+
+.fill-star-width-6 {
+  width: 60%;
+}
+
+.fill-star-width-7 {
+  width: 70%;
+}
+
+.fill-star-width-8 {
+  width: 80%;
+}
+
+.fill-star-width-9 {
+  width: 90%;
+}
+
+.fill-star-width-10 {
+  width: 100%;
+}
+
+.clickable-star {
+  display: inline-block;
+}
+
+.clickable-star:hover {
+  cursor: pointer;
+}

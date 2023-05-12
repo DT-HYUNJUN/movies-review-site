@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View 
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm, CustomAuthenticationForm
 
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
@@ -21,8 +21,7 @@ class Signup(View):
         if form.is_valid():
             user = form.save()
             auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            pass
-            # return redirect('메인페이지') <-- 나중에 바꾸기
+            return redirect('movies:index')
 
         # 양식에 어긋났을때
         form = CustomUserCreationForm()
@@ -31,32 +30,26 @@ class Signup(View):
 
 class Login(View):
     def get(self, request):
-        form = AuthenticationForm()
+        form = CustomAuthenticationForm()
         context = {
         'form': form,
         }
-        return None
-        # return render(request, 'accounts/login.html', context) <-- 나중에 바꾸기
+        return render(request, 'accounts/login.html', context) # <-- 나중에 바꾸기
     
     def post(self, request):
-        form = AuthenticationForm(request, request.POST)
+        form = CustomAuthenticationForm(request, request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-
-            return None
-            # return redirect('메인페이지') <-- 나중에 바꾸기
+            return redirect('movies:index')
         context = {
         'form': form,
         }
-        return None
-        # return render(request, 'accounts/login.html', context) <-- 나중에 바꾸기
-    
+        return render(request, 'accounts/login.html', context)
 
 @login_required
 def logout(request):
     auth_logout(request)
-    return None
-    # return render(request, 'accounts/login.html', context) <-- 나중에 바꾸기
+    return redirect('movies:index')
 
 
 
@@ -78,7 +71,7 @@ class ProfileUpdate(LoginRequiredMixin, View):
     def get(self, request):
         form = CustomUserChangeForm(instance=request.user)
         return render(request, 'accounts/update.html', {'form': form})
-    
+
     def post(self, request):
         form = CustomUserChangeForm(request.POST, instance=request.user, files=request.FILES)
 
@@ -105,15 +98,14 @@ class ChangePassword(LoginRequiredMixin, View):
             user = form.save()
             # 로그인 유지
             update_session_auth_hash(request, user)
-            pass
-            # return redirect('메인페이지') <-- 나중에 바꾸기
+            return redirect('movies:profile')
 
 
 @login_required
 def delete(request):
     request.user.delete()
     auth_logout(request)
-    # return redirect('메인페이지') <-- 나중에 바꾸기
+    return redirect('movies:index')
 
 @login_required
 def follow(request, user_pk):
@@ -122,7 +114,7 @@ def follow(request, user_pk):
     me = request.user
 
     if you != me:
-        if me in you.followers.all():
+        if you.followers.filter(username=request.user.username).exists():
             you.followers.remove(me)
         else:
             you.followers.add(me)

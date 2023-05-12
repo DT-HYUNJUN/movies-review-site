@@ -1,0 +1,83 @@
+.bg-poster {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.bg-poster::before {
+  background-color: black;
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgba(255,255,255,0) 45%, rgba(255,255,255,0) 78%, rgba(0,0,0,1) 88%, rgba(31,31,31,1) 100%, rgba(0,0,0,1) 100%);
+}
+.bg-poster-size {
+  margin-left: 35%;
+  width: 1024px;
+  height: 576px;
+}
+
+.poster {
+  padding: 3px;
+  width: 150px;
+  height: 220px;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.do-rating {
+  font-size: 14px;
+}
+
+.vertical-line {
+  width: 1px;
+  height: 100%;
+}
+
+.bg-title-color {
+  margin-left: 16%;
+  margin-top: 20%;
+  /* margin-bottom: 14%; */
+  position: absolute;
+  color: white;
+  z-index: 2;
+  font-size: 45px;
+  }
+
+.bg-title-origin {
+  padding-top: 10px;
+  font-size: 20px;
+}
+
+.modal-header {
+  border-bottom: 0px;
+}
+
+.modal-footer {
+  border-top: 0px; 
+}
+
+.review-form {
+  outline: none;
+  resize: none;
+}
+
+.modal-dialog {
+  margin-top: 17rem;
+}
+
+.review-btn {
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  background-color: #ff0558;
+  border: 0;
+}
+
+.spoiler-label {
+  color: #ff0558;
+}

@@ -1,0 +1,17 @@
+.account-form {
+  width: 20rem;
+  padding-top: 17rem;
+}
+
+.account-field {
+  background-color: rgb(245, 245, 245);
+  border: 0;
+}
+
+.account-field::placeholder {
+  color: #a0a0a0;
+}
+
+.username {
+  text-decoration: none;
+}
