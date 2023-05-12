@@ -16,10 +16,10 @@
           <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/movies/">Home</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
+      <form action="{% url 'movies:search' %}" class="d-flex" role="search">
         <div class="d-flex align-items-center bg-body-secondary rounded-1 ps-3">
           <i class="bi bi-search"></i>
-          <input class="px-1 py-2 bg-transparent border-0 rounded-1" type="search" placeholder="검색" aria-label="Search">
+          <input class="px-1 py-2 bg-transparent border-0 rounded-1" type="search" name="search" placeholder="검색" aria-label="Search">
         </div>
         <button class="" type="submit" hidden>Search</button>
       </form>
