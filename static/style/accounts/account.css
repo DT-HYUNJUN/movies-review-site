@@ -1,6 +1,24 @@
-.account-form {
+.account-signup-form {
   width: 20rem;
-  padding-top: 17rem;
+  padding-top: 29rem;
+  z-index: 1;
+  position: relative;
+}
+
+.account-login-form {
+  width: 20rem;
+  padding-top: 33rem;
+  z-index: 1;
+  position: relative;
+}
+.account-update-form {
+  width: 20rem;
+  padding-top: 25rem;
+  z-index: 1;
+  position: relative;
+}
+#id_password {
+  color: #D1D1D2;
 }
 
 .account-field {
@@ -20,6 +38,36 @@
   text-decoration: none;
 }
 
-.account-info {
-  width: 20rem;
+.account-text-color {
+  color: #D1D1D2;
 }
+.account-text-color:hover {
+  color: #D1D1D2;
+}
+
+.account-info {
+  position: relative;
+  width: 20rem;
+  z-index: 1;
+}
+
+.account-bg {
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+}
+
+.img-wrapper {
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+}
+.img-wrapper::after{
+  content:'';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+background: linear-gradient(180deg, rgba(255,255,255,0) 40%, rgba(0,0,0,1) 75%, rgba(0,0,0,1) 100%);}

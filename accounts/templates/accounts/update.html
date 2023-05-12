@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-<div class="account-form mx-auto">
+<div class="img-wrapper">
+  <img class="account-bg"src="{% static 'img/login-bg.png' %}" alt="">
+</div>
+<div class="account-update-form mx-auto">
   <ul class="nav nav-tabs mb-3">
     <li class="nav-item">
       <a class="nav-link active" aria-current="page" href="#">회원정보 변경</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="{% url 'accounts:change_password' %}">비밀번호 변경</a>
+      <a class="nav-link account-text-color" href="{% url 'accounts:change_password' %}">비밀번호 변경</a>
     </li>
   </ul>
   
@@ -20,7 +23,7 @@
     {% endfor %}
     <div class="d-flex gap-3">
       <a class="btn btn-secondary flex-grow-1" href="{% url 'accounts:profile' request.user.username %}">취소</a>
-      <button class="btn btn-primary flex-grow-1" type="submit">수정</button>
+      <button class="btn btn-primary flex-grow-1 btn-pink" type="submit">수정</button>
     </div>
   </form>
 </div>

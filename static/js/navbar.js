@@ -5,7 +5,9 @@ const search = navbar.querySelector('#search')
 const logout = document.querySelector('#logout')
 
 // if (currentUrl === 'http://localhost:8000/movies/' | currentUrl === 'http://127.0.0.1:8000/movies/') {
-if (currentUrl.includes('http://localhost:8000/movies/') | currentUrl.includes('http://127.0.0.1:8000/movies/')) {
+if (currentUrl.includes('http://localhost:8000/movies/') | currentUrl.includes('http://127.0.0.1:8000/movies/')
+ | currentUrl === 'http://127.0.0.1:8000/accounts/signup/' | currentUrl === 'http://127.0.0.1:8000/accounts/login/'
+ | currentUrl === 'http://127.0.0.1:8000/accounts/update/' | currentUrl === 'http://127.0.0.1:8000/accounts/password/') {
   navbar.classList.remove('header-color', 'border-bottom')
   search.classList.remove('bg-body-secondary')
   if (logout) {
