@@ -189,3 +189,38 @@
   background-color: #f8f8f8;
   border-top: 1px solid #e3e3e3;
 }
+
+.chat-icon {
+  font-size: 4rem;
+  color: #a0a0a0;
+}
+
+.modal-dialog {
+  width: 375px;
+}
+
+.please-login-content {
+  margin: 5rem 0;
+}
+
+.my-btn {
+  background-color: #ff2f6e;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease-in-out;
+}
+
+.text-pink {
+  color: #ff2f6e;
+}

@@ -58,7 +58,7 @@
                 보고싶어요
               </div>
               <div>
-                <button class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#review-create">
+                <button class="border-0 bg-transparent" data-bs-toggle="modal" {% if request.user.is_authenticated %} data-bs-target="#review-create" {% else %} data-bs-target="#please-login" {% endif %}>
                   <i class="bi bi-pen-fill"></i>
                   코멘트
                 </button>
@@ -101,21 +101,21 @@
         <div class="row row-cols-1 row-cols-md-4 gx-4 mx-auto">
           <!--감독-->
           {% for crew in crews %}
-          <a class="staff-section" href="{% url 'movies:person_detail' crew.id %}">
-            <div class="card mb-3 p-2 border-0" style="max-width: 15rem;">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="https://image.tmdb.org/t/p/w185{{ crew.profile_path }}" class="img-fluid rounded" alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="ms-2 d-flex flex-column justify-content-center h-100 gap-3">
-                    <p class="name-text">{{ crew.name }}</p>
-                    <p class="role-text">감독</p>
+            <a class="staff-section" href="{% url 'movies:person_detail' crew.id %}">
+              <div class="card mb-3 p-2 border-0" style="max-width: 15rem;">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="https://image.tmdb.org/t/p/w185{{ crew.profile_path }}" class="img-fluid rounded" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="ms-2 d-flex flex-column justify-content-center h-100 gap-3">
+                      <p class="name-text">{{ crew.name }}</p>
+                      <p class="role-text">감독</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </a>
+            </a>
           {% endfor %}
           
           <!--배우-->
@@ -135,7 +135,7 @@
                 </div>
               </div>
             </a>
-            {% endfor %}
+          {% endfor %}
         </div>
         <!--평점-->
         <hr>
@@ -186,6 +186,7 @@
               <p>5</p>
             </div>
           </div>
+        </div>
       </div>
     </div>
   </div>
@@ -257,6 +258,29 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="please-login" tabindex="-1" aria-labelledby="review-createLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header pb-0">
+        <button type="button" class="btn-close text-pink ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="please-login-content">
+          <div class="chat-icon mb-3">
+            <i class="bi bi-chat-fill"></i>
+          </div>
+          <p class="fw-bold fs-5 lh-base">지금 회원가입 혹은 로그인하시고, 경험한 감동을 기록해보세요.</p>
+        </div>
+        <div class="d-grid mb-5">
+          <a class="my-btn mb-3" href="{% url 'accounts:signup' %}">회원가입</a>
+          <a class="text-pink a-underline" href="{% url 'accounts:login' %}">로그인</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <script src="{% static 'js/reviews/create.js' %}"></script>
 {% endblock content %}
