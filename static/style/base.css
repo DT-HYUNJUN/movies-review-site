@@ -139,3 +139,19 @@ table {
 .pink-color {
   color: #ff0558;
 }
+
+.btn-pink {
+  background-color: #ff0558;
+  border-color: transparent;
+}
+
+.btn-pink:hover {
+  background-color: #ff0558;
+  border-color: transparent;
+}
+
+.btn-pink:focus {
+  background-color: #ff0558;
+  border-color: transparent;
+}
+
