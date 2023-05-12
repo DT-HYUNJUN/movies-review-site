@@ -1,6 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm, AuthenticationForm
 from django.contrib.auth import get_user_model
 from django import forms
+# allauth
+from allauth.socialaccount.forms import SignupForm
 
 #회원가입
 class CustomUserCreationForm(UserCreationForm):
@@ -56,6 +58,15 @@ class CustomUserChangeForm(UserChangeForm):
             attrs={
                 'class': 'form-control',
                 'placeholder': '이름',
+            }
+        ),
+        required=False,
+    )
+    nickname = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': '닉네임',
             }
         ),
         required=False,
@@ -131,3 +142,21 @@ class CustomAuthenticationForm(AuthenticationForm):
             }
         )
     )
+
+
+class CustomSocialSignupForm(SignupForm):
+    nickname = forms.CharField(required=True, max_length=10, label='닉네임')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nickname'].widget.attrs.update({'autofocus': True})
+        # username 숨기고 / 구글에서 받아오는 정보중 sub값 넣음 (의미없는)
+        self.fields['username'].widget = forms.HiddenInput()
+        self.initial['username'] = self.sociallogin.account.extra_data.get('sub')
+
+    def save(self, request):
+        user = super().save(request)
+        # 구글 username으로 저장
+        user.nickname = self.cleaned_data.get('nickname')
+        user.save()
+        return user

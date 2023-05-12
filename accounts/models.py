@@ -7,6 +7,7 @@ import os
 
 
 class User(AbstractUser):
+    nickname = models.CharField(max_length=10, blank=False, null=False)
     followings = models.ManyToManyField('self',
                                         symmetrical=False,
                                         related_name='followers')

@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 
 <head>
   <link rel="stylesheet" href="{% static 'style/header.css' %}">
@@ -42,6 +43,7 @@
         {% else %}
         <a class="dark-signup-color border-0 bg-transparent header-color" href="{% url 'accounts:login' %}">로그인</a>
         <a class="signup-color py-2" href="{% url 'accounts:signup' %}">회원가입</a>
+        <a href="{% provider_login_url 'google' %}"><img src="{% static 'img/btn_google_signin_light_normal_web.png' %}"></a>
         {% endif %}
       </div>
     </div>
