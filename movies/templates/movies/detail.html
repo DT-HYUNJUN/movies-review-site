@@ -21,7 +21,6 @@
       <div class="movie-overview ">
         <!--제목, 개봉일, 장르, 국가-->
           <div>
-            {% comment %} <p class="fs-1 fw-bold mb-2">{{ movie.title }}</p> {% endcomment %}
             <div class='text-body-secondary fs-5 mt-3'>
               <span>{{ year}} ・</span>
               <span>{{ genres }} ・</span>
@@ -78,6 +77,9 @@
       </div>
     </div>
   </div>
+  <div class="text-center">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video_key }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
 </div>
 
 <section class="detail-bg-color">
@@ -109,7 +111,7 @@
                   </div>
                   <div class="col-md-8">
                     <div class="ms-2 d-flex flex-column justify-content-center h-100 gap-3">
-                      <p class="name-text">{{ crew.name }}</p>
+                      <p class="name-text">{% if crew.kor_name %} {{ crew.kor_name }} {% else %} {{ crew.name }} {% endif %}</p>
                       <p class="role-text">감독</p>
                     </div>
                   </div>
@@ -128,7 +130,7 @@
                   </div>
                   <div class="col-md-8">
                     <div class="ms-2 d-flex flex-column justify-content-center h-100 gap-3">
-                      <p class="name-text">{{ cast.name }}</p>
+                      <p class="name-text">{% if cast.kor_name %} {{ cast.kor_name }} {% else %} {{ cast.name }} {% endif %}</p>
                       <p class="role-text">{{ cast.character }}</p>
                     </div>
                   </div>

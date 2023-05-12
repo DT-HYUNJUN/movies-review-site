@@ -1,3 +1,4 @@
+from pprint import pprint
 import re
 from django.shortcuts import render, redirect
 from .models import Collection, MovieCollection
@@ -68,10 +69,24 @@ def detail(request, movie_id):
     path = f'/movie/{movie_id}'
     params = {
         'api_key': api_key,
-        'language': 'ko-KR'
+        'language': 'ko-KR',
     }
     movie = requests.get(base_url+path, params=params).json()
     movie_credits = requests.get(base_url+path+'/credits', params=params).json()
+    
+    movie_id = movie['id']
+    path = f'/movie/{movie_id}/videos'
+    params = {
+        'api_key': api_key,
+        'movie_id': movie_id,
+    }
+    videos = requests.get(base_url+path, params=params).json()['results']
+    video_key = ''
+    for video in videos:
+        if video['type'] == 'Trailer':
+            video_key = video['key']
+            break
+    
     
     # 개봉연도
     year = movie['release_date'][:4]
@@ -95,13 +110,37 @@ def detail(request, movie_id):
     for crew in movie_credits['crew']:
         if crew['job'] == 'Director':
             crews.append(crew)
+    for crew in crews:
+        crews_tmp = []
+        person_id = crew['id']
+        path = f'/person/{person_id}'
+        params = {
+            'api_key': api_key,
+            'language': 'ko-KR',
+        }
+        person = requests.get(base_url+path, params=params).json()
+        name = check_korean_name(person, crews_tmp)
+        crew['kor_name'] = name
 
     # 출연진
     casts = movie_credits['cast']
     if len(casts) > 12 - len(crews):
         casts = casts[:12-len(crews)]
     
+    for cast in casts:
+        casts_tmp = []
+        person_id = cast['id']
+        path = f'/person/{person_id}'
+        params = {
+            'api_key': api_key,
+            'language': 'ko-KR',
+        }
+        person = requests.get(base_url+path, params=params).json()
+        name = check_korean_name(person, casts_tmp)
+        cast['kor_name'] = name
+    
     context = {
+        'video_key': video_key,
         'year': year,
         'country': country,
         'movie': movie,
@@ -148,14 +187,7 @@ def person_detail(request, person_id):
 
     #  한글 이름 출력
     lst = []
-    name = ''
-    names = person['also_known_as']
-    if names:
-        i_am_korean(names, lst)
-        if lst:
-            name = lst[0]
-    else:
-        name = person['name']
+    name = check_korean_name(person, lst)
     context = {
         'name': name,
         'person': person,
@@ -164,12 +196,24 @@ def person_detail(request, person_id):
     }
     return render(request, 'movies/person_detail.html', context)
 
-def i_am_korean(names, lst):
+def get_name_in_korean(names, lst):
     hangul = re.compile('[^ ㄱ-ㅣ가-힣]+')
     for name in names:
         result = hangul.sub('', name)
         if result.strip():
             lst.append(result)
+
+def check_korean_name(person, lst):
+    name = ''
+    names = person['also_known_as']
+    if names:
+        get_name_in_korean(names, lst)
+        if lst:
+            name = lst[0]
+    else:
+        name = person['name']
+    return name
+    
             
 def search(request):
     string = request.GET.get('search')

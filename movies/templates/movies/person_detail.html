@@ -6,7 +6,7 @@
 <div class="bg-person">
   <img class="bg-person-size" src="https://image.tmdb.org/t/p/original{{ person.profile_path }}" alt="{{ person.name }}">
   <div class="bg-title-color">
-    <p>{{ name }}</p>
+    <p>{% if name %} {{ name }} {% else %} {{ person.name }} {% endif %}</p>
     <p class="bg-title-origin">{{ job }}</p>
   </div>
 </div>
