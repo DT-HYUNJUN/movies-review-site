@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% load socialaccount %}
+{% load static %}
+
 {% block content %}
 <form class="account-form mx-auto" action="{% url 'accounts:signup' %}" method="POST">
   {% csrf_token %}
@@ -12,7 +15,10 @@
     <button class="btn btn-primary" type="submit">회원가입</button>
   </div>
 </form>
-<div class="text-center mt-3">
-  <p class="mt-3">이미 가입하셨나요? <a href="{% url 'accounts:login' %}">로그인</a></p>
+<div class="account-info mx-auto text-center mt-3">
+  <p class="my-3">이미 가입하셨나요? <a class='a-underline' href="{% url 'accounts:login' %}">로그인</a></p>
+  <div class="border-top pt-3">
+    <a href="{% provider_login_url 'google' %}"><img src="{% static 'img/btn_google_signin_light_normal_web.png' %}"></a>
+  </div>
 </div>
 {% endblock content %}

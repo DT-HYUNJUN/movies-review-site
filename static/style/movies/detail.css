@@ -160,3 +160,28 @@
 .staff-section {
   text-decoration: none;
 }
+
+#chart {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-around; */
+  align-items: flex-end;
+  width: 600px;
+  height: 100px;
+}
+
+#chart div p {
+  text-align: center;
+  font-size: 12px;
+  color: #a0a0a0;
+}
+
+.bar {
+  width: 36px;
+  background-color: #ffdd53;
+}
+
+#chart div:nth-child(2n) {
+  margin-bottom: 12px;
+}
+

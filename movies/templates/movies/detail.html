@@ -137,32 +137,56 @@
             </a>
             {% endfor %}
         </div>
+        <!--평점-->
+        <hr>
+        <div>
+          <div id="chart" class="mx-auto gap-1">
+            <div>
+              <div class="bar"></div>
+              <p>0</p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p></p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p>1</p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p></p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p>2</p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p></p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p>3</p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p></p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p>4</p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p></p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p>5</p>
+            </div>
+          </div>
       </div>
-      
-      {% comment %} <div>{{ movie }}</div> {% endcomment %}
-      
-      {% comment %} <div>
-        <!--인물 정보-->
-        {% for crew in crews %}
-        <a href="{% url 'movies:person_detail' crew.id %}" class="d-flex">
-          <img src="https://image.tmdb.org/t/p/w500{{ crew.profile_path }}" alt="감독">
-          <div>
-            <p>{{ crew.name }}</p>
-            <p>감독</p>
-          </div>
-        </a>
-        {% endfor %}
-        {% for cast in casts %}
-        <a href="{% url 'movies:person_detail' cast.id %}" class="d-flex">
-          <img src="https://image.tmdb.org/t/p/w500{{ cast.profile_path }}" alt="출연진">
-          <div>
-            <p>{{ cast.name }}</p>
-            <p>{{ cast.character }}</p>
-          </div>
-        </a>
-        {% endfor %}
-      </div> {% endcomment %}
-
     </div>
   </div>
 </section>
@@ -233,7 +257,6 @@
     </div>
   </div>
 </div>
-
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <script src="{% static 'js/reviews/create.js' %}"></script>
 {% endblock content %}
