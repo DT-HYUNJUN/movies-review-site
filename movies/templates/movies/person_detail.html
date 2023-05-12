@@ -3,40 +3,41 @@
 {% load static %}
 
 {% block content %}
-<div>
-  <img src="https://image.tmdb.org/t/p/w500{{ person.profile_path }}" alt="{{ person.name }}">
-  <p>{{ person.name }}</p>
-  <p>{{ job }}</p>
-</div>
-<div>
-  {% for key, movies in category %}
-    {% if movies %}
-      <h4>{{ key }}</h4>
-      <table>
-        <thead>
-          <tr>
-            <th>연도</th>
-            <th>제목</th>
-            <th>평가</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for movie in movies|slice:":5" %}
+<div class="container container-pt">
+  <div>
+    <img class="person-img" src="https://image.tmdb.org/t/p/w500{{ person.profile_path }}" alt="{{ person.name }}">
+    <p>{{ person.name }}</p>
+    <p>{{ job }}</p>  
+  </div>
+  <div>
+    {% for key, movies in category %}
+      {% if movies %}
+        <h4>{{ key }}</h4>
+        <table>
+          <thead>
             <tr>
-              <td>{{ movie.release_date|slice:":4" }}</td>
-              <td>
-                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
-                {{ movie.title }}
-              </td>
-              <td>{{ movie.vote_average|floatformat:1 }}</td>
+              <th>연도</th>
+              <th>제목</th>
+              <th>평가</th>
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    {% endif %}
-  {% endfor %}
+          </thead>
+          <tbody>
+            {% for movie in movies|slice:":5" %}
+              <tr>
+                <td>{{ movie.release_date|slice:":4" }}</td>
+                <td>
+                  <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
+                  {{ movie.title }}
+                </td>
+                <td>{{ movie.vote_average|floatformat:1 }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    {% endfor %}
+  </div>
 </div>
-
 {% endblock content %}
 {% comment %} 
 일단 영화 5개만 출력되도록 했고 평점은 tmdb 평점을 넣어놓아서 추후 어떻게 할 지 확인해야합니다!

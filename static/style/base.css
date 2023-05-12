@@ -27,6 +27,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
+	/* background-color: #14181C; */
 	line-height: 1;
 }
 ol, ul {
@@ -52,7 +53,7 @@ table {
 
 #wrapper{
   height: auto;
-  min-height: calc(100vh - 300px);
+  min-height: calc(100vh - 60px);
 }
 
 .pink-color {

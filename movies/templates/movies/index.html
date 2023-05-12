@@ -52,6 +52,7 @@
         </svg>
         {{ now_time|date:"m.d H:i"}} 기준
       </div>
+      <!--영화 리스트-->
       <div class="row row-cols-2 row-cols-md-5 g-5">
         {% for p_movie in popular_movies %}
         <a class="white-font" href="{% url 'movies:detail' p_movie.id %}">
@@ -62,7 +63,7 @@
             </div>
           </div>
           <p class="white-movie-title">{{ p_movie.title }}</p>
-          <p class="white-movie-content">{{ p_movie.release_date }} ・ </p>
+          <p class="white-movie-content">{{ p_movie.release_date }}</p>
           <p class="white-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt=""> </p>
         </a>
         {% endfor %}
@@ -82,7 +83,7 @@
             </div>
           </div>
           <p class="black-movie-title">{{ p_movie.title }}</p>
-          <p class="black-movie-content">{{ p_movie.release_date }} ・ </p>
+          <p class="black-movie-content">{{ p_movie.release_date }}</p>
           <p class="black-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt=""> </p>
         </a>
         {% endfor %}
@@ -102,7 +103,7 @@
             </div>
           </div>
           <p class="black-movie-title">{{ t_movie.title }}</p>
-          <p class="black-movie-content">{{ t_movie.release_date }} ・ </p>
+          <p class="black-movie-content">{{ t_movie.release_date }}</p>
           <p class="black-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt=""> </p>
         </a>
         {% endfor %}
@@ -121,7 +122,7 @@
             </div>
           </div>
           <p class="white-movie-title">{{ u_movie.title }}</p>
-          <p class="white-movie-content">{{ u_movie.release_date }} ・ </p>
+          <p class="white-movie-content">{{ u_movie.release_date }}</p>
           <p class="white-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt=""> </p>
         </a>
         {% endfor %}

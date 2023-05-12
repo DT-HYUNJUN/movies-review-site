@@ -6,6 +6,7 @@ modals.forEach(modal => {
   function stopVideo() {
     const video = modal.querySelector('video');
     video.pause();
+    video.currentTime = 0
   }
 
   closeModalButton.addEventListener('click', () => {
