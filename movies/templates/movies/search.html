@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h3>'{{ string }}'검색 결과</h3>
+{% comment %} 데이터가 많은 경우 carousel이나 더보기?, 모달 등 적용 고려해야할 것 같아욤 {% endcomment %}
+<h4>영화</h4>
+{% for movie in movies %}
+  <div>
+    <a href="{% url 'movies:detail' movie.id %}">
+      <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
+      {{ movie.title }}
+      {{ movie.release_date|slice:":4" }}
+      평점 ★ -
+    </a>
+  </div>
+{% endfor %}
+
+<h4>인물</h4>
+{% for person in people %}
+  <div>
+    <a href="{% url 'movies:person_detail' person.id %}">
+      <img src="https://image.tmdb.org/t/p/w500{{ person.profile_path }}" alt="{{ person.name }}">
+      {{ person.name }}
+      {{ person.job }}
+      {% for movie in person.known_for %}
+        <span class="badge text-bg-light">{{ movie.title }}</span>
+      {% endfor %}
+    </a>
+  </div>
+{% endfor %}
+
+{% endblock content %}

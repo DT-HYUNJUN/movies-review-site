@@ -5,9 +5,6 @@
 {% load static %}
 
 {% block content %}
-
-<link rel="stylesheet" href="{% static 'style/reviews/create.css' %}">
-
 <div class="bg-poster">
   <img class="bg-poster-size"src="https://image.tmdb.org/t/p/w1280{{ movie.backdrop_path }}" alt="">
   <div class="bg-title-color">
@@ -225,7 +222,7 @@
             {{ review_form.as_p }}
           </div>
           <div class="d-flex justify-content-between align-items-center">
-            <label class="spoiler-label fs-3" id="spoiler-label" for="spoiler"><i class="bi bi-emoji-angry"></i></label>
+            <label class="spoiler-label fs-3" id="spoiler-label" for="spoiler"><i class="bi bi-emoji-angry tooltip-spoiler"><span class="tooltiptext">스포일러가 있는 코멘트를 가려보세요.</span></i></label>
             <input type="number" hidden name="is_spoiler" id="spoiler-field" value=0>
             <button id="review-btn" type="submit" class="review-btn fs-5" disabled>작성</button>
           </div>

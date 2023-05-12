@@ -17,44 +17,30 @@ def index(request):
     # 현재 시간
     now_time = timezone.now()
 
-    # 현재 상영 영화 인기순으로 5개
-    path = '/movie/now_playing'
     params = {
         'api_key': api_key,
         'language': 'ko-kr',
         'region': 'kr'
     }
+
+    # 현재 상영 영화 인기순으로 5개
+    path = '/movie/now_playing'
     playing_movies_response = requests.get(base_url+path, params=params).json()
     playing_movies = sorted(playing_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:5]
 
 
     # 인기영화 5개
     path = '/movie/popular'
-    params = {
-        'api_key': api_key,
-        'language': 'ko-kr',
-        'region': 'kr'
-    }
     popular_movies_response = requests.get(base_url+path, params=params).json()
     popular_movies = popular_movies_response['results'][:5]
 
     # 평점 높은 영화
     path = '/movie/top_rated'
-    params = {
-        'api_key': api_key,
-        'language': 'ko-kr',
-        'region': 'kr'
-    }
     top_movies_response = requests.get(base_url+path, params=params).json()
     top_movies = top_movies_response['results'][:5]
 
     # 상영예정작(인기 많은 5개 뽑아서 d-day순으로 정렬)
     path = '/movie/upcoming'
-    params = {
-        'api_key': api_key,
-        'language': 'ko-kr',
-        'region': 'kr'
-    }
     upcoming_movies_response = requests.get(base_url+path, params=params).json()
     upcoming_movies = sorted(upcoming_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:5]
 
@@ -76,7 +62,7 @@ def detail(request, movie_id):
     path = f'/movie/{movie_id}'
     params = {
         'api_key': api_key,
-        'language': 'ko-kr'
+        'language': 'ko-KR'
     }
     movie = requests.get(base_url+path, params=params).json()
     movie_credits = requests.get(base_url+path+'/credits', params=params).json()
@@ -125,7 +111,7 @@ def person_detail(request, person_id):
     path = f'/person/{person_id}'
     params = {
         'api_key': api_key,
-        'language': 'ko-kr',
+        'language': 'ko-KR',
     }
     person = requests.get(base_url+path, params=params).json()
 
@@ -172,13 +158,73 @@ def person_detail(request, person_id):
     }
     return render(request, 'movies/person_detail.html', context)
 
-
 def i_am_korean(names, lst):
     hangul = re.compile('[^ ㄱ-ㅣ가-힣]+')
     for name in names:
         result = hangul.sub('', name)
         if result.strip():
             lst.append(result)
+            
+def search(request):
+    string = request.GET.get('search')
+    path = f'/search'
+    params = {
+        'api_key': api_key,
+        'query': string,
+        'language': 'ko-KR',
+        'region': 'kr'
+    }
+
+    # 영화/인물 검색 데이터 1page ~ 존재하는 page까지 인기순 정렬
+    total_movies = []
+    page = 1
+    while 1:
+        params['page'] = page
+        movies_response = requests.get(base_url+path+'/movie', params=params).json()
+        if len(movies_response['results']) == 0:
+            break
+        movies = sorted(movies_response['results'], key=lambda x: x['popularity'], reverse=True)
+        total_movies += movies
+        page += 1
+
+    total_people = []
+    page = 1
+    while 1:
+        params['page'] = page
+        people_response = requests.get(base_url+path+'/person', params=params).json()
+        if len(people_response['results']) == 0:
+            break
+        people = sorted(people_response['results'], key=lambda x: x['popularity'], reverse=True)
+        for person in people:
+            if person['known_for_department'] in {'Acting', 'Actors'}:
+                person['job'] = '배우'
+            elif person['known_for_department'] == 'Directing':
+                person['job'] = '감독'
+            elif person['known_for_department'] == 'Writing':
+                person['job'] = '작가'
+            elif person['known_for_department'] == 'Production':
+                person['job'] = '프로듀서'
+            else:
+                person['job'] = '스탭'
+            new = []
+            cnt = 0
+            for movie in sorted(person['known_for'], key=lambda x: x['popularity'], reverse=True):
+                if cnt == 2:
+                    break
+                if movie['media_type'] == 'movie':
+                    new.append(movie)
+                    cnt += 1
+            person['known_for'] = new
+
+        total_people += people
+        page += 1
+
+    context = {
+        'key_word': string,
+        'movies': total_movies,
+        'people': total_people,
+    }
+    return render(request, 'movies/search.html', context)
 
 # ---------------collection---------------------
 # def create(request):

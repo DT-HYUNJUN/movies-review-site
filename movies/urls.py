@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('<int:movie_id>/', views.detail, name='detail'),
     path('person/<int:person_id>/', views.person_detail, name='person_detail'),
+    path('search/', views.search, name='search'),
 
     # ---------------collection---------------------
     # path('create/', views.create, name='create'),

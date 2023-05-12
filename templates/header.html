@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 
 <head>
   <link rel="stylesheet" href="{% static 'style/header.css' %}">
@@ -16,10 +17,10 @@
           <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/movies/">Home</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
+      <form action="{% url 'movies:search' %}" class="d-flex" role="search">
         <div id="search" class="d-flex align-items-center dark-search rounded-1 ps-3">
           <i class="bi bi-search"></i>
-          <input class="px-1 py-2 bg-transparent border-0 rounded-1 search" type="search" placeholder="검색" aria-label="Search">
+          <input class="px-1 py-2 bg-transparent border-0 rounded-1 search" type="search" name="search" placeholder="검색" aria-label="Search">
         </div>
         <button class="" type="submit" hidden>Search</button>
       </form>
@@ -42,6 +43,7 @@
         {% else %}
         <a class="dark-signup-color border-0 bg-transparent header-color" href="{% url 'accounts:login' %}">로그인</a>
         <a class="signup-color py-2" href="{% url 'accounts:signup' %}">회원가입</a>
+        <a href="{% provider_login_url 'google' %}"><img src="{% static 'img/btn_google_signin_light_normal_web.png' %}"></a>
         {% endif %}
       </div>
     </div>
