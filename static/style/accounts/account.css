@@ -15,3 +15,11 @@
 .username {
   text-decoration: none;
 }
+
+.a-underline {
+  text-decoration: none;
+}
+
+.account-info {
+  width: 20rem;
+}

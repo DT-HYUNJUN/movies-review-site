@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% load socialaccount %}
+{% load static %}
+
 {% block content %}
 
 <form class="account-form mx-auto" action="{% url 'accounts:login' %}" method="POST">
@@ -13,9 +16,14 @@
     <button class="btn btn-primary" type="submit">로그인</button>
   </div>
 </form>
-<div class="text-center mt-3">
-  <a href="#">비밀번호를 잊어버리셨나요?</a>
-  <p class="mt-3">계정이 없으신가요? <a href="{% url 'accounts:signup' %}">회원가입</a></p>
+<div class="account-info mx-auto text-center mt-3">
+  <div class="mb-3">
+    <a class="a-underline" href="#">비밀번호를 잊어버리셨나요?</a>
+    <p class="mt-3">계정이 없으신가요? <a class="a-underline" href="{% url 'accounts:signup' %}">회원가입</a></p>
+  </div>
+  <div class="border-top pt-3">
+    <a href="{% provider_login_url 'google' %}"><img src="{% static 'img/btn_google_signin_light_normal_web.png' %}"></a>
+  </div>
 </div>
 
 
