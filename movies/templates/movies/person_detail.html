@@ -4,10 +4,11 @@
 
 {% block content %}
 <div class="container container-pt">
+
   <div>
-    <img class="person-img" src="https://image.tmdb.org/t/p/w500{{ person.profile_path }}" alt="{{ person.name }}">
-    <p>{{ person.name }}</p>
-    <p>{{ job }}</p>  
+    <img class="" src="https://image.tmdb.org/t/p/h632{{ person.profile_path }}" alt="{{ person.name }}">
+    <p>{{ name }}</p>
+    <p>{{ job }}</p>
   </div>
   <div>
     {% for key, movies in category %}
