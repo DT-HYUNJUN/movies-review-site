@@ -16,11 +16,11 @@
   <link rel="stylesheet" href="{% static 'style/accounts/account.css' %}">
   <link rel="stylesheet" href="{% static 'style/accounts/profile.css' %}">
   <link rel="stylesheet" href="{% static 'style/footer.css' %}">
-  
+  {% block style %}{% endblock style %}
 </head>
 <body>
   {% include 'header.html' %}
-  <div id='wrapper'>
+  <div id='wrapper-body'>
     {% block content %}
 
     {% endblock content %}
