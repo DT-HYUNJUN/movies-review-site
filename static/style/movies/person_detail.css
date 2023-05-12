@@ -1,4 +1,24 @@
-.person-img {
-  width: 3rem;
+.bg-person {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
+.bg-person::before {
+  background-color: black;
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  /* opacity: 0; */
+  background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 47%, rgba(255,255,255,0) 52%, rgba(255,255,255,0) 76%, rgba(0,0,0,1) 81%, rgba(31,31,31,1) 100%, rgba(0,0,0,1) 100%);
+}
+
+.bg-person-size {
+  margin-left: 47%;
+  width: 650px;
+  height: 976px;
+}
