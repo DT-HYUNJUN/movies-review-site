@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<!-- 프로필 -->
+<div>
+  <a href="{% url 'accounts:profile' person.username %}">
+    <div>
+      {% if person.profile_image %}
+        <img class="profile-img rounded-circle" src="{{ person.profile_image.url }}" alt="profile image">
+      {% else %}
+        <img class="profile-img" src="{% static 'img/profile-img.png' %}" alt="no image">
+      {% endif %}
+      {{ person.nickname }}
+    </div>
+  </a>
+</div>
+<!-- 컬렉션 -->
+<div>
+  <h3>{{ collection.title }}</h3>
+  <p>{{ collection.content }}</p>
+  <span>좋아요 {{ collection.like_users|length }}</span>
+
+  {% if request.user == person %}
+    <a href="{% url 'movies:update' person.username collection.pk %}">수정</a>
+    <form action="{% url 'movies:delete' person.username collection.pk %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="삭제">
+    </form>
+  {% endif %}
+
+  <h4>작품들 {{ movies|length }}</h4>
+  {% for movie in movies %}
+    <a href="{% url 'movies:detail' movie.id %}">
+      <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="포스터 이미지">
+      {{ movie.title }}
+      평균 ★{{ movie.avg|floatformat:1 }}
+    </a>
+  {% endfor %}
+</div>
+
+{% endblock content %}

@@ -58,11 +58,12 @@ def logout(request):
 def profile(request, username):
     User = get_user_model()
     person = User.objects.get(username=username)
-    
+    collections = person.collection_set.all()
     context = {
-        'person': person,    
+        'person': person,
+        'collections': collections,    
     }
-    return render(request, 'accounts/profile.html', {'person': person})
+    return render(request, 'accounts/profile.html', context)
 
 
 class ProfileUpdate(LoginRequiredMixin, View):
