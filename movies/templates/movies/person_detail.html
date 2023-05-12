@@ -3,12 +3,16 @@
 {% load static %}
 
 {% block content %}
-<div class="container container-pt">
-  <div>
-    <img class="person-img" src="https://image.tmdb.org/t/p/w500{{ person.profile_path }}" alt="{{ person.name }}">
-    <p>{{ person.name }}</p>
-    <p>{{ job }}</p>  
+<div class="bg-person">
+  <img class="bg-person-size" src="https://image.tmdb.org/t/p/original{{ person.profile_path }}" alt="{{ person.name }}">
+  <div class="bg-title-color">
+    <p>{{ name }}</p>
+    <p class="bg-title-origin">{{ job }}</p>
   </div>
+</div>
+
+
+<div class="container container-pt">
   <div>
     {% for key, movies in category %}
       {% if movies %}

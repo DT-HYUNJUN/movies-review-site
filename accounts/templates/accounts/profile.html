@@ -32,7 +32,7 @@
           {% else %}
             <img class="profile-img" src="{% static 'img/profile-img.png' %}" alt="">
           {% endif %}
-          <p class="fs-4">{{ person.username }}</p>
+          <p class="fs-4">{{ person.nickname }}</p>
         </div>
         <div>
           <form action="{% url 'accounts:follow' person.pk %}" method="POST">

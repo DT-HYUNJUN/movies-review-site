@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render, redirect
 from .models import Collection, MovieCollection
 from reviews.models import Review
@@ -145,14 +146,31 @@ def person_detail(request, person_id):
             else:
                 job.append('감독')
 
+    #  한글 이름 출력
+    lst = []
+    name = ''
+    names = person['also_known_as']
+    if names:
+        i_am_korean(names, lst)
+        if lst:
+            name = lst[0]
+    else:
+        name = person['name']
     context = {
+        'name': name,
         'person': person,
         'category': category.items(),
         'job': '/'.join(job),
     }
     return render(request, 'movies/person_detail.html', context)
 
-
+def i_am_korean(names, lst):
+    hangul = re.compile('[^ ㄱ-ㅣ가-힣]+')
+    for name in names:
+        result = hangul.sub('', name)
+        if result.strip():
+            lst.append(result)
+            
 def search(request):
     string = request.GET.get('search')
     path = f'/search'
