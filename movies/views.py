@@ -1,5 +1,7 @@
 import re
 from django.shortcuts import render, redirect
+from .models import Collection, MovieCollection
+from reviews.models import Review
 from .forms import CollectionForm, MovieCollectionForm
 from reviews.forms import ReviewForm
 from dotenv import load_dotenv
@@ -7,6 +9,10 @@ from django.utils import timezone
 import os
 import requests
 import pycountry
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+from django.db.models import Avg
+
 
 load_dotenv()
 base_url = 'https://api.themoviedb.org/3'
@@ -226,18 +232,89 @@ def search(request):
     }
     return render(request, 'movies/search.html', context)
 
-# ---------------collection---------------------
-# def create(request):
-#     if request.method == 'POST':
-#         pass
-#     else:
-#         collection_form = CollectionForm()
-#         movie_form = MovieCollectionForm()
-#     context = {
-#         'collection_form': collection_form,
-#         'movie_form': movie_form,
-#     }
+
+@login_required
+def create(request, username):
+    # 자신의 계정으로만 컬렉션 생성 가능하도록
+    if request.user != get_user_model().objects.get(username=username):
+        return redirect('accounts:profile', username)
+    
+    if request.method == 'POST':
+        collection_form = CollectionForm(request.POST)
+        movie_form = MovieCollectionForm(request.POST)
+        if collection_form.is_valid() and movie_form.is_valid():
+            collection = collection_form.save(commit=False)
+            collection.user = request.user
+            collection.save()
+            movies = movie_form.save(commit=False)
+            movies.collection = collection
+            movies.save()
+            return redirect('accounts:profile', username)
+    else:
+        collection_form = CollectionForm()
+        movie_form = MovieCollectionForm()
+    context = {
+        'collection_form': collection_form,
+        'movie_form': movie_form,
+    }
+    return render(request, 'movies/create.html', context)
 
 
-# def update(request, collection_pk):
-#     pass
+def collection_detail(request, username, collection_pk):
+    person = get_user_model().objects.get(username=username)
+    collection = Collection.objects.get(pk=collection_pk)
+    movies = collection.moviecollection_set.all()
+    collection_movies = []
+    params = {
+        'api_key': api_key,
+        'language': 'ko-KR'
+    }
+    for movie in movies:
+        path = f'/movie/{movie.movie_id}'
+        movie_info = requests.get(base_url+path, params=params).json()
+        movie_avg = Review.objects.filter(movie=movie.movie_id).aggregate(avg=(Avg('rating')))
+        movie_info['avg'] = movie_avg['avg'] if movie_avg['avg'] != None else 0
+        collection_movies.append(movie_info)
+    context = {
+        'person': person,
+        'collection': collection,
+        'movies': collection_movies,
+    }
+    return render(request, 'movies/collection_detail.html', context)
+
+
+@login_required
+def update(request, username, collection_pk):
+    if request.user != get_user_model().objects.get(username=username):
+        return redirect('accounts:profile', username)
+    
+    collection = Collection.objects.get(pk=collection_pk)
+    if request.method == 'POST':
+        collection_form = CollectionForm(request.POST, instance=collection)
+        movie_form = MovieCollectionForm(request.POST, instance=collection)
+        if collection_form.is_valid() and movie_form.is_valid():
+            collection_form.save()
+            movie_form.save()
+            return redirect('movies:collection_detail', collection.pk)
+    else:
+        collection_form = CollectionForm(instance=collection)
+        movie_form = MovieCollectionForm(instance=collection)
+    context = {
+        'collection': collection,
+        'collection_form': collection_form,
+        'movie_form': movie_form,
+    }
+    return render(request, 'movies/update.html', context)
+
+
+@login_required
+def delete(request, username, collection_pk):
+    if request.user != get_user_model().objects.get(username=username):
+        return redirect('accounts:profile', username)
+    
+    collection = Collection.objects.get(pk=collection_pk)
+    movies = collection.moviecollection_set.all()
+    for movie in movies:
+        movie.delete()
+    collection.delete()
+    return redirect('accounts:profile', username)

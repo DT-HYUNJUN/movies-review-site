@@ -27,12 +27,12 @@
       <!--프로필 이미지, 유저이름-->
       <div class="profile-info d-flex align-items-end">
         <div class="profile-img text-center">
-          {% if request.user.profile_image %}
-            <img class="profile-img rounded-circle" src="{{ request.user.profile_image.url }}" alt="">
+          {% if person.profile_image %}
+            <img class="profile-img rounded-circle" src="{{ person.profile_image.url }}" alt="">
           {% else %}
             <img class="profile-img" src="{% static 'img/profile-img.png' %}" alt="">
           {% endif %}
-          <p class="fs-4">{{ person.username }}</p>
+          <p class="fs-4">{{ person.nickname }}</p>
         </div>
         <div>
           <form action="{% url 'accounts:follow' person.pk %}" method="POST">
@@ -54,6 +54,16 @@
       <p class="fs-5">보고싶어요</p>
       <hr>
       <p class="fs-5">보는중</p>
+      <hr>
+      <!-- 컬렉션 -->
+      {% if request.user == person %}
+        <a href="{% url 'movies:create' person.username %}">새 컬렉션</a>
+      {% endif %}
+      {% for collection in collections %}
+        <a href="{% url 'movies:collection_detail' person.username collection.pk %}">
+          {{ collection.title }}
+        </a>
+      {% endfor %}
     </div>
   </div>
 </div>

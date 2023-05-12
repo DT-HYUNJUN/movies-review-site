@@ -145,7 +145,16 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 
 class CustomSocialSignupForm(SignupForm):
-    nickname = forms.CharField(required=True, max_length=10, label='닉네임')
+    email = forms.EmailField(label='구글 이메일', widget=forms.EmailInput(attrs={
+                'class': 'form-control account-field',
+                'placeholder': '이메일'
+            }), required=False)
+    nickname = forms.CharField(required=True, widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': '닉네임',
+            }
+        ),  max_length=10, label='닉네임')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

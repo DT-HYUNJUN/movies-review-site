@@ -96,7 +96,7 @@
 
 .movie-overview {
   padding-left: 220px;
-  /* padding-bottom: ; */
+  margin-bottom: 35px;
 }
 
 .text-overview {
@@ -185,3 +185,7 @@
   margin-bottom: 12px;
 }
 
+.detail-bg-color {
+  background-color: #f8f8f8;
+  border-top: 1px solid #e3e3e3;
+}
