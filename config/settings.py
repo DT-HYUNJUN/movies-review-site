@@ -38,12 +38,12 @@ INSTALLED_APPS = [
     # 설치
     'django_extensions',
     # allauth
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     # 필요한 소셜 로그인
-    'allauth.socialaccount.providers.kakao',
-    'allauth.socialaccount.providers.naver',
+    'allauth.socialaccount.providers.google',
     # 기본
     'django.contrib.admin',
     'django.contrib.auth',
@@ -81,16 +81,6 @@ TEMPLATES = [
         },
     },
 ]
-
-# allauth
-AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
-
-    # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
-
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -150,18 +140,34 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# allauth
+
+AUTHENTICATION_BACKENDS = [
+    
+    # 장고 기본 사용자 인증 백엔드
+    'django.contrib.auth.backends.ModelBackend',
+
+    # allauth를 사용한 인증 백엔드
+    'allauth.account.auth_backends.AuthenticationBackend',
+    
+]
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'APP': {
+                        'client_id': '101124896892-76p663paqbkjdha40r1k3fb77a4p163c.apps.googleusercontent.com',
+                        'secret': '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',
+                        'key': ''
+                }},
+}
+
 SITE_ID = 1
 
-# Provider specific settings
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         # For each OAuth based provider, either add a ``SocialApp``
-#         # (``socialaccount`` app) containing the required client
-#         # credentials, or list them here:
-#         'APP': {
-#             'client_id': '123',
-#             'secret': '456',
-#             'key': ''
-#         }
-#     }
-# }
+LOGIN_REDIRECT_URL = '/' #로그인 후 리다이렉트 될 경로
+
+# 디폴트 값은 True이며 SNS 공급자에서 넘겨받은 정보를 가지고 바로 회원가입시킨다. 부가정보를 입력 받기 위해 False로 설정할 수 있다.
+SOCIALACCOUNT_AUTO_SIGNUP = False
+
+SOCIALACCOUNT_FORMS = {
+    'signup': 'accounts.forms.CustomSocialSignupForm'
+}
