@@ -12,103 +12,165 @@
   <img class="bg-poster-size"src="https://image.tmdb.org/t/p/w1280{{ movie.backdrop_path }}" alt="">
   <div class="bg-title-color">
     <p>{{ movie.title }}</p>
-    <p class="bg-title-origin">{{ movie.original_title }}</ps=>
+    <p class="bg-title-origin">{{ movie.original_title }}</p>
   </div>
 </div>
 
 <div class="container">
-  <div class="d-flex align-items-center gap-3">
-    <!---->
-    <img class="poster shadow-lg" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="">
-    <div>
-      <!--제목, 개봉일, 장르, 국가-->
-        <div>
-          <p class="fs-2 fw-bold mb-2">{{ movie.title }}</p>
-          <div class='text-body-secondary'>
-            <span>{{ year}} ・</span>
-            <span>{{ genres }} ・</span>
-            <span>{{ country }}</span>
+  <div class="container-py">
+    <div class="d-flex align-items-center gap-3">
+      <!---->
+      <img class="poster" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="">
+      <div class="movie-overview ">
+        <!--제목, 개봉일, 장르, 국가-->
+          <div>
+            {% comment %} <p class="fs-1 fw-bold mb-2">{{ movie.title }}</p> {% endcomment %}
+            <div class='text-body-secondary fs-5 mt-3'>
+              <span>{{ year}} ・</span>
+              <span>{{ genres }} ・</span>
+              <span>{{ country }}</span>
+            </div>
+            <hr>
+          </div>
+          <!--상호작용-->
+          <div class="d-flex align-items-center gap-5 no-wrap">
+            <!--평가하기-->
+            <div class="ms-5">
+              <p class="text-center mb-2">평점</p>
+              <p class="fs-3">
+              <svg width="44" height="44" viewbox="0 0 44 44" fill="#ffdd63" class="fill-star clickable-star" id="star-1">
+                  <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+                </svg>
+              <svg width="44" height="44" viewbox="0 0 44 44" fill="#ffdd63" class="fill-star clickable-star" id="star-1">
+                  <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+                </svg>
+              <svg width="44" height="44" viewbox="0 0 44 44" fill="#ffdd63" class="fill-star clickable-star" id="star-1">
+                  <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+                </svg>
+              <svg width="44" height="44" viewbox="0 0 44 44" fill="#ffdd63" class="fill-star clickable-star" id="star-1">
+                  <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+                </svg>
+              <svg width="44" height="44" viewbox="0 0 44 44" fill="#ffdd63" class="fill-star clickable-star" id="star-1">
+                  <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
+                </svg>
+              </p>
+            </div>
+            <div class="ms-4 d-flex fs-5 gap-5">
+              <div class="ms-2">
+                <i class="bi bi-plus-lg"></i>
+                보고싶어요
+              </div>
+              <div>
+                <button class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#review-create">
+                  <i class="bi bi-pen-fill"></i>
+                  코멘트
+                </button>
+              </div>
+              <div>
+                <i class="bi bi-eye-fill"></i>
+                보는중
+              </div>
+            </div>
           </div>
           <hr>
+          <div class="overview-section">
+            <p id="movie-overview" class="text-overview close">{{ movie.overview }}</p>
+            <button class="text-overview border-0 bg-transparent pink-color" id="more" style="float: right;">더보기</button>
+          </div>
         </div>
-        <p>평균 ★</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="bg-body-secondary">
+  <div class="container pt-5">
+    <div class="container-py">
+      <div class="movie-detail">
+        <!--영화정보-->
+        <div class="mb-5">
+          <p class="detail-title">영화 정보</p>
+          <hr>
+          <div class="info-content">
+            <p class="mb-2">{{ movie.original_title }}</p>
+            <span>{{ movie.release_date }} · </span>
+            <span>{{ country }} · </span>
+            <span>{{ genres }}</span>
+            <p class="mt-2">{{ movie.runtime }}</p>
+          </div>
+        </div>
+        <p class="detail-title">출연 / 제작</p>
         <hr>
-        <!--상호작용-->
-        <div class="d-flex align-items-center justify-content-between">
-          <!--평가하기-->
-          <div>
-            <span>★★★★★</span>
-          </div>
-          <div class="vertical-line"></div>
-          <div>
-            <i class="bi bi-plus-lg"></i>
-            보고싶어요
-          </div>
-          <div>
-            <button class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#review-create">
-              <i class="bi bi-pen-fill"></i>
-              코멘트
-            </button>
-          </div>
-          <div>
-            <i class="bi bi-eye-fill"></i>
-            보는중
-          </div>
+        <div class="row row-cols-1 row-cols-md-4 gx-4 mx-auto">
+          <!--감독-->
+          {% for crew in crews %}
+          <a class="staff-section" href="{% url 'movies:person_detail' crew.id %}">
+            <div class="card mb-3 p-2 border-0" style="max-width: 15rem;">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img src="https://image.tmdb.org/t/p/w185{{ crew.profile_path }}" class="img-fluid rounded" alt="...">
+                </div>
+                <div class="col-md-8">
+                  <div class="ms-2 d-flex flex-column justify-content-center h-100 gap-3">
+                    <p class="name-text">{{ crew.name }}</p>
+                    <p class="role-text">감독</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+          
+          <!--배우-->
+          {% for cast in casts %}
+            <a class="staff-section" href="{% url 'movies:person_detail' cast.id %}">
+              <div class="card mb-3 p-2 border-0" style="max-width: 15rem;">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="https://image.tmdb.org/t/p/w500{{ cast.profile_path }}" class="img-fluid rounded" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="ms-2 d-flex flex-column justify-content-center h-100 gap-3">
+                      <p class="name-text">{{ cast.name }}</p>
+                      <p class="role-text">{{ cast.character }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            {% endfor %}
         </div>
       </div>
-  
+      
+      {% comment %} <div>{{ movie }}</div> {% endcomment %}
+      
+      {% comment %} <div>
+        <!--인물 정보-->
+        {% for crew in crews %}
+        <a href="{% url 'movies:person_detail' crew.id %}" class="d-flex">
+          <img src="https://image.tmdb.org/t/p/w500{{ crew.profile_path }}" alt="감독">
+          <div>
+            <p>{{ crew.name }}</p>
+            <p>감독</p>
+          </div>
+        </a>
+        {% endfor %}
+        {% for cast in casts %}
+        <a href="{% url 'movies:person_detail' cast.id %}" class="d-flex">
+          <img src="https://image.tmdb.org/t/p/w500{{ cast.profile_path }}" alt="출연진">
+          <div>
+            <p>{{ cast.name }}</p>
+            <p>{{ cast.character }}</p>
+          </div>
+        </a>
+        {% endfor %}
+      </div> {% endcomment %}
+
     </div>
-  
-    <div>{{ movie }}</div>
   </div>
-  
-  <div>
-    {% comment %} 인물 정보 {% endcomment %}
-    {% for crew in crews %}
-    <a href="{% url 'movies:person_detail' crew.id %}" class="d-flex">
-      <img src="https://image.tmdb.org/t/p/w500{{ crew.profile_path }}" alt="감독">
-      <div>
-        <p>{{ crew.name }}</p>
-        <p>감독</p>
-      </div>
-    </a>
-    {% endfor %}
-    {% for cast in casts %}
-    <a href="{% url 'movies:person_detail' cast.id %}" class="d-flex">
-      <img src="https://image.tmdb.org/t/p/w500{{ cast.profile_path }}" alt="출연진">
-      <div>
-        <p>{{ cast.name }}</p>
-        <p>{{ cast.character }}</p>
-      </div>
-    </a>
-    {% endfor %}
-  </div>
+</section>
 
-  <div>{{ movie }}</div>
-</div>
 
-<div>
-  <!--인물 정보-->
-  {% for crew in crews %}
-  <a href="{% url 'movies:person_detail' crew.id %}" class="d-flex">
-    <img src="https://image.tmdb.org/t/p/w500{{ crew.profile_path }}" alt="감독">
-    <div>
-      <p>{{ crew.name }}</p>
-      <p>감독</p>
-    </div>
-  </a>
-  {% endfor %}
-  {% for cast in casts %}
-  <a href="{% url 'movies:person_detail' cast.id %}" class="d-flex">
-    <img src="https://image.tmdb.org/t/p/w500{{ cast.profile_path }}" alt="출연진">
-    <div>
-      <p>{{ cast.name }}</p>
-      <p>{{ cast.character }}</p>
-    </div>
-  </a>
-  {% endfor %}
-
-</div>
 
 <!-- 리뷰 작성 모달 -->
 <div class="modal fade" id="review-create" tabindex="-1" aria-labelledby="review-createLabel" aria-hidden="true">
