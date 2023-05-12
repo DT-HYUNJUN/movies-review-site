@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<form action="{% url 'movies:create' request.user.username %}" method="POST">
+  {% csrf_token %}
+  {{ collection_form }}
+  {{ movie_form }}
+  <input type="submit" value="저장">
+</form>
+{% endblock content %}
