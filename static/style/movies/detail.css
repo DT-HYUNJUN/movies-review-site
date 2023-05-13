@@ -156,7 +156,6 @@
 #chart {
   display: flex;
   flex-direction: row;
-  /* justify-content: space-around; */
   align-items: flex-end;
   width: 600px;
   height: 100px;
