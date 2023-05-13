@@ -4,24 +4,25 @@
 {% load static %}
 
 {% block content %}
-<div class="img-wrapper">
-  <img class="account-bg"src="{% static 'img/login-bg.png' %}" alt="">
-</div>
-<form class="account-signup-form mx-auto" action="{% url 'accounts:signup' %}" method="POST">
-  {% csrf_token %}
-  {% for field in form %}
-    <div class="input-group mb-3">
-      {{ field }}
+<div class="page-bg-wrapper">
+  <div class="page-bg-inner">
+    <form class="account-signup-form mx-auto" action="{% url 'accounts:signup' %}" method="POST">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="input-group mb-3">
+          {{ field }}
+        </div>
+      {% endfor %}
+      <div class="d-grid">
+        <button class="btn btn-primary btn-pink" type="submit">회원가입</button>
+      </div>
+    </form>
+    <div class="account-info mx-auto text-center">
+      <p class="account-text-color mt-3">이미 가입하셨나요? <a class='a-underline' href="{% url 'accounts:login' %}">로그인</a></p>
+      <div class="pt-3">
+        <a href="{% provider_login_url 'google' %}"><img src="{% static 'img/btn_google_signin_light_normal_web.png' %}"></a>
+      </div>
     </div>
-  {% endfor %}
-  <div class="d-grid">
-    <button class="btn btn-primary btn-pink" type="submit">회원가입</button>
-  </div>
-</form>
-<div class="account-info mx-auto text-center">
-  <p class="account-text-color mt-3">이미 가입하셨나요? <a class='a-underline' href="{% url 'accounts:login' %}">로그인</a></p>
-  <div class="pt-3">
-    <a href="{% provider_login_url 'google' %}"><img src="{% static 'img/btn_google_signin_light_normal_web.png' %}"></a>
   </div>
 </div>
 {% endblock content %}
