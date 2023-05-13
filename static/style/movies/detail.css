@@ -28,7 +28,6 @@
   padding: 3px;
   width: 200px;
   height: 270px;
-  /* border: 1px solid black; */
   box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px;
   background-color: white;
   border-radius: 5px;
@@ -46,9 +45,6 @@
 .bg-title-color {
   top: 27.5rem;
   left: 20rem;
-  /* margin-left: 16%; */
-  /* margin-top: 20%; */
-  /* margin-bottom: 14%; */
   position: absolute;
   color: white;
   z-index: 2;

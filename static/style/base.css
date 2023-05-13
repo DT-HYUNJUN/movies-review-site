@@ -140,14 +140,14 @@ table {
   height: auto;
   min-height: calc(100vh - 60px);
 }
-
+/* 기본 배경 */
 .page-bg-wrapper {
   position: relative;
   width: 100%;
   min-height: calc(100vh - 60px);
   background: url(../img/login-bg.png) no-repeat center top;
   background-color: black;
-  background-size: contain;
+  background-size: 100%;
 }
 
 .page-bg-wrapper::before {
@@ -161,6 +161,7 @@ table {
 .page-bg-inner {
   position: relative;
 }
+/*  */
 
 .pink-color {
   color: #ff0558;

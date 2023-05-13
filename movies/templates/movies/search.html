@@ -3,10 +3,15 @@
 {% load static %}
 
 {% block content %}
+<!--배경-->
 <div class="page-bg-wrapper">
   <div class="page-bg-inner">
     <div class="container container-pt white-font">
-      <p class="title-size result-title">'{{ key_word }}'검색 결과</p>
+      <!--결과-->
+      <p class="title-size result-title">'{{ key_word }}' 검색 결과</p>
+      <!--총 N 건의 검색 결과가 있습니다-->
+      
+      <!--영화 START-->
       <p class="title-size result-text">영화</p>
       <div class="search-card-wrap">
       {% if movies %}
@@ -22,7 +27,7 @@
         <p class="result-text-none">검색 결과가 없습니다.</p>
       {% endif %}
       </div>
-      
+      <!--영화 END-->
       <!--인물 START-->
       <p class="title-size result-text">인물</p>
       <div class="search-card-wrap">
