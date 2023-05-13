@@ -21,7 +21,6 @@
       <div class="movie-overview ">
         <!--제목, 개봉일, 장르, 국가-->
           <div>
-            {% comment %} <p class="fs-1 fw-bold mb-2">{{ movie.title }}</p> {% endcomment %}
             <div class='text-body-secondary fs-5 mt-3'>
               <span>{{ year}} ・</span>
               <span>{{ genres }} ・</span>
@@ -58,7 +57,7 @@
                 보고싶어요
               </div>
               <div>
-                <button class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#review-create">
+                <button class="border-0 bg-transparent" data-bs-toggle="modal" {% if request.user.is_authenticated %} data-bs-target="#review-create" {% else %} data-bs-target="#please-login" {% endif %}>
                   <i class="bi bi-pen-fill"></i>
                   코멘트
                 </button>
@@ -78,9 +77,12 @@
       </div>
     </div>
   </div>
+  <div class="text-center">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video_key }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
 </div>
 
-<section class="bg-body-secondary">
+<section class="detail-bg-color">
   <div class="container pt-5">
     <div class="container-py">
       <div class="movie-detail">
@@ -101,21 +103,21 @@
         <div class="row row-cols-1 row-cols-md-4 gx-4 mx-auto">
           <!--감독-->
           {% for crew in crews %}
-          <a class="staff-section" href="{% url 'movies:person_detail' crew.id %}">
-            <div class="card crew-card mb-3 p-2 border-0" style="max-width: 15rem;">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="https://image.tmdb.org/t/p/w185{{ crew.profile_path }}" class="img-fluid rounded" alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="ms-2 d-flex flex-column justify-content-center h-100 gap-3">
-                    <p class="name-text">{{ crew.name }}</p>
-                    <p class="role-text">감독</p>
+            <a class="staff-section" href="{% url 'movies:person_detail' crew.id %}">
+              <div class="card crew-card mb-3 p-2 border-0" style="max-width: 15rem;">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="https://image.tmdb.org/t/p/w185{{ crew.profile_path }}" class="img-fluid rounded" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="ms-2 d-flex flex-column justify-content-center h-100 gap-3">
+                      <p class="name-text">{% if crew.kor_name %} {{ crew.kor_name }} {% else %} {{ crew.name }} {% endif %}</p>
+                      <p class="role-text">감독</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </a>
+            </a>
           {% endfor %}
           
           <!--배우-->
@@ -128,41 +130,65 @@
                   </div>
                   <div class="col-md-8">
                     <div class="ms-2 d-flex flex-column justify-content-center h-100 gap-3">
-                      <p class="name-text">{{ cast.name }}</p>
+                      <p class="name-text">{% if cast.kor_name %} {{ cast.kor_name }} {% else %} {{ cast.name }} {% endif %}</p>
                       <p class="role-text">{{ cast.character }}</p>
                     </div>
                   </div>
                 </div>
               </div>
             </a>
-            {% endfor %}
+          {% endfor %}
         </div>
-      </div>
-      
-      {% comment %} <div>{{ movie }}</div> {% endcomment %}
-      
-      {% comment %} <div>
-        <!--인물 정보-->
-        {% for crew in crews %}
-        <a href="{% url 'movies:person_detail' crew.id %}" class="d-flex">
-          <img src="https://image.tmdb.org/t/p/w500{{ crew.profile_path }}" alt="감독">
-          <div>
-            <p>{{ crew.name }}</p>
-            <p>감독</p>
+        <!--평점-->
+        <hr>
+        <div>
+          <div id="chart" class="mx-auto gap-1">
+            <div>
+              <div class="bar"></div>
+              <p>0</p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p></p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p>1</p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p></p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p>2</p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p></p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p>3</p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p></p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p>4</p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p></p>
+            </div>
+            <div>
+              <div class="bar"></div>
+              <p>5</p>
+            </div>
           </div>
-        </a>
-        {% endfor %}
-        {% for cast in casts %}
-        <a href="{% url 'movies:person_detail' cast.id %}" class="d-flex">
-          <img src="https://image.tmdb.org/t/p/w500{{ cast.profile_path }}" alt="출연진">
-          <div>
-            <p>{{ cast.name }}</p>
-            <p>{{ cast.character }}</p>
-          </div>
-        </a>
-        {% endfor %}
-      </div> {% endcomment %}
-
+        </div>
       <!-- 리뷰 캐러셀 -->
       <div class="review-box">
         <div class="review-slide">
@@ -202,7 +228,6 @@
           {% endfor %}
         </div>
       </div>
-      
     </div>
   </div>
 </section>
@@ -270,6 +295,28 @@
           <input type="number" hidden name="movie-id" value="{{ movie.id }}">
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="please-login" tabindex="-1" aria-labelledby="review-createLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header pb-0">
+        <button type="button" class="btn-close text-pink ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="please-login-content">
+          <div class="chat-icon mb-3">
+            <i class="bi bi-chat-fill"></i>
+          </div>
+          <p class="fw-bold fs-5 lh-base">지금 회원가입 혹은 로그인하시고, 경험한 감동을 기록해보세요.</p>
+        </div>
+        <div class="d-grid mb-5">
+          <a class="my-btn mb-3" href="{% url 'accounts:signup' %}">회원가입</a>
+          <a class="text-pink a-underline" href="{% url 'accounts:login' %}">로그인</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -1,5 +1,8 @@
+from pprint import pprint
 import re
 from django.shortcuts import render, redirect
+from .models import Collection, MovieCollection
+from reviews.models import Review
 from .forms import CollectionForm, MovieCollectionForm
 from reviews.models import Review
 from reviews.forms import ReviewForm
@@ -8,6 +11,10 @@ from django.utils import timezone
 import os
 import requests
 import pycountry
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+from django.db.models import Avg
+
 
 load_dotenv()
 base_url = 'https://api.themoviedb.org/3'
@@ -65,10 +72,24 @@ def detail(request, movie_id):
     path = f'/movie/{movie_id}'
     params = {
         'api_key': api_key,
-        'language': 'ko-KR'
+        'language': 'ko-KR',
     }
     movie = requests.get(base_url+path, params=params).json()
     movie_credits = requests.get(base_url+path+'/credits', params=params).json()
+    
+    movie_id = movie['id']
+    path = f'/movie/{movie_id}/videos'
+    params = {
+        'api_key': api_key,
+        'movie_id': movie_id,
+    }
+    videos = requests.get(base_url+path, params=params).json()['results']
+    video_key = ''
+    for video in videos:
+        if video['type'] == 'Trailer':
+            video_key = video['key']
+            break
+    
     
     # 개봉연도
     year = movie['release_date'][:4]
@@ -92,13 +113,37 @@ def detail(request, movie_id):
     for crew in movie_credits['crew']:
         if crew['job'] == 'Director':
             crews.append(crew)
+    for crew in crews:
+        crews_tmp = []
+        person_id = crew['id']
+        path = f'/person/{person_id}'
+        params = {
+            'api_key': api_key,
+            'language': 'ko-KR',
+        }
+        person = requests.get(base_url+path, params=params).json()
+        name = check_korean_name(person, crews_tmp)
+        crew['kor_name'] = name
 
     # 출연진
     casts = movie_credits['cast']
     if len(casts) > 12 - len(crews):
         casts = casts[:12-len(crews)]
     
+    for cast in casts:
+        casts_tmp = []
+        person_id = cast['id']
+        path = f'/person/{person_id}'
+        params = {
+            'api_key': api_key,
+            'language': 'ko-KR',
+        }
+        person = requests.get(base_url+path, params=params).json()
+        name = check_korean_name(person, casts_tmp)
+        cast['kor_name'] = name
+    
     context = {
+        'video_key': video_key,
         'year': year,
         'country': country,
         'movie': movie,
@@ -146,14 +191,7 @@ def person_detail(request, person_id):
 
     #  한글 이름 출력
     lst = []
-    name = ''
-    names = person['also_known_as']
-    if names:
-        i_am_korean(names, lst)
-        if lst:
-            name = lst[0]
-    else:
-        name = person['name']
+    name = check_korean_name(person, lst)
     context = {
         'name': name,
         'person': person,
@@ -162,12 +200,24 @@ def person_detail(request, person_id):
     }
     return render(request, 'movies/person_detail.html', context)
 
-def i_am_korean(names, lst):
+def get_name_in_korean(names, lst):
     hangul = re.compile('[^ ㄱ-ㅣ가-힣]+')
     for name in names:
         result = hangul.sub('', name)
         if result.strip():
             lst.append(result)
+
+def check_korean_name(person, lst):
+    name = ''
+    names = person['also_known_as']
+    if names:
+        get_name_in_korean(names, lst)
+        if lst:
+            name = lst[0]
+    else:
+        name = person['name']
+    return name
+    
             
 def search(request):
     string = request.GET.get('search')
@@ -230,18 +280,89 @@ def search(request):
     }
     return render(request, 'movies/search.html', context)
 
-# ---------------collection---------------------
-# def create(request):
-#     if request.method == 'POST':
-#         pass
-#     else:
-#         collection_form = CollectionForm()
-#         movie_form = MovieCollectionForm()
-#     context = {
-#         'collection_form': collection_form,
-#         'movie_form': movie_form,
-#     }
+
+@login_required
+def create(request, username):
+    # 자신의 계정으로만 컬렉션 생성 가능하도록
+    if request.user != get_user_model().objects.get(username=username):
+        return redirect('accounts:profile', username)
+    
+    if request.method == 'POST':
+        collection_form = CollectionForm(request.POST)
+        movie_form = MovieCollectionForm(request.POST)
+        if collection_form.is_valid() and movie_form.is_valid():
+            collection = collection_form.save(commit=False)
+            collection.user = request.user
+            collection.save()
+            movies = movie_form.save(commit=False)
+            movies.collection = collection
+            movies.save()
+            return redirect('accounts:profile', username)
+    else:
+        collection_form = CollectionForm()
+        movie_form = MovieCollectionForm()
+    context = {
+        'collection_form': collection_form,
+        'movie_form': movie_form,
+    }
+    return render(request, 'movies/create.html', context)
 
 
-# def update(request, collection_pk):
-#     pass
+def collection_detail(request, username, collection_pk):
+    person = get_user_model().objects.get(username=username)
+    collection = Collection.objects.get(pk=collection_pk)
+    movies = collection.moviecollection_set.all()
+    collection_movies = []
+    params = {
+        'api_key': api_key,
+        'language': 'ko-KR'
+    }
+    for movie in movies:
+        path = f'/movie/{movie.movie_id}'
+        movie_info = requests.get(base_url+path, params=params).json()
+        movie_avg = Review.objects.filter(movie=movie.movie_id).aggregate(avg=(Avg('rating')))
+        movie_info['avg'] = movie_avg['avg'] if movie_avg['avg'] != None else 0
+        collection_movies.append(movie_info)
+    context = {
+        'person': person,
+        'collection': collection,
+        'movies': collection_movies,
+    }
+    return render(request, 'movies/collection_detail.html', context)
+
+
+@login_required
+def update(request, username, collection_pk):
+    if request.user != get_user_model().objects.get(username=username):
+        return redirect('accounts:profile', username)
+    
+    collection = Collection.objects.get(pk=collection_pk)
+    if request.method == 'POST':
+        collection_form = CollectionForm(request.POST, instance=collection)
+        movie_form = MovieCollectionForm(request.POST, instance=collection)
+        if collection_form.is_valid() and movie_form.is_valid():
+            collection_form.save()
+            movie_form.save()
+            return redirect('movies:collection_detail', collection.pk)
+    else:
+        collection_form = CollectionForm(instance=collection)
+        movie_form = MovieCollectionForm(instance=collection)
+    context = {
+        'collection': collection,
+        'collection_form': collection_form,
+        'movie_form': movie_form,
+    }
+    return render(request, 'movies/update.html', context)
+
+
+@login_required
+def delete(request, username, collection_pk):
+    if request.user != get_user_model().objects.get(username=username):
+        return redirect('accounts:profile', username)
+    
+    collection = Collection.objects.get(pk=collection_pk)
+    movies = collection.moviecollection_set.all()
+    for movie in movies:
+        movie.delete()
+    collection.delete()
+    return redirect('accounts:profile', username)
