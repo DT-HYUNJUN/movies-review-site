@@ -9,36 +9,6 @@
 <div class="">
   <div class="z-3 text-center">
     <!-- 캐러셀 -->
-    {% comment %} <div id="carouselExampleAutoplaying" class="carousel slide bg-carousel" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#video1">
-            <img src="{% static 'img/poster1' %}" class="d-block w-100" alt="...">
-            <img class="btn-video" src="{% static 'img/btn_video.png' %}" alt="">
-          </button>
-        </div>
-        <div class="carousel-item">
-          <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#video2">
-            <img src="{% static 'img/poster2.jpg' %}" class="d-block w-100" alt="...">
-            <img class="btn-video" src="{% static 'img/btn_video.png' %}" alt="">
-          </button>
-        </div>
-        <div class="carousel-item">
-          <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#video3">
-            <img src="{% static 'img/poster3.jpg' %}" class="d-block w-100" alt="...">
-            <img class="btn-video" src="{% static 'img/btn_video.png' %}" alt="">
-          </button>
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div> {% endcomment %}
     <div id="carouselExampleAutoplaying" class="carousel slide bg-carousel" data-bs-ride="carousel">
       <div class="carousel-inner">
         {% for play_movie in playing_movies %}
@@ -168,30 +138,4 @@
   </div>
 </div>
 {% endfor %}
-{% comment %} <div class="modal fade" id="video2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
-        <button id="close-btn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <video height="100%" width="100%" controls="" id="vdoPlayer" src="{% static 'img/video3.mp4' %}"></video>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="video3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
-        <button id="close-btn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <video height="100%" width="100%" controls="" id="vdoPlayer" src="{% static 'img/video2.mp4' %}"></video>
-      </div>
-    </div>
-  </div>
-</div> {% endcomment %}
 {% endblock content %}
