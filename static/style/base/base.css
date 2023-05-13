@@ -167,6 +167,10 @@ table {
   color: #ff0558;
 }
 
+.pink-text {
+  color: #ff2f6e;
+}
+
 .btn-pink {
   background-color: #ff0558;
   border-color: transparent;
@@ -182,3 +186,6 @@ table {
   border-color: transparent;
 }
 
+.hidden {
+  display: none !important;
+}

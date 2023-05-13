@@ -98,7 +98,7 @@ def detail(request, movie_id):
     for key, value in rating_dict.items():
         sum_ratings += key * value
     if rating_people:
-        avg_rating = sum_ratings / rating_people
+        avg_rating = round((sum_ratings / rating_people), 1)
  
     # 출연/제작
     path = f'/movie/{movie_id}'
@@ -122,8 +122,7 @@ def detail(request, movie_id):
         if video['type'] == 'Trailer':
             video_key = video['key']
             break
-    
-    
+
     # 개봉연도
     year = movie['release_date'][:4]
     

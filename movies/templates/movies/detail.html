@@ -210,9 +210,14 @@
                 <p class="card-text">★ {{ review.rating }}</p>
               </div>
               <!-- 카드바디 (리뷰내용) -->
-              <div class="card-body review-card-body">
-                <p class="card-text review-content-overflow content-href"  OnClick="location.href ='{% url 'reviews:detail' review.pk %}'">{{review.content}}</p>
-              </div>
+                <div id="spoiler-section" class="card-body review-card-body">
+                  {% if review.is_spoiler %}
+                    <p id="spoiler-text">스포일러가 있어요!! <button id="spoiler-btn" class="pink-text border-0 bg-transparent">더보기</button></p>
+                    <p id="review-text" class="card-text review-content-overflow content-href hidden"  OnClick="location.href ='{% url 'reviews:detail' review.pk %}'">{{review.content}}</p>
+                  {% else %}
+                    <p class="card-text review-content-overflow content-href"  OnClick="location.href ='{% url 'reviews:detail' review.pk %}'">{{review.content}}</p>
+                  {% endif %}
+                </div>
               <!-- 카드푸터 (좋아요, 싫어요, 댓글) -->
               <div class="card-footer review-card-footer d-flex justify-content-between align-items-center">
                 <div class="d-flex">
@@ -333,4 +338,5 @@
 <script src="{% static 'js/reviews/create.js' %}"></script>
 <script src="{% static 'js/movies/more.js' %}"></script>
 <script src="{% static 'js/movies/rating-chart.js' %}"></script>
+<script src="{% static 'js/movies/spoiler.js' %}"></script>
 {% endblock content %}
