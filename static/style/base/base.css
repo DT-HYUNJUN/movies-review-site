@@ -100,10 +100,6 @@ header,
 hgroup,
 menu,
 nav,
-
-a {
-  text-decoration: none;
-}
 section {
   display: block;
 }
@@ -136,30 +132,8 @@ table {
 }
 
 #wrapper-body {
-  position: relative;
   height: auto;
   min-height: calc(100vh - 60px);
-}
-
-.page-bg-wrapper {
-  position: relative;
-  width: 100%;
-  min-height: calc(100vh - 60px);
-  background: url(../img/login-bg.png) no-repeat center top;
-  background-color: black;
-  background-size: contain;
-}
-
-.page-bg-wrapper::before {
-  content:'';
-  position: absolute;
-  width: 100%;
-  aspect-ratio: 1920 / 1100;
-  background: linear-gradient(180deg, rgba(255,255,255,0.01) 0%, rgba(117,117,117,0) 6%, rgba(0,0,0,1) 75%, rgba(0,0,0,1) 100%);
-}
-
-.page-bg-inner {
-  position: relative;
 }
 
 .pink-color {
@@ -180,3 +154,4 @@ table {
   background-color: #ff0558;
   border-color: transparent;
 }
+
