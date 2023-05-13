@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from .models import Collection, MovieCollection
 from reviews.models import Review
 from .forms import CollectionForm, MovieCollectionForm
+from reviews.models import Review
 from reviews.forms import ReviewForm
 from dotenv import load_dotenv
 from django.utils import timezone
@@ -65,6 +66,8 @@ def index(request):
 def detail(request, movie_id):
     # 리뷰 폼
     review_form = ReviewForm()
+    # 리뷰
+    reviews = Review.objects.filter(movie=movie_id).order_by('-pk')
 
     path = f'/movie/{movie_id}'
     params = {
@@ -148,6 +151,7 @@ def detail(request, movie_id):
         'crews': crews,
         'casts': casts,
         'review_form': review_form,
+        'reviews': reviews,
     }
     return render(request, 'movies/detail.html', context)
 
