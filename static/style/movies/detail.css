@@ -73,10 +73,6 @@
   resize: none;
 }
 
-.modal-dialog {
-  margin-top: 17rem;
-}
-
 .review-btn {
   color: white;
   border-radius: 5px;
@@ -195,8 +191,9 @@
   color: #a0a0a0;
 }
 
-.modal-dialog {
+.login-modal {
   width: 375px;
+  margin-top: 17rem;
 }
 
 .please-login-content {

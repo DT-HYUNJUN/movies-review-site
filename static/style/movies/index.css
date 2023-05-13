@@ -111,6 +111,11 @@
   margin: 3px;
 }
 
+.bg-carousel {
+  background: rgb(0,0,0);
+  /* background: linear-gradient(90deg, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 80%); */
+}
+
 .bg-carousel.slide::before {
   content: "";
   position: absolute;
@@ -202,4 +207,28 @@
   width: 100%;
   height: 500px;
   z-index: -1;
+}
+
+.video-modal {
+  margin-top: 5rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.video-modal-body {
+  width: 1312px;
+  height: 810px;
+}
+
+.carousel-poster {
+  height: 720px;
+}
+
+.carousel-movie-title {
+  position: absolute;
+  z-index: 5;
+  bottom: 5rem;
+  left: 1rem;
+  color: white;
+  font-size: 35px;
 }
