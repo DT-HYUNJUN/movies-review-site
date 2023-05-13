@@ -79,6 +79,9 @@
   font-size: 14px;
   font-weight: 400;
   color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis
 }
 .white-movie-avg {
   margin-top: 2px;

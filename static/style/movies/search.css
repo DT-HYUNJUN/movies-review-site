@@ -4,5 +4,21 @@
 }
 
 .result-text {
-  margin-top:25px;
+  margin: 25px 0px 25px;
+}
+
+.result-text-none {
+  margin-bottom: 25px;
+}
+
+.search-card-wrap{
+  display: flex;
+  gap: 25px 11px;
+  flex-wrap: wrap;
+  padding-bottom: 25px;
+}
+.search-card {
+  display: inline-flex;
+  flex-direction: column;
+  width: 250px;
 }
