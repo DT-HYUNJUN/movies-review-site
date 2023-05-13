@@ -217,3 +217,8 @@
 .text-pink {
   color: #ff2f6e;
 }
+
+.rating-people {
+  text-align: end;
+  font-size: 14px;
+}

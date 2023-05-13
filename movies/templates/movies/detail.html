@@ -15,10 +15,10 @@
 
 <div class="container">
   <div class="container-py">
-    <div class="d-flex align-items-center gap-3">
+    <div class="d-flex align-items-center gap-3 flex-nowrap">
       <!---->
       <img class="poster" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="">
-      <div class="movie-overview ">
+      <div class="movie-overview">
         <!--제목, 개봉일, 장르, 국가-->
           <div>
             <div class='text-body-secondary fs-5 mt-3'>
@@ -142,7 +142,12 @@
         <!--평점-->
         <hr>
         <div>
-          <div id="chart" class="mx-auto gap-1">
+          <div class="d-flex justify-content-between align-items-center flex-nowrap">
+            <p class="fw-bold fs-5">별점 그래프</p>
+            <p class="">평균 ★ {{ avg_rating }}</p>
+          </div>
+          <p class="rating-people text-secondary">({{ rating_people }}명)</p>
+          <div id="chart" class="mx-auto gap-1" data-ratings="{{ ratings }}">
             <div>
               <div class="bar"></div>
               <p>0</p>
@@ -188,6 +193,7 @@
               <p>5</p>
             </div>
           </div>
+          <hr>
         </div>
       <!-- 리뷰 캐러셀 -->
       <div class="review-box">
@@ -281,7 +287,7 @@
                 </svg>
               </div>
             </div>
-            <input type="number" hidden name="rating" value="" id="rating">
+            <input type="number" hidden name="rating" value="0" id="rating">
           </div>
           <div class="mt-3">
             {{ review_form.as_p }}

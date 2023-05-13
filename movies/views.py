@@ -82,9 +82,25 @@ def index(request):
 def detail(request, movie_id):
     # 리뷰 폼
     review_form = ReviewForm()
+    
     # 리뷰
     reviews = Review.objects.filter(movie=movie_id).order_by('-pk')
-
+    
+    # 평점 계산
+    rating_dict = {0.0: 0, 0.5: 0, 1.0: 0, 1.5: 0, 2.0: 0, 2.5: 0, 3.0: 0, 3.5: 0, 4.0: 0, 4.5: 0, 5.0: 0}
+    for review in reviews:
+        rating_dict[review.rating] = rating_dict.get(0, 1) + 1
+    ratings = list(rating_dict.values())
+    
+    sum_ratings = 0
+    avg_rating = 0
+    rating_people = sum(rating_dict.values())
+    for key, value in rating_dict.items():
+        sum_ratings += key * value
+    if rating_people:
+        avg_rating = sum_ratings / rating_people
+ 
+    # 출연/제작
     path = f'/movie/{movie_id}'
     params = {
         'api_key': api_key,
@@ -93,6 +109,7 @@ def detail(request, movie_id):
     movie = requests.get(base_url+path, params=params).json()
     movie_credits = requests.get(base_url+path+'/credits', params=params).json()
     
+    # 메인 예고편
     movie_id = movie['id']
     path = f'/movie/{movie_id}/videos'
     params = {
@@ -161,6 +178,9 @@ def detail(request, movie_id):
     collection_create_form = CollectionForm
     
     context = {
+        'rating_people': rating_people,
+        'avg_rating': avg_rating,
+        'ratings': ratings,
         'video_key': video_key,
         'year': year,
         'country': country,
