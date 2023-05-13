@@ -16,7 +16,6 @@ for (let i = 0; i < data.length; i++) {
 bars.forEach((bar, i) => {
   bar.style.height = `${barHeight[i]}px`;
   if (data[i] === maxData) {
-    console.log(data[i])
     bar.style.backgroundColor = '#ffa136'
   }
 });
