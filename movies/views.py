@@ -35,6 +35,21 @@ def index(request):
     path = '/movie/now_playing'
     playing_movies_response = requests.get(base_url+path, params=params).json()
     playing_movies = sorted(playing_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:5]
+    
+    playing_movies_trailers = []
+    for movie in playing_movies:
+        movie_id = movie['id']
+        path = f'/movie/{movie_id}/videos'
+        params_trailer = {
+            'api_key': api_key,
+            'movie_id': movie_id,
+        }
+        videos = requests.get(base_url+path, params=params_trailer).json()['results']
+        for video in videos:
+            if video['type'] == 'Trailer':
+                video_key = video['key']
+                playing_movies_trailers.append(video_key)
+                break
 
 
     # 인기영화 5개
@@ -53,6 +68,7 @@ def index(request):
     upcoming_movies = sorted(upcoming_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:5]
 
     context = {
+        'playing_movies_trailers': playing_movies_trailers,
         'now_time': now_time,
         'playing_movies': playing_movies,
         'popular_movies': popular_movies,
@@ -141,6 +157,8 @@ def detail(request, movie_id):
         person = requests.get(base_url+path, params=params).json()
         name = check_korean_name(person, casts_tmp)
         cast['kor_name'] = name
+    
+    collection_create_form = CollectionForm
     
     context = {
         'video_key': video_key,

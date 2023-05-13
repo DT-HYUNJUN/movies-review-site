@@ -2,16 +2,18 @@ const modals = document.querySelectorAll('.modal');
 
 modals.forEach(modal => {
   const closeModalButton = modal.querySelector('.btn-close');
+  const videoContainer = modal.querySelector('.modal-body');
+  const video = videoContainer.querySelector('iframe');
+  const originalSrc = video.src;
 
   function stopVideo() {
-    const video = modal.querySelector('video');
-    video.pause();
-    video.currentTime = 0
+    video.src = '';
+    video.src = originalSrc;
   }
 
   closeModalButton.addEventListener('click', () => {
-    modal.addEventListener('hidden.bs.modal', stopVideo);
+    stopVideo();
   });
-  
+
   modal.addEventListener('hidden.bs.modal', stopVideo);
 });
