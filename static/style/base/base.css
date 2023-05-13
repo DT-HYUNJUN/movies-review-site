@@ -145,7 +145,7 @@ table {
   position: relative;
   width: 100%;
   min-height: calc(100vh - 60px);
-  background: url(../img/login-bg.png) no-repeat center top;
+  background: url(../../img/login-bg.png) no-repeat center top;
   background-color: black;
   background-size: 100%;
 }
