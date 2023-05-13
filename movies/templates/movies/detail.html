@@ -198,7 +198,7 @@
               <!-- 카드 헤더 (프사, 닉네임, 별점) -->
               <div class="card-header review-card-header d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center profile-href" OnClick="location.href ='{% url 'accounts:profile' review.user %}'" style="cursor:pointer;">
-                  <img class="review-card-profile-img me-1 rounded-circle" src="{{ review.user.profile_image.url }}" alt="review-profile-image">
+                  <img class="review-card-profile-img me-1 rounded-circle" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile-img.png' %}" {% endif %}  alt="review-profile-image">
                   <p class="card-text">{{ review.user }}</p>
                 </div>
                 <p class="card-text">★ {{ review.rating }}</p>
