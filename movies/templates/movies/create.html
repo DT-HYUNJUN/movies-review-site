@@ -3,10 +3,42 @@
 {% load static %}
 
 {% block content %}
-<form action="{% url 'movies:create' request.user.username %}" method="POST">
-  {% csrf_token %}
-  {{ collection_form }}
-  {{ movie_form }}
-  <input type="submit" value="저장">
-</form>
+<div class="container container-pt profile">
+  <div class="border rounded-3 mt-5">
+    <h1 class="text-center">새 컬렉션</h1>
+    <form action="{% url 'movies:create' request.user.username %}" method="POST">
+      {% csrf_token %}
+      {% for field in collection_form %}
+        <div class="input-group mb-3">
+          {{ field }}
+        </div>
+      {% endfor %}
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addList">
+        +
+      </button>
+      <a href="{% url 'accounts:profile' request.user.username %}">취소</a>
+      <input type="submit" value="저장">
+    </form>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addList" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        {% comment %} <form action="{% url 'movies:search' %}" class="d-flex" role="search"> {% endcomment %}
+          <div class="d-flex align-items-center dark-search rounded-1 ps-3">
+            <i class="bi bi-search"></i>
+            <input class="px-1 py-2 bg-transparent border-0 rounded-1 search" type="text" id="search-input" placeholder="작품 검색" aria-label="Search">
+          </div>
+          <button class="" type="submit" hidden>Search</button>
+        {% comment %} </form> {% endcomment %}
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="search-results">
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}

@@ -3,10 +3,19 @@
 {% load static %}
 
 {% block content %}
-<form action="{% url 'movies:update' request.user.username collection.pk %}" method="POST">
-  {% csrf_token %}
-  {{ collection_form }}
-  {{ movie_form }}
-  <input type="submit" value="저장">
-</form>
+<div class="container container-pt profile">
+  <div class="border rounded-3 mt-5">
+    <h1 class="text-center">컬렉션 수정</h1>
+    <form action="{% url 'movies:update' request.user.username collection.pk %}" method="POST">
+      {% csrf_token %}
+      {% for field in collection_form %}
+        <div class="input-group mb-3">
+          {{ field }}
+        </div>
+      {% endfor %}
+      {{ movie_form }}
+      <input type="submit" value="저장">
+    </form>
+  </div>
+</div>
 {% endblock content %}
