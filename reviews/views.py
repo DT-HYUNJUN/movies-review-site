@@ -115,7 +115,7 @@ def review_emote(request, review_pk, emotion):
     else:
         Emote.objects.create(review=review, user=request.user, emotion=emotion)
 
-    return redirect('reviews:index')
+    return redirect('movies:detail', review.movie)
 
 
 @login_required

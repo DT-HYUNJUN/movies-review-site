@@ -1,0 +1,53 @@
+.review-card {
+  border: 0;
+}
+
+.review-card, .review-card-header, .review-card-footer {
+  background-color: rgb(242, 242, 242);
+}
+
+.review-card-body {
+  height: 150px;
+  font-size: 20px;
+}
+
+.review-card-header, .review-card-footer {
+  height: 50px;
+}
+
+.review-card-footer, .chat-label {
+  color: rgb(120, 120, 120);
+}
+
+.slick-list {
+  width:100%;
+  position:relative;
+}
+
+.slick-slide {
+  margin: 0 10px; 
+}
+.slick-list {
+  margin: 0 -10px;
+}
+
+.review-card-profile-img {
+  width: 30px;
+  height: 30px;
+}
+
+.review-content-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+}
+
+.tooltip-spoiler, .profile-href, .content-href, .tumbs-up-icon, .tumbs-down-icon {
+  cursor:pointer;
+}
+
+.tumbs-up-icon {
+  color: #ff0558;
+}

@@ -130,7 +130,7 @@
   color: black;
   padding: 3px;
 }
-.card {
+.crew-card, .cast-card {
   display: flex;
   align-items: center;
 }
