@@ -1,10 +1,6 @@
 {% load static %}
 
-<head>
-  <link rel="stylesheet" href="{% static 'style/header.css' %}">
-</head>
-
-<nav class="position-absolute fixed-top navbar navbar-expand-lg border-bottom w-100 z-2 header-color">
+<nav class="position-absolute fixed-top navbar navbar-expand-lg w-100 z-2 dark-header-color">
   <div class="d-flex container">
     <a class="navbar-brand fs-4" href="{% url 'movies:index' %}"><span class="pink-color">SEE</span>NEMA</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,13 +9,22 @@
     <div class="collapse navbar-collapse " id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/movies/">Home</a>
+          <a class="nav-link active" aria-current="page" href="#">액션</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">드라마</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">SF</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">로맨스</a>
         </li>
       </ul>
       <form action="{% url 'movies:search' %}" class="d-flex" role="search">
         <div id="search" class="d-flex align-items-center dark-search rounded-1 ps-3">
           <i class="bi bi-search"></i>
-          <input class="px-1 py-2 bg-transparent border-0 rounded-1 search" type="search" name="search" placeholder="검색" aria-label="Search">
+          <input class="px-1 py-2 bg-transparent border-0 rounded-1 dark-search" type="search" name="search" placeholder="검색" aria-label="Search">
         </div>
         <button class="" type="submit" hidden>Search</button>
       </form>
@@ -36,12 +41,12 @@
         </a>
         <form action="{% url 'accounts:logout' %}" method="POST">
           {% csrf_token %}
-          <input id="logout" class="logout py-2" type="submit" value="로그아웃">
+          <input id="logout" class="dark-logout py-2" type="submit" value="로그아웃">
         </form>
         <!--비 로그인 시-->
         {% else %}
         <a class="dark-signup-color border-0 bg-transparent header-color" href="{% url 'accounts:login' %}">로그인</a>
-        <a class="signup-color py-2" href="{% url 'accounts:signup' %}">회원가입</a>
+        <a class="dark-signup-color py-2" href="{% url 'accounts:signup' %}">회원가입</a>
         {% endif %}
       </div>
     </div>
