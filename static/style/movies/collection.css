@@ -1,0 +1,14 @@
+.add-btn {
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  background-color: #ff0558;
+  border: 0;
+  width: 3.5rem;
+  height: 2rem;
+}
+
+.movie-poster-size {
+  width: 4rem;
+  height: 6rem;
+}

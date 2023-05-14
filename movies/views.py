@@ -3,7 +3,7 @@ import re
 from django.shortcuts import render, redirect
 from .models import Collection, MovieCollection
 from reviews.models import Review
-from .forms import CollectionForm, MovieCollectionForm
+from .forms import CollectionForm
 from reviews.models import Review
 from reviews.forms import ReviewForm
 from dotenv import load_dotenv
@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.db.models import Avg
 from django.http import JsonResponse
+import json
 
 
 load_dotenv()
@@ -358,23 +359,23 @@ def create(request, username):
     
     if request.method == 'POST':
         collection_form = CollectionForm(request.POST)
-        # movie_form = MovieCollectionForm(request.POST)
-        #  and movie_form.is_valid()
+        # js에서 만든 selected_list를 받아옴
+        selected_movies_json = request.POST.get('selected_list')
+        selected_movies = json.loads(selected_movies_json)
+
         if collection_form.is_valid():
             collection = collection_form.save(commit=False)
             collection.user = request.user
             collection.save()
-            # movies = movie_form.save(commit=False)
-            # movies.collection = collection
-            # movies.save()
-            return redirect('accounts:profile', username)
+            for movie in selected_movies:
+                MovieCollection.objects.create(collection=collection, movie_id=movie['id'])
+
+            return redirect('movies:collection_detail', username, collection.pk)
     else:
         collection_form = CollectionForm()
-        # movie_form = MovieCollectionForm()
     context = {
         'api_key': api_key,
         'collection_form': collection_form,
-        # 'movie_form': movie_form,
     }
     return render(request, 'movies/create.html', context)
 
