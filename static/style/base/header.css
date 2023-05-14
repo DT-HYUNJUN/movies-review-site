@@ -23,6 +23,8 @@
 .dark-search {
   background-color: transparent;
   border: 1px solid gray;
+  outline: none;
+  color: white;
 }
 
 .dark-logout {

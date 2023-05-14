@@ -367,6 +367,7 @@ def create(request, username):
             collection = collection_form.save(commit=False)
             collection.user = request.user
             collection.save()
+            
             # movies = movie_form.save(commit=False)
             # movies.collection = collection
             # movies.save()

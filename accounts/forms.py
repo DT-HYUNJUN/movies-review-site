@@ -90,7 +90,7 @@ class CustomUserChangeForm(UserChangeForm):
     )
     class Meta(UserChangeForm.Meta):
         model = get_user_model()
-        fields = ('email', 'last_name', 'birthday', 'profile_image',)
+        fields = ('email', 'last_name', 'birthday', 'profile_image', 'nickname',)
 
 # 비밀번호 수정
 class CustomPasswordChangeForm(PasswordChangeForm):

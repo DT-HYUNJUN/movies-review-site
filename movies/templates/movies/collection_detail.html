@@ -3,41 +3,76 @@
 {% load static %}
 
 {% block content %}
-<!-- 프로필 -->
-<div>
-  <a href="{% url 'accounts:profile' person.username %}">
-    <div>
-      {% if person.profile_image %}
-        <img class="profile-img rounded-circle" src="{{ person.profile_image.url }}" alt="profile image">
-      {% else %}
-        <img class="profile-img" src="{% static 'img/profile-img.png' %}" alt="no image">
-      {% endif %}
-      {{ person.nickname }}
-    </div>
-  </a>
+<div class="bg-poster">
+  <img class="bg-poster-size"src="https://image.tmdb.org/t/p/w1280{{ movie.backdrop_path }}" alt="">
+  <div class="bg-title-color">
+    <p>{{ movie.title }}</p>
+    <p class="bg-title-origin">{{ movie.original_title }}</p>
+  </div>
 </div>
-<!-- 컬렉션 -->
-<div>
-  <h3>{{ collection.title }}</h3>
-  <p>{{ collection.content }}</p>
-  <span>좋아요 {{ collection.like_users|length }}</span>
+<!-- 프로필 -->
+<div class="bg-black pb-3">
+  <div class="container">
+    <div class="container-py d-flex justify-content-between align-items-center">
+      <a href="{% url 'accounts:profile' person.username %}">
+        <div class="d-flex align-items-center gap-3">
+          {% if person.profile_image %}
+            <img class="collection-profile-img rounded-circle" src="{{ person.profile_image.url }}" alt="profile image">
+          {% else %}
+            <img class="profile-img" src="{% static 'img/profile-img.png' %}" alt="no image">
+          {% endif %}
+          <p class="fs-6 text-white">{{ person.nickname }}</p>
+        </div>
+      </a>
+      {% if request.user == person %}
+      <div class="d-flex align-itmes-center gap-3">
+        <a class="my-btn" href="{% url 'movies:update' person.username collection.pk %}">수정하기</a>
+        <form action="{% url 'movies:delete' person.username collection.pk %}" method="POST">
+          {% csrf_token %}
+          <button class="my-btn border-0" type="submit">삭제</button>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
 
-  {% if request.user == person %}
-    <a href="{% url 'movies:update' person.username collection.pk %}">수정</a>
-    <form action="{% url 'movies:delete' person.username collection.pk %}" method="POST">
-      {% csrf_token %}
-      <input type="submit" value="삭제">
-    </form>
-  {% endif %}
+<div class="container">
+  <div class="container-py">
+    <!-- 컬렉션 -->
+    <div class="mt-3 border rounded-3 p-3">
+      <h3 class="fs-3 mb-3">{{ collection.title }}</h3>
+      <p class="fs-6 text-secondary mb-4">{{ collection.content }}</p>
+      
+      <span>좋아요 {{ collection.like_users|length }}</span>
+      <hr class="mx-3">
+      <h4>작품들 {{ movies|length }}</h4>
+      {% comment %} {% for movie in movies %}
+        <a href="{% url 'movies:detail' movie.id %}">
+          <img class="collection-movie-poster" src="https://image.tmdb.org/t/p/w1280{{ movie.poster_path }}" alt="포스터 이미지">
+          {{ movie.title }}
+          평균 ★{{ movie.avg|floatformat:1 }}
+        </a>
+      {% endfor %} {% endcomment %}
 
-  <h4>작품들 {{ movies|length }}</h4>
-  {% for movie in movies %}
-    <a href="{% url 'movies:detail' movie.id %}">
-      <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="포스터 이미지">
-      {{ movie.title }}
-      평균 ★{{ movie.avg|floatformat:1 }}
-    </a>
-  {% endfor %}
+      {% comment %} <div class="row row-cols-2 row-cols-md-5 g-5">
+        {% for movie in movies %}
+        <a class="white-font" href="{% url 'movies:detail' movie.id %}">
+          <div class="movie-card">
+            <div class="index-poster-wrapper">
+              <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="">
+              <p class="rank">{{ forloop.counter }}</p>
+            </div>
+          </div>
+          <p class="white-movie-title">{{ movie.title }}</p>
+          <p class="white-movie-content">{{ movie.release_date }}</p>
+          <p class="white-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ movie.avg_rating }}</p>
+        </a>
+        {% endfor %}
+      </div> {% endcomment %}
+
+    </div>
+  </div>
 </div>
 
 {% endblock content %}
