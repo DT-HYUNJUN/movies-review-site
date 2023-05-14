@@ -10,6 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import get_user_model
 
+from reviews.models import Review
+
 
 class Signup(View):
     def get(self, request):
@@ -59,9 +61,11 @@ def profile(request, username):
     User = get_user_model()
     person = User.objects.get(username=username)
     collections = person.collection_set.all()
+    reviews = Review.objects.filter(user_id=person.id).order_by('-pk')
     context = {
+        'reviews': reviews,
         'person': person,
-        'collections': collections,    
+        'collections': collections,
     }
     return render(request, 'accounts/profile.html', context)
 
