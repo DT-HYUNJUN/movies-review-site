@@ -16,8 +16,13 @@
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addList">
         +
       </button>
-      <a href="{% url 'accounts:profile' request.user.username %}">취소</a>
-      <input type="submit" value="저장">
+      <!-- 추가할 영화 리스트 출력될 부분 -->
+      <div id="selected-list"></div>
+      <input type="hidden" id="movies-input" name="selected_list">
+      <div>
+        <a href="{% url 'accounts:profile' request.user.username %}">취소</a>
+        <input type="submit" value="저장">
+      </div>
     </form>
   </div>
 </div>
@@ -30,7 +35,7 @@
         {% comment %} <form action="{% url 'movies:search' %}" class="d-flex" role="search"> {% endcomment %}
           <div class="d-flex align-items-center dark-search rounded-1 ps-3">
             <i class="bi bi-search"></i>
-            <input class="px-1 py-2 bg-transparent border-0 rounded-1 search" type="text" id="search-input" placeholder="작품 검색" aria-label="Search">
+            <input class="px-1 py-2 bg-transparent border-0 rounded-1 search" type="text" id="search-input" data-user-name="{{ request.user.username }}" placeholder="작품 검색" aria-label="Search">
           </div>
           <button class="" type="submit" hidden>Search</button>
         {% comment %} </form> {% endcomment %}
@@ -42,5 +47,5 @@
   </div>
 </div>
 
-<script src="{% static 'js/movies/search_for_collection.js' %}"></script>
+<script src="{% static 'js/movies/create_collection.js' %}"></script>
 {% endblock content %}
