@@ -1,10 +1,11 @@
 const chart = document.getElementById('chart')
 const bars = chart.querySelectorAll('.bar')
-const data = [0, 15, 20, 25, 30, 35, 40, 45, 50, 75, 60]
+
+const dataString = chart.dataset.ratings.replace('[', '').replace(']', '')
+const data = dataString.split(',').map(Number)
 const barHeight = []
 
 const maxData = Math.max(...data)
-const maxDataIndex = data.indexOf(maxData)
 const maxHeight = 84
 
 for (let i = 0; i < data.length; i++) {
@@ -14,7 +15,7 @@ for (let i = 0; i < data.length; i++) {
 
 bars.forEach((bar, i) => {
   bar.style.height = `${barHeight[i]}px`;
-  if (i === maxDataIndex) {
+  if (data[i] === maxData) {
     bar.style.backgroundColor = '#ffa136'
   }
 });

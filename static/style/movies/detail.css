@@ -156,7 +156,6 @@
 #chart {
   display: flex;
   flex-direction: row;
-  /* justify-content: space-around; */
   align-items: flex-end;
   width: 600px;
   height: 100px;
@@ -208,6 +207,7 @@
   white-space: nowrap;
   vertical-align: middle;
   border-radius: 6px;
+  border: 0px;
   color: white;
   cursor: pointer;
   user-select: none;
@@ -216,4 +216,47 @@
 
 .text-pink {
   color: #ff2f6e;
+}
+
+.rating-people {
+  text-align: end;
+  font-size: 14px;
+}
+
+/* .stars-wrapper {
+  position: relative;
+  width: 10rem;
+}
+
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+} */
+
+/*  */
+
+.star-box {
+  position: relative;
+}
+
+.comment-starbox {
+  width: 10rem;
+}
+
+.star-star {
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+}
+
+.comment-star-star img {
+  width: 10rem;
+}
+
+.star-star {
+  position: absolute;
+  top: 0;
+  overflow: hidden;
 }

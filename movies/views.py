@@ -14,11 +14,35 @@ import pycountry
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.db.models import Avg
+from django.http import JsonResponse
 
 
 load_dotenv()
 base_url = 'https://api.themoviedb.org/3'
 api_key = os.getenv('TMDB_API_KEY')
+
+
+def get_average_rating(movies):
+    for movie in movies:
+        movie_id = movie['id']
+        # 리뷰
+        reviews = Review.objects.filter(movie=movie_id).order_by('-pk')
+        if len(reviews) == 0:
+            movie['avg_rating'] = ''
+        else:
+            # 평점 계산
+            movies_rating_dict = {0.0: 0, 0.5: 0, 1.0: 0, 1.5: 0, 2.0: 0, 2.5: 0, 3.0: 0, 3.5: 0, 4.0: 0, 4.5: 0, 5.0: 0}
+            for review in reviews:
+                movies_rating_dict[review.rating] = movies_rating_dict.get(0, 1) + 1
+            
+            sum_ratings = 0
+            avg_rating = 0
+            rating_people = sum(movies_rating_dict.values())
+            for key, value in movies_rating_dict.items():
+                sum_ratings += key * value
+            if rating_people:
+                avg_rating = round((sum_ratings / rating_people), 1)
+            movie['avg_rating'] = avg_rating
 
 
 def index(request):
@@ -35,6 +59,7 @@ def index(request):
     path = '/movie/now_playing'
     playing_movies_response = requests.get(base_url+path, params=params).json()
     playing_movies = sorted(playing_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:5]
+    get_average_rating(playing_movies)
     
     playing_movies_trailers = []
     for movie in playing_movies:
@@ -56,16 +81,19 @@ def index(request):
     path = '/movie/popular'
     popular_movies_response = requests.get(base_url+path, params=params).json()
     popular_movies = popular_movies_response['results'][:5]
+    get_average_rating(popular_movies)
 
     # 평점 높은 영화
     path = '/movie/top_rated'
     top_movies_response = requests.get(base_url+path, params=params).json()
     top_movies = top_movies_response['results'][:5]
+    get_average_rating(top_movies)
 
     # 상영예정작(인기 많은 5개 뽑아서 d-day순으로 정렬)
     path = '/movie/upcoming'
     upcoming_movies_response = requests.get(base_url+path, params=params).json()
     upcoming_movies = sorted(upcoming_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:5]
+    get_average_rating(upcoming_movies)
 
     context = {
         'playing_movies_trailers': playing_movies_trailers,
@@ -82,9 +110,27 @@ def index(request):
 def detail(request, movie_id):
     # 리뷰 폼
     review_form = ReviewForm()
+    
     # 리뷰
     reviews = Review.objects.filter(movie=movie_id).order_by('-pk')
-
+    
+    # 평점 계산
+    rating_dict = {0.0: 0, 0.5: 0, 1.0: 0, 1.5: 0, 2.0: 0, 2.5: 0, 3.0: 0, 3.5: 0, 4.0: 0, 4.5: 0, 5.0: 0}
+    for review in reviews:
+        rating_dict[review.rating] = rating_dict.get(0, 1) + 1
+    ratings = list(rating_dict.values())
+    
+    sum_ratings = 0
+    avg_rating = 0
+    rating_people = sum(rating_dict.values())
+    for key, value in rating_dict.items():
+        sum_ratings += key * value
+    if rating_people:
+        avg_rating = round((sum_ratings / rating_people), 1)
+    
+    avg_rating_percent = avg_rating * 0.2 * 100
+ 
+    # 출연/제작
     path = f'/movie/{movie_id}'
     params = {
         'api_key': api_key,
@@ -93,6 +139,7 @@ def detail(request, movie_id):
     movie = requests.get(base_url+path, params=params).json()
     movie_credits = requests.get(base_url+path+'/credits', params=params).json()
     
+    # 메인 예고편
     movie_id = movie['id']
     path = f'/movie/{movie_id}/videos'
     params = {
@@ -105,8 +152,7 @@ def detail(request, movie_id):
         if video['type'] == 'Trailer':
             video_key = video['key']
             break
-    
-    
+
     # 개봉연도
     year = movie['release_date'][:4]
     
@@ -161,6 +207,10 @@ def detail(request, movie_id):
     collection_create_form = CollectionForm
     
     context = {
+        'avg_rating_percent': avg_rating_percent,
+        'rating_people': rating_people,
+        'avg_rating': avg_rating,
+        'ratings': ratings,
         'video_key': video_key,
         'year': year,
         'country': country,
@@ -299,6 +349,10 @@ def search(request):
     return render(request, 'movies/search.html', context)
 
 
+def api_convert(request):
+    return JsonResponse({'api_key': api_key})
+
+
 @login_required
 def create(request, username):
     # 자신의 계정으로만 컬렉션 생성 가능하도록
@@ -307,21 +361,24 @@ def create(request, username):
     
     if request.method == 'POST':
         collection_form = CollectionForm(request.POST)
-        movie_form = MovieCollectionForm(request.POST)
-        if collection_form.is_valid() and movie_form.is_valid():
+        # movie_form = MovieCollectionForm(request.POST)
+        #  and movie_form.is_valid()
+        if collection_form.is_valid():
             collection = collection_form.save(commit=False)
             collection.user = request.user
             collection.save()
-            movies = movie_form.save(commit=False)
-            movies.collection = collection
-            movies.save()
+            
+            # movies = movie_form.save(commit=False)
+            # movies.collection = collection
+            # movies.save()
             return redirect('accounts:profile', username)
     else:
         collection_form = CollectionForm()
-        movie_form = MovieCollectionForm()
+        # movie_form = MovieCollectionForm()
     context = {
+        'api_key': api_key,
         'collection_form': collection_form,
-        'movie_form': movie_form,
+        # 'movie_form': movie_form,
     }
     return render(request, 'movies/create.html', context)
 
