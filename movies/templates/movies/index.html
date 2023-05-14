@@ -1,17 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
 
-<head>
-
-</head>
-
 {% block content %}
-<div class="">
+
   <div class="z-3 text-center">
     <!-- 캐러셀 -->
     <div id="carouselExampleAutoplaying" class="carousel slide bg-carousel" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+      </div>
       <div class="carousel-inner">
-        {% for play_movie in playing_movies %}
+        {% for play_movie in playing_movies|slice:'5' %}
           <div class="carousel-poster carousel-item {% if forloop.first %} active {% endif %}">
             <button type="button" class="position-relative border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#video{{ forloop.counter }}">
               <img src="https://image.tmdb.org/t/p/w1280{{ play_movie.backdrop_path }}" class="d-block w-100 carousel-poster" alt="...">
@@ -44,7 +47,7 @@
         {{ now_time|date:"m.d H:i"}} 기준
       </div>
       <!--영화 리스트-->
-      <div class="row row-cols-2 row-cols-md-5 g-5">
+      {% comment %} <div class="row row-cols-2 row-cols-md-5 g-5">
         {% for p_movie in popular_movies %}
         <a class="white-font" href="{% url 'movies:detail' p_movie.id %}">
           <div class="movie-card">
@@ -58,11 +61,58 @@
           <p class="white-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ p_movie.avg_rating }}</p>
         </a>
         {% endfor %}
+      </div> {% endcomment %}
+      <div class="review-box">
+        <div class="movie-slide-black">
+          <!-- Slides -->
+          {% for p_movie in popular_movies %}
+          <div>
+            <a class="white-font" href="{% url 'movies:detail' p_movie.id %}">
+              <div class="movie-card">
+                <div class="index-poster-wrapper">
+                  <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ p_movie.poster_path }}" alt="">
+                  <p class="rank">{{ forloop.counter }}</p>
+                </div>
+              </div>
+              <p class="white-movie-title">{{ p_movie.title }}</p>
+              <p class="white-movie-content">{{ p_movie.release_date }}</p>
+              <p class="white-movie-avg">
+                평균
+                <img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">
+                {{ p_movie.avg_rating }}
+              </p>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
 
     <!-- now_playing -->
     <div class="playing_movie">
+      <div class="review-box">
+        <p class="title-size black-font pt-3 mb-3">상영 중 영화</p>
+        <div class="movie-slide">
+          <!-- Slides -->
+          {% for p_movie in playing_movies %}
+          <div>
+            <a class="black-font" href="{% url 'movies:detail' p_movie.id %}">
+              <div class="movie-card">
+                <div class="index-poster-wrapper">
+                  <img class="white-poster-size" src="https://image.tmdb.org/t/p/w500{{ p_movie.poster_path }}" alt="">
+                  <p class="rank">{{ forloop.counter }}</p>
+                </div>
+              </div>
+              <p class="black-movie-title">{{ p_movie.title }}</p>
+              <p class="black-movie-content">{{ p_movie.release_date }}</p>
+              <p class="black-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ p_movie.avg_rating }}</p>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% comment %} <div class="playing_movie">
       <p class="title-size black-font pt-3 mb-3">상영 중 영화</p>
       <div class="row row-cols-2 row-cols-md-5 g-5">
         {% for p_movie in playing_movies %}
@@ -79,10 +129,10 @@
         </a>
         {% endfor %}
       </div>
-    </div>
+    </div> {% endcomment %}
 
     <!-- top_movie -->
-    <div class="top_movie">
+    {% comment %} <div class="top_movie">
       <p class="title-size black-font pt-3 mb-3">평점 높은 영화</p>
       <div class="row row-cols-2 row-cols-md-5 g-5">
         {% for t_movie in top_movies %}
@@ -99,9 +149,33 @@
         </a>
         {% endfor %}
       </div>
+    </div> {% endcomment %}
+    <div class="top_movie">
+      <div class="review-box">
+        <p class="title-size black-font pt-3 mb-3">평점 높은 영화</p>
+        <div class="movie-slide">
+          <!-- Slides -->
+          {% for t_movie in top_movies %}
+          <div>
+            <a class="black-font" href="{% url 'movies:detail' t_movie.id %}">
+              <div class="movie-card">
+                <div class="index-poster-wrapper">
+                  <img class="white-poster-size" src="https://image.tmdb.org/t/p/w500{{ t_movie.poster_path }}" alt="">
+                  <p class="rank">{{ forloop.counter }}</p>
+                </div>
+              </div>
+              <p class="black-movie-title">{{ t_movie.title }}</p>
+              <p class="black-movie-content">{{ t_movie.release_date }}</p>
+              <p class="black-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ t_movie.avg_rating }}</p>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
+    
     <!-- upcoming_movie -->
-    <div class="upcoming_movie">
+    {% comment %} <div class="upcoming_movie">
       <p class="title-size white-font pt-3 mb-3">상영예정작</p>
       <div class="row row-cols-2 row-cols-md-5 g-5">
         {% for u_movie in upcoming_movies %}
@@ -118,8 +192,31 @@
         </a>
         {% endfor %}
       </div>
+    </div> {% endcomment %}
+    <div class="upcoming_movie">
+      <div class="review-box">
+        <p class="title-size white-font pt-3 mb-3">상영예정작</p>
+        <div class="movie-slide">
+          <!-- Slides -->
+          {% for u_movie in upcoming_movies %}
+          <div>
+            <a class="white-font" href="{% url 'movies:detail' u_movie.id %}">
+              <div class="movie-card">
+                <div class="index-poster-wrapper">
+                  <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ u_movie.poster_path }}" alt="">
+                  <p class="rank">{{ forloop.counter }}</p>
+                </div>
+              </div>
+              <p class="white-movie-title">{{ u_movie.title }}</p>
+              <p class="white-movie-content">{{ u_movie.release_date }}</p>
+              <p class="white-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ u_movie.avg_rating }}</p>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 
 <!--비디오 모달창 5개-->
 {% for trailer in playing_movies_trailers %}
@@ -137,5 +234,8 @@
   </div>
 </div>
 {% endfor %}
+<script src="http://code.jquery.com/jquery-latest.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.js" integrity="sha512-WNZwVebQjhSxEzwbettGuQgWxbpYdoLf7mH+25A7sfQbbxKeS5SQ9QBf97zOY4nOlwtksgDA/czSTmfj4DUEiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{% static 'js/movies/carousel.js' %}"></script>
 <script src="{% static 'js/movies/video.js' %}"></script>
 {% endblock content %}

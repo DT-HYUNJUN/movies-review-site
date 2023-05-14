@@ -1,73 +1,99 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="container container-pt profile">
-  <div class="border rounded-3 mt-5">
-    <!--상단 배너-->
-    <div class="banner rounded-top position-relative">
-      <div class="dropdown">
-        <button class="border-0 bg-transparent profile-update-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="bi bi-gear"></i>
-        </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="{% url 'accounts:update' %}">프로필 수정</a></li>
-          <li><a class="dropdown-item" href="{% url 'accounts:change_password' %}">비밀번호 수정</a></li>
-          <li>
-            <form action="{% url 'accounts:delete' %}" method="POST">
-              {% csrf_token %}
-              <button class="dropdown-item" onclick="return confirm('찐탈퇴?')" type="submit">탈퇴하기</button>
-            </form>
-          </li>
-        </ul>
-      </div>
+<div class="page-bg-wrapper">
+  <div class="page-bg-inner">
+    <div class="container container-pt white-font">
+      <!--내용-->
+      <div class="container container-pt profile">
+        <div class="border rounded-3 mt-5">
+          <!--상단 배너-->
+          <div class="rounded-top">
+            <div class="dropdown">
+              <button class="border-0 bg-transparent profile-update-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-gear"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'accounts:update' %}">프로필 수정</a></li>
+                <li><a class="dropdown-item" href="{% url 'accounts:change_password' %}">비밀번호 수정</a></li>
+                <li>
+                  <form action="{% url 'accounts:delete' %}" method="POST">
+                    {% csrf_token %}
+                    <button class="dropdown-item" onclick="return confirm('찐탈퇴?')" type="submit">탈퇴하기</button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+            
+          </div>
+          <!--하단 영역-->
+          <div class="px-3 pb-3 z-3">
+            <!--프로필 이미지, 유저이름-->
+            <div class="profile-info d-flex align-items-end">
+              <div class="profile-img text-center">
+                {% if person.profile_image %}
+                  <img class="profile-img rounded-circle" src="{{ person.profile_image.url }}" alt="">
+                {% else %}
+                  <img class="profile-img" src="{% static 'img/profile-img.png' %}" alt="">
+                {% endif %}
+              </div>
+            </div>
+            <!--평가, 보고싶어요, 보는중-->
+            <div class="d-flex justify-content-between align-items-center movie-section mb-5">
+              <p class="fs-5 fw-bold">{{ person.nickname }}</p>
+              <form action="{% url 'accounts:follow' person.pk %}" method="POST">
+                {% csrf_token %}
+                {% if request.user != person %}
+                  {% if request.user in person.followers.all %}
+                    <input class='btn btn-outline-primary' type="submit" value="unfollow">
+                  {% else %}
+                    <input class="btn btn-outline-primary" type="submit" value="follow">
+                  {% endif %}
+                {% else %}
+                {% endif %}
+              </form>
+            </div>
+            <p class="fs-5 mb-3">평가</p>
+            <!--리뷰 박스 공간-->
+            <hr>
       
-    </div>
-    <!--하단 영역-->
-    <div class="px-3 pb-3 z-3">
-      <!--프로필 이미지, 유저이름-->
-      <div class="profile-info d-flex align-items-end">
-        <div class="profile-img text-center">
-          {% if person.profile_image %}
-            <img class="profile-img rounded-circle" src="{{ person.profile_image.url }}" alt="">
-          {% else %}
-            <img class="profile-img" src="{% static 'img/profile-img.png' %}" alt="">
-          {% endif %}
+            <p class="fs-5 mb-3">보고싶어요</p>
+            <hr>
+      
+            <p class="fs-5 mb-3">보는중</p>
+            <hr>
+            <!-- 컬렉션 -->
+            {% if request.user == person %}
+              <a href="{% url 'movies:create' person.username %}">새 컬렉션</a>
+            {% endif %}
+            {% for collection in collections %}
+              <a href="{% url 'movies:collection_detail' person.username collection.pk %}">
+                {{ collection.title }}
+              </a>
+            {% endfor %}
+          </div>
         </div>
       </div>
-      <!--평가, 보고싶어요, 보는중-->
-      <div class="d-flex justify-content-between align-items-center movie-section mb-5">
-        <p class="fs-5 fw-bold">{{ person.nickname }}</p>
-        <form action="{% url 'accounts:follow' person.pk %}" method="POST">
-          {% csrf_token %}
-          {% if request.user != person %}
-            {% if request.user in person.followers.all %}
-              <input class='btn btn-outline-primary' type="submit" value="unfollow">
-            {% else %}
-              <input class="btn btn-outline-primary" type="submit" value="follow">
-            {% endif %}
-          {% else %}
-          {% endif %}
-        </form>
-      </div>
-      <p class="fs-5 mb-3">평가</p>
-      <!--리뷰 박스 공간-->
-      <hr>
 
-      <p class="fs-5 mb-3">보고싶어요</p>
-      <hr>
-
-      <p class="fs-5 mb-3">보는중</p>
-      <hr>
-      <!-- 컬렉션 -->
-      {% if request.user == person %}
-        <a href="{% url 'movies:create' person.username %}">새 컬렉션</a>
-      {% endif %}
-      {% for collection in collections %}
-        <a href="{% url 'movies:collection_detail' person.username collection.pk %}">
-          {{ collection.title }}
-        </a>
-      {% endfor %}
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}

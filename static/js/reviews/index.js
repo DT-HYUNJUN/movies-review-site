@@ -1,6 +1,6 @@
 $(document).ready(function(){
   $('.review-slide').slick({
-    infinite: true,
+    infinite: false,
     slidesToShow: 3,
     slidesToScroll: 3,
     prevArrow : "<button type='button' class='slick-prev'>Previous</button>",    
@@ -18,7 +18,7 @@ const spoilerReviewFooterList = document.querySelectorAll(".spoiler-review-card-
 const likeIconList = document.querySelectorAll(".spoiler-thumbs-up-icon")
 const dislikeIconList = document.querySelectorAll(".spoiler-thumbs-down-icon")
 
-console.log(isSpoilerList)
+// console.log(isSpoilerList)
 
 spoilerCheckList.forEach((spoilerCheck, index) => {
   spoilerCheck.addEventListener('click', () => {
