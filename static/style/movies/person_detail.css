@@ -23,6 +23,10 @@
   height: 976px;
 }
 
+.p-wrapper {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
 .person-poster {
   width: 67px; 
   height: 100px;
@@ -67,9 +71,12 @@
 }
 
 .p-th-title {
-  padding-left : 100px;
+  padding-left :100px;
 }
 
+.p-th-rating {
+  padding-left: 5px;
+}
 .p-title {
   display: flex;
   align-items: center;

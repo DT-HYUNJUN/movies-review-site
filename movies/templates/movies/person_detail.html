@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block content %}
+<!--인물 배경-->
 <div class="bg-person">
   <img class="bg-person-size" src="https://image.tmdb.org/t/p/original{{ person.profile_path }}" alt="{{ person.name }}">
   <div class="bg-title-color">
@@ -11,16 +12,18 @@
   </div>
 </div>
 
-
+<!--인물 내용-->
 <section class="detail-bg-color">
-  <div class="container pt-5 pb-5">
+  <div class="container p-wrapper">
     <div class="container-py">
       <div class="p-detail">
         <div> 
         {% for key, movies in category %}
           {% if movies %}
             <p class="p-main-title">{{ key }}</p>
+            <!--테이블 START-->
             <table class="p-table">
+              <!--테이블 비율-->
               <colgroup>
                 <col width="15%"/>
                 <col width="70%"/>
@@ -30,12 +33,12 @@
                 <tr class="p-tr">
                   <th>년도</th>
                   <th class="p-th-title">제목</th>
-                  <th>평점</th>
+                  <th class="p-th-rating">평점</th>
                 </tr>
               </thead>
               <tbody>
                 {% for movie in movies|slice:":5" %}
-                  <tr class=>
+                  <tr>
                     <td class="p-td p-year">{{ movie.release_date|slice:":4" }}</td>
                     <td class="p-td">
                       <a href="{% url 'movies:detail' movie.id %}">
@@ -48,7 +51,7 @@
                     <td class="p-td p-rating">
                       <p>
                         <img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">
-                        {{ p_movie.avg_rating }}</p>{{ movie.vote_average|floatformat:1 }}
+                        {{ p_movie.avg_rating }}{{ movie.vote_average|floatformat:1 }}
                       </p>
                     </td>
                   </tr>
@@ -62,6 +65,3 @@
   </div>
 </section>
 {% endblock content %}
-{% comment %} 
-일단 영화 5개만 출력되도록 했고 평점은 tmdb 평점을 넣어놓아서 추후 어떻게 할 지 확인해야합니다!
-{% endcomment %}
