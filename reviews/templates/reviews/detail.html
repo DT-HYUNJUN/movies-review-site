@@ -1,19 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+
+
+{% load static %}
+
+{% block content %}
+<div class="container container-pt">
+  <div>
+    
+  </div>
   <h1>{{ review.title }}'s detail</h1>
   <a href="{% url 'reviews:review_update' review.pk %}">리뷰수정</a>
   <p>작성자 - {{ review.user }}</p>
   <hr>
 
-
-  
   <h3>코멘트 작성</h3>
   <form action="{% url 'reviews:comment_create' review.pk %}" method="POST">
     {% csrf_token %}
@@ -35,5 +35,5 @@
     </form>
     <hr>
   {% endfor %}
-</body>
-</html>
+</div>
+{% endblock content %}

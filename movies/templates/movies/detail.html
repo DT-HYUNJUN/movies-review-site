@@ -205,24 +205,60 @@
               </div>
               <!-- 카드바디 (리뷰내용) -->
               <div class="card-body review-card-body">
-                <p class="card-text review-content-overflow content-href"  OnClick="location.href ='{% url 'reviews:detail' review.pk %}'">{{review.content}}</p>
+                <!-- 스포일러 True False 조건문 -->
+                {% if review.is_spoiler %}
+                  <p class="spoiler-guide">스포일러가 있어요!!<span class="spoiler-check" data-spoiler="{{ review.is_spoiler }}"> 보기</span></p>
+                  <p class="card-text review-content review-content-overflow content-href hide-spoiler-content" OnClick="location.href ='{% url 'reviews:detail' review.pk %}'">{{review.content}}</p>
+                {% else %}
+                  <p class="card-text review-content review-content-overflow content-href"  OnClick="location.href ='{% url 'reviews:detail' review.pk %}'">{{review.content}}</p>
+                {% endif %}
+
               </div>
               <!-- 카드푸터 (좋아요, 싫어요, 댓글) -->
-              <div class="card-footer review-card-footer d-flex justify-content-between align-items-center">
+              <div class="card-footer d-flex justify-content-between align-items-center
+              {% if review.is_spoiler %}
+                spoiler-review-card-footer
+              {% else %}
+                review-card-footer 
+              {% endif %}
+              ">
                 <div class="d-flex">
 
                   <form action="{% url 'reviews:review_emote' review.pk 1 %}" method="POST">
                     {% csrf_token %}
-                    <button type="submit" class="border-0 bg-transparent"><label class="tumbs-up-icon"><i class="bi bi-hand-thumbs-up"></i></label></button>
+                    {% if review.is_spoiler %}
+                    <button type="submit" class="border-0 bg-transparent spoiler-like-btn" disabled>
+                    {% else %}
+                    <button type="submit" class="border-0 bg-transparent like-btn">
+                    {% endif %}<label class="
+                      {% if review.is_spoiler %}
+                        spoiler-thumbs-up-icon
+                      {% else %}
+                        thumbs-up-icon
+                      {% endif %}
+                      "><i class="bi bi-hand-thumbs-up"></i></label></button>
                   </form><span>{{ review.num_likes }}</span>
 
                   <form action="{% url 'reviews:review_emote' review.pk 0 %}" method="POST">
                     {% csrf_token %}
-                    <button type="submit" class="border-0 bg-transparent ms-2"><label class="tumbs-down-icon"><i class="bi bi-hand-thumbs-down"></i></label></button>
+                    {% if review.is_spoiler %}
+                    <button type="submit" class="border-0 bg-transparent spoiler-dislike-btn" disabled>
+                    {% else %}
+                    <button type="submit" class="border-0 bg-transparent dislike-btn">
+                    {% endif %}<label class="
+                      {% if review.is_spoiler %}
+                        spoiler-thumbs-down-icon
+                      {% else %}
+                        thumbs-down-icon
+                      {% endif %}
+                      "><i class="bi bi-hand-thumbs-down"></i></label></button>
                   </form><span>{{ review.num_dislikes }}</span>
 
                 </div>
-                <span class="card-text"><label class="chat-label"><i class="bi bi-chat-fill"></i></label></span>
+                <div>
+                  <span class="card-text"><label class="chat-label"><i class="bi bi-chat-fill"></i></label></span>
+                  <span>{{ review.reviewcomment_set.all|length }}</span>
+                </div>
               </div>
             </div>
           {% endfor %}

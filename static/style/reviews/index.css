@@ -2,7 +2,7 @@
   border: 0;
 }
 
-.review-card, .review-card-header, .review-card-footer {
+.review-card, .review-card-header, .review-card-footer, .spoiler-review-card-footer {
   background-color: rgb(242, 242, 242);
 }
 
@@ -11,12 +11,16 @@
   font-size: 20px;
 }
 
-.review-card-header, .review-card-footer {
+.review-card-header, .review-card-footer, .spoiler-review-card-footer {
   height: 50px;
 }
 
-.review-card-footer, .chat-label {
+.review-card-footer {
   color: rgb(120, 120, 120);
+}
+
+.spoiler-review-card-footer {
+  color: rgb(200, 200, 200);
 }
 
 .slick-list {
@@ -44,10 +48,27 @@
   -webkit-box-orient: vertical;
 }
 
-.tooltip-spoiler, .profile-href, .content-href, .tumbs-up-icon, .tumbs-down-icon {
+.tooltip-spoiler, .profile-href, .content-href, .thumbs-up-icon, .thumbs-down-icon{
   cursor:pointer;
 }
 
-.tumbs-up-icon {
+.thumbs-up-icon:hover {
   color: #ff0558;
 }
+
+.slick-prev:before, .slick-next:before {
+  color: black
+}
+
+.spoiler-check {
+  color: #ff0558;
+  cursor:pointer;
+}
+
+.hide-spoiler-content {
+  display:none;
+}
+
+/* .spoiler-thumbs-up-icon, .spoiler-thumbs-down-icon{
+  cursor: default;
+} */
