@@ -22,3 +22,66 @@
   width: 650px;
   height: 976px;
 }
+
+.person-poster {
+  width: 67px; 
+  height: 100px;
+  background-color: white;
+  border-radius: 5px;
+}
+.p-detail {
+  padding: 0 2rem 2rem 2rem;
+  background-color: white;
+  border: 1px solid #e3e3e3;
+  border-radius: 7px;
+}
+.p-main-title {
+  margin-top: 35px;
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 35px;
+}
+
+.p-table {
+  width: 100%;
+}
+
+.p-year {
+  color: #74747b;
+}
+
+.p-td {
+  vertical-align: middle;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #0000000f;
+}
+
+.p-tr th {
+  vertical-align: middle;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #0000000f;
+  border-top: 1px solid #0000000f;
+  color: #74747b;
+}
+
+.p-th-title {
+  padding-left : 100px;
+}
+
+.p-title {
+  display: flex;
+  align-items: center;
+  color: #292a32;
+  
+}
+
+.p-title-text {
+  margin-left: 30px;
+  font-size: 18px;
+}
+
+.p-rating {
+  color: #787878;
+}
