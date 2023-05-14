@@ -13,4 +13,5 @@ urlpatterns = [
     path('collection/<str:username>/<int:collection_pk>/', views.collection_detail, name='collection_detail'),
     path('collection/update/<str:username>/<int:collection_pk>/', views.update, name='update'),
     path('collection/delete/<str:username>/<int:collection_pk>/', views.delete, name='delete'),
+    path('api/key/', views.api_convert, name='api_convert'),
 ]
