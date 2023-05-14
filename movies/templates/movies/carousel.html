@@ -1,40 +1,6 @@
 {% load static %}
 
-<div id="popular-movies-carousel" class="carousel slide" data-bs-ride="carousel">
-  <!-- Indicators -->
-  <button type="button" data-bs-target="#popular-movies-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-  <button type="button" data-bs-target="#popular-movies-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-  <button type="button" data-bs-target="#popular-movies-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  <!-- Wrapper for slides -->
-  <div class="carousel-inner">
-    {% for slide in popular_movies|slice:"0:5" %}
-    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-      <div class="row row-cols-2 row-cols-md-{{ slide_size }} g-5">
-        {% for p_movie in slide %}
-        <a class="white-font" href="{% url 'movies:detail' p_movie.id %}">
-          <div class="movie-card">
-            <div class="index-poster-wrapper">
-              <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ p_movie.poster_path }}" alt="">
-              <p class="rank">{{ forloop.counter }}</p>
-            </div>
-          </div>
-          <p class="white-movie-title">{{ p_movie.title }}</p>
-          <p class="white-movie-content">{{ p_movie.release_date }}</p>
-          <p class="white-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt=""> </p>
-        </a>
-        {% endfor %}
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-  
-  <!-- Controls -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#popular-movies-carousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#popular-movies-carousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+
+<script src="http://code.jquery.com/jquery-latest.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.js" integrity="sha512-WNZwVebQjhSxEzwbettGuQgWxbpYdoLf7mH+25A7sfQbbxKeS5SQ9QBf97zOY4nOlwtksgDA/czSTmfj4DUEiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{% static 'js/movies/carousel.js' %}"></script>

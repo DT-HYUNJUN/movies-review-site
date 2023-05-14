@@ -1,16 +1,13 @@
 .index-poster-wrapper {
   position: relative;
-  width: 250px; 
-  height: 360px;
-  /* box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.2); */
+  width: 246px; 
+  height: 369px;
   border-radius: 5px;
 }
 /* 테없그있 */
 .poster-size {
-  width: 250px; 
-  height: 360px;
-  /* padding: 3px; */
-  /* border: 1px solid gray; */
+  width: 246px;
+  height: 369px;
   background-color: white;
   border-radius: 5px;
 }
@@ -61,6 +58,8 @@
   font-size: 14px;
   font-weight: 400;
   color: #555765;
+  display: flex;
+  align-items: flex-end; 
 }
 
 .white-movie-title {
@@ -223,4 +222,27 @@
   left: 1rem;
   color: white;
   font-size: 35px;
+}
+
+.slick-index-prev:before {
+  color: white !important;
+}
+
+.slick-index-next:before {
+  color: white !important;
+}
+
+.white-poster-size {
+  width: 246px;
+  height: 369px;
+  background-color: white;
+  border: 1px solid #0000000f;
+  border-radius: 5px;
+}
+
+.carousel-indicators [data-bs-target] {
+  width: 7px;
+  height: 7px;
+  border: 0;
+  border-radius: 3.5px;
 }
