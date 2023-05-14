@@ -126,6 +126,8 @@ def detail(request, movie_id):
         sum_ratings += key * value
     if rating_people:
         avg_rating = round((sum_ratings / rating_people), 1)
+    
+    avg_rating_percent = avg_rating * 0.2 * 100
  
     # 출연/제작
     path = f'/movie/{movie_id}'
@@ -204,6 +206,7 @@ def detail(request, movie_id):
     collection_create_form = CollectionForm
     
     context = {
+        'avg_rating_percent': avg_rating_percent,
         'rating_people': rating_people,
         'avg_rating': avg_rating,
         'ratings': ratings,
