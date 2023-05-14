@@ -221,3 +221,41 @@
   text-align: end;
   font-size: 14px;
 }
+
+/* .stars-wrapper {
+  position: relative;
+  width: 10rem;
+}
+
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+} */
+
+/*  */
+
+.star-box {
+  position: relative;
+}
+
+.comment-starbox {
+  width: 10rem;
+}
+
+.star-star {
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+}
+
+.comment-star-star img {
+  width: 10rem;
+}
+
+.star-star {
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+}
