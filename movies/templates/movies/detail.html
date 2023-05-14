@@ -15,10 +15,10 @@
 
 <div class="container">
   <div class="container-py">
-    <div class="d-flex align-items-center gap-3">
+    <div class="d-flex align-items-center gap-3 flex-nowrap">
       <!---->
       <img class="poster" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="">
-      <div class="movie-overview ">
+      <div class="movie-overview">
         <!--제목, 개봉일, 장르, 국가-->
           <div>
             <div class='text-body-secondary fs-5 mt-3'>
@@ -29,7 +29,7 @@
             <hr>
           </div>
           <!--상호작용-->
-          <div class="d-flex align-items-center gap-5 no-wrap">
+          <div class="d-flex align-items-center gap-5 flex-nowrap">
             <!--평가하기-->
             <div class="ms-5">
               <p class="text-center mb-2">평점</p>
@@ -104,7 +104,7 @@
           <!--감독-->
           {% for crew in crews %}
             <a class="staff-section" href="{% url 'movies:person_detail' crew.id %}">
-              <div class="card mb-3 p-2 border-0" style="max-width: 15rem;">
+              <div class="card crew-card mb-3 p-2 border-0" style="max-width: 15rem;">
                 <div class="row g-0">
                   <div class="col-md-4">
                     <img src="https://image.tmdb.org/t/p/w185{{ crew.profile_path }}" class="img-fluid rounded" alt="...">
@@ -123,7 +123,7 @@
           <!--배우-->
           {% for cast in casts %}
             <a class="staff-section" href="{% url 'movies:person_detail' cast.id %}">
-              <div class="card mb-3 p-2 border-0" style="max-width: 15rem;">
+              <div class="card cast-card mb-3 p-2 border-0" style="max-width: 15rem;">
                 <div class="row g-0">
                   <div class="col-md-4">
                     <img src="https://image.tmdb.org/t/p/w500{{ cast.profile_path }}" class="img-fluid rounded" alt="...">
@@ -142,7 +142,12 @@
         <!--평점-->
         <hr>
         <div>
-          <div id="chart" class="mx-auto gap-1">
+          <div class="d-flex justify-content-between align-items-center flex-nowrap">
+            <p class="fw-bold fs-5">별점 그래프</p>
+            <p class="">평균 ★ {{ avg_rating }}</p>
+          </div>
+          <p class="rating-people text-secondary">({{ rating_people }}명)</p>
+          <div id="chart" class="mx-auto gap-1" data-ratings="{{ ratings }}">
             <div>
               <div class="bar"></div>
               <p>0</p>
@@ -188,6 +193,50 @@
               <p>5</p>
             </div>
           </div>
+          <hr>
+        </div>
+      <!-- 리뷰 캐러셀 -->
+      <div class="review-box">
+        <div class="review-slide">
+          <!-- Slides -->
+          {% for review in reviews %}
+            <div class="card mx-2 p-2 review-card" style="width: 18rem;">
+              <!-- 카드 헤더 (프사, 닉네임, 별점) -->
+              <div class="card-header review-card-header d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center profile-href" OnClick="location.href ='{% url 'accounts:profile' review.user %}'" style="cursor:pointer;">
+                  <img class="review-card-profile-img me-1 rounded-circle" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile-img.png' %}" {% endif %}  alt="review-profile-image">
+                  <p class="card-text">{{ review.user }}</p>
+                </div>
+                <p class="card-text">★ {{ review.rating }}</p>
+              </div>
+              <!-- 카드바디 (리뷰내용) -->
+                <div id="spoiler-section" class="card-body review-card-body">
+                  {% if review.is_spoiler %}
+                    <p id="spoiler-text">스포일러가 있어요!! <button id="spoiler-btn" class="pink-text border-0 bg-transparent">더보기</button></p>
+                    <p id="review-text" class="card-text review-content-overflow content-href hidden"  OnClick="location.href ='{% url 'reviews:detail' review.pk %}'">{{review.content}}</p>
+                  {% else %}
+                    <p class="card-text review-content-overflow content-href"  OnClick="location.href ='{% url 'reviews:detail' review.pk %}'">{{review.content}}</p>
+                  {% endif %}
+                </div>
+              <!-- 카드푸터 (좋아요, 싫어요, 댓글) -->
+              <div class="card-footer review-card-footer d-flex justify-content-between align-items-center">
+                <div class="d-flex">
+
+                  <form action="{% url 'reviews:review_emote' review.pk 1 %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="border-0 bg-transparent"><label class="tumbs-up-icon"><i class="bi bi-hand-thumbs-up"></i></label></button>
+                  </form><span>{{ review.num_likes }}</span>
+
+                  <form action="{% url 'reviews:review_emote' review.pk 0 %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="border-0 bg-transparent ms-2"><label class="tumbs-down-icon"><i class="bi bi-hand-thumbs-down"></i></label></button>
+                  </form><span>{{ review.num_dislikes }}</span>
+
+                </div>
+                <span class="card-text"><label class="chat-label"><i class="bi bi-chat-fill"></i></label></span>
+              </div>
+            </div>
+          {% endfor %}
         </div>
       </div>
     </div>
@@ -198,7 +247,7 @@
 
 <!-- 리뷰 작성 모달 -->
 <div class="modal fade" id="review-create" tabindex="-1" aria-labelledby="review-createLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog login-modal">
     <div class="modal-content">
       <div class="modal-header pb-0">
         <h1 class="modal-title fs-5" id="review-createLabel">{{ movie.title }}</h1>
@@ -243,7 +292,7 @@
                 </svg>
               </div>
             </div>
-            <input type="number" hidden name="rating" value="" id="rating">
+            <input type="number" hidden name="rating" value="0" id="rating">
           </div>
           <div class="mt-3">
             {{ review_form.as_p }}
@@ -260,9 +309,9 @@
     </div>
   </div>
 </div>
-
+<!--로그인 안내 모달-->
 <div class="modal fade" id="please-login" tabindex="-1" aria-labelledby="review-createLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog login-modal">
     <div class="modal-content">
       <div class="modal-header pb-0">
         <button type="button" class="btn-close text-pink ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -284,5 +333,10 @@
 </div>
 
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.js" integrity="sha512-WNZwVebQjhSxEzwbettGuQgWxbpYdoLf7mH+25A7sfQbbxKeS5SQ9QBf97zOY4nOlwtksgDA/czSTmfj4DUEiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{% static 'js/reviews/index.js' %}"></script>
 <script src="{% static 'js/reviews/create.js' %}"></script>
+<script src="{% static 'js/movies/more.js' %}"></script>
+<script src="{% static 'js/movies/rating-chart.js' %}"></script>
+<script src="{% static 'js/movies/spoiler.js' %}"></script>
 {% endblock content %}

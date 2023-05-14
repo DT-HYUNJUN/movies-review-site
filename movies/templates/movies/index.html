@@ -11,24 +11,15 @@
     <!-- 캐러셀 -->
     <div id="carouselExampleAutoplaying" class="carousel slide bg-carousel" data-bs-ride="carousel">
       <div class="carousel-inner">
-        <div class="carousel-item active">
-          <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#video1">
-            <img src="{% static 'img/poster1' %}" class="d-block w-100" alt="...">
-            <img class="btn-video" src="{% static 'img/btn_video.png' %}" alt="">
-          </button>
-        </div>
-        <div class="carousel-item">
-          <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#video2">
-            <img src="{% static 'img/poster2.jpg' %}" class="d-block w-100" alt="...">
-            <img class="btn-video" src="{% static 'img/btn_video.png' %}" alt="">
-          </button>
-        </div>
-        <div class="carousel-item">
-          <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#video3">
-            <img src="{% static 'img/poster3.jpg' %}" class="d-block w-100" alt="...">
-            <img class="btn-video" src="{% static 'img/btn_video.png' %}" alt="">
-          </button>
-        </div>
+        {% for play_movie in playing_movies %}
+          <div class="carousel-poster carousel-item {% if forloop.first %} active {% endif %}">
+            <button type="button" class="position-relative border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#video{{ forloop.counter }}">
+              <img src="https://image.tmdb.org/t/p/w1280{{ play_movie.backdrop_path }}" class="d-block w-100 carousel-poster" alt="...">
+              <img class="btn-video" src="{% static 'img/btn_video.png' %}" alt="">
+              <p class="carousel-movie-title">{{ play_movie.title }}</p>
+            </button>
+          </div>
+        {% endfor %}
       </div>
       <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -64,7 +55,7 @@
           </div>
           <p class="white-movie-title">{{ p_movie.title }}</p>
           <p class="white-movie-content">{{ p_movie.release_date }}</p>
-          <p class="white-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt=""> </p>
+          <p class="white-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ p_movie.avg_rating }}</p>
         </a>
         {% endfor %}
       </div>
@@ -84,7 +75,7 @@
           </div>
           <p class="black-movie-title">{{ p_movie.title }}</p>
           <p class="black-movie-content">{{ p_movie.release_date }}</p>
-          <p class="black-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt=""> </p>
+          <p class="black-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ p_movie.avg_rating }}</p>
         </a>
         {% endfor %}
       </div>
@@ -104,7 +95,7 @@
           </div>
           <p class="black-movie-title">{{ t_movie.title }}</p>
           <p class="black-movie-content">{{ t_movie.release_date }}</p>
-          <p class="black-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt=""> </p>
+          <p class="black-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ t_movie.avg_rating }}</p>
         </a>
         {% endfor %}
       </div>
@@ -123,52 +114,28 @@
           </div>
           <p class="white-movie-title">{{ u_movie.title }}</p>
           <p class="white-movie-content">{{ u_movie.release_date }}</p>
-          <p class="white-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt=""> </p>
+          <p class="white-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ u_movie.avg_rating }}</p>
         </a>
         {% endfor %}
       </div>
     </div>
-
 </div>
 
-<!--비디오 모달창 3개-->
-<div class="modal fade" id="video1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
+<!--비디오 모달창 5개-->
+{% for trailer in playing_movies_trailers %}
+<div class="modal fade" id="video{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl video-modal">
+    <div class="modal-content video-modal-body">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
         <button id="close-btn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <video height="100%" width="100%" controls="" id="vdoPlayer" src="{% static 'img/video1.mp4' %}"></video>
+        <iframe class="trailer" width="1280" height="720" src="https://www.youtube.com/embed/{{ trailer }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
     </div>
   </div>
 </div>
-<div class="modal fade" id="video2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
-        <button id="close-btn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <video height="100%" width="100%" controls="" id="vdoPlayer" src="{% static 'img/video3.mp4' %}"></video>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="video3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
-        <button id="close-btn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <video height="100%" width="100%" controls="" id="vdoPlayer" src="{% static 'img/video2.mp4' %}"></video>
-      </div>
-    </div>
-  </div>
-</div>
+{% endfor %}
+<script src="{% static 'js/movies/video.js' %}"></script>
 {% endblock content %}
