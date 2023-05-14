@@ -207,6 +207,7 @@
   white-space: nowrap;
   vertical-align: middle;
   border-radius: 6px;
+  border: 0px;
   color: white;
   cursor: pointer;
   user-select: none;
