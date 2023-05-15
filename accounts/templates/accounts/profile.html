@@ -3,12 +3,12 @@
 {% block content %}
 <div class="page-bg-wrapper">
   <div class="page-bg-inner">
-    <div class="container container-pt white-font">
+    <div class="container container-pt">
       <!--내용-->
       <div class="container container-pt profile">
         <div class="border rounded-3 mt-5">
           <!--상단 배너-->
-          <div class="rounded-top">
+          <div class="rounded-top banner" style="background-color: {{ person.color }};">
             <div class="dropdown">
               <button class="border-0 bg-transparent profile-update-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-gear"></i>
@@ -27,7 +27,7 @@
             
           </div>
           <!--하단 영역-->
-          <div class="px-3 pb-3 z-3">
+          <div class="px-3 pb-3 z-3 profile-bg">
             <!--프로필 이미지, 유저이름-->
             <div class="profile-info d-flex align-items-end">
               <div class="profile-img text-center">
@@ -78,7 +78,6 @@
     </div>
   </div>
 </div>
-
 
 
 
