@@ -1,6 +1,5 @@
-from pprint import pprint
 import re
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Collection, MovieCollection
 from reviews.models import Review
 from .forms import CollectionForm, CollectionMovieDeleteForm
@@ -15,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.db.models import Avg
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 import json
 
 
@@ -130,7 +130,7 @@ def detail(request, movie_id):
         avg_rating = round((sum_ratings / total_reviews), 1)
     
     avg_rating_percent = avg_rating * 0.2 * 100
- 
+
     # 출연/제작
     path = f'/movie/{movie_id}'
     params = {
@@ -371,7 +371,7 @@ def create(request, username):
             collection.user = request.user
             collection.save()
             for movie in selected_movies:
-                MovieCollection.objects.create(collection=collection, movie_id=movie['id'])
+                MovieCollection.objects.create(collection=collection, movie_id=movie)
 
             return redirect('movies:collection_detail', username, collection.pk)
     else:
@@ -386,12 +386,14 @@ def create(request, username):
 def collection_detail(request, username, collection_pk):
     person = get_user_model().objects.get(username=username)
     collection = Collection.objects.get(pk=collection_pk)
+    like_users_count = collection.like_users.count()
     movies = collection.moviecollection_set.all()
     collection_movies = []
     params = {
         'api_key': api_key,
         'language': 'ko-KR'
     }
+    
     for movie in movies:
         path = f'/movie/{movie.movie_id}'
         movie_info = requests.get(base_url+path, params=params).json()
@@ -399,9 +401,10 @@ def collection_detail(request, username, collection_pk):
         movie_info['avg'] = movie_avg['avg'] if movie_avg['avg'] != None else 0
         collection_movies.append(movie_info)
     context = {
-        'person': person,
-        'collection': collection,
-        'movies': collection_movies,
+        'person'          : person,
+        'collection'      : collection,
+        'movies'          : collection_movies,
+        'like_users_count': like_users_count,
     }
     return render(request, 'movies/collection_detail.html', context)
 
@@ -465,3 +468,104 @@ def delete(request, username, collection_pk):
         movie.delete()
     collection.delete()
     return redirect('accounts:profile', username)
+
+def get_average_rating(movies):
+    for movie in movies:
+        movie_id = movie['id']
+        # 리뷰
+        reviews = Review.objects.filter(movie=movie_id).order_by('-pk')
+        if len(reviews) == 0:
+            movie['avg_rating'] = ''
+        else:
+            # 평점 계산
+            movies_rating_dict = {0.0: 0, 0.5: 0, 1.0: 0, 1.5: 0, 2.0: 0, 2.5: 0, 3.0: 0, 3.5: 0, 4.0: 0, 4.5: 0, 5.0: 0}
+            for review in reviews:
+                movies_rating_dict[review.rating] = movies_rating_dict.get(0, 1) + 1
+            
+            sum_ratings = 0
+            avg_rating = 0
+            rating_people = sum(movies_rating_dict.values())
+            for key, value in movies_rating_dict.items():
+                sum_ratings += key * value
+            if rating_people:
+                avg_rating = round((sum_ratings / rating_people), 1)
+            movie['avg_rating'] = avg_rating
+
+
+
+def genre_movies(request, genre_name):
+    # 장르별 딕셔너리
+    genre_dict = {
+        '액션'         : '28',
+        '어드벤처'     : '12',
+        '애니메이션'   : '16',
+        '코미디'       : '35',
+        '범죄'         : '80',
+        '다큐멘터리'   : '99',
+        '드라마'       : '18',
+        '가족'         : '10751',
+        '판타지'       : '14',
+        '역사'         : '36',
+        '공포'         : '27',
+        '음악'         : '10402',
+        '미스터리'     : '9648',
+        '로맨스'       : '10749',
+        'SF'           : '878',
+        'TV'           : '10770',
+        '스릴러'       : '53',
+        '전쟁'         : '10752',
+        '서부'         : '37'
+    }
+    
+    # 페이지 정보를 받아올 URL
+    params = {
+        'api_key'    : api_key,
+        'language'   : 'ko-KR',
+        'region'     : 'kr',
+        'with_genres': genre_dict[genre_name]
+    }
+    path = '/discover/movie'
+
+    # JSON 응답에서 총 페이지 수를 추출
+    response = requests.get(base_url + path, params=params).json()
+    
+    # 파라미터 가져오기
+    page    = request.GET.get('page', 1)
+    # 기본: 인기순
+    sort_by = request.GET.get('sort_by', 'popularity.desc')
+
+    movies            = []
+    params['page']    = page
+    params['sort_by'] = sort_by
+    response          = requests.get(base_url + path, params=params).json()
+    total_pages       = response['total_pages']
+    total_results     = response['total_results']
+    
+    # 페이지네이터 객체 생성
+    paginator = Paginator(range(1, total_pages+1), 1)
+    # ex) 1 of 109 page
+    pages = paginator.page(page)
+
+    movies += response['results']
+    
+    context = {
+        'genre_name'   : genre_name,
+        'movies'       : movies,
+        'pages'        : pages,
+        'total_results': total_results,
+    }
+
+    return render(request, 'movies/genre_movies.html', context)
+
+@login_required
+def like_collection(request, collection_pk):
+    collection = get_object_or_404(Collection, pk=collection_pk)
+    
+    if request.user in collection.like_users.all():
+        collection.like_users.remove(request.user)
+        liked = False
+    else:
+        collection.like_users.add(request.user)
+        liked = True
+        
+    return JsonResponse({'is_liked': liked, 'like_users_count': collection.like_users.count()})

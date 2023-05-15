@@ -1,6 +1,6 @@
 {% load static %}
 
-<nav class="position-absolute fixed-top navbar navbar-expand-lg w-100 z-2 dark-header-color">
+<nav class="position-absolute fixed-top navbar navbar-expand-lg w-100 dark-header-color">
   <div class="d-flex container">
     <a class="navbar-brand fs-4" href="{% url 'movies:index' %}"><span class="pink-color">SEE</span>NEMA</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,16 +9,19 @@
     <div class="collapse navbar-collapse " id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">액션</a>
+          <a type="button" class="nav-link active" data-bs-toggle="modal" data-bs-target="#genreSearch">
+            장르
+          </a>
+          {% comment %} <a class="nav-link active" aria-current="page" href="{% url 'movies:genre_movies' 'Action' %}">장르</a> {% endcomment %}
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">드라마</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'movies:genre_movies' '드라마' %}">드라마</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">SF</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'movies:genre_movies' 'SF' %}">SF</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">로맨스</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'movies:genre_movies' '로맨스' %}">로맨스</a>
         </li>
       </ul>
       <form action="{% url 'movies:search' %}" class="d-flex" role="search">
@@ -52,3 +55,24 @@
     </div>
   </div>
 </nav>
+
+
+<div class="modal fade" id="genreSearch" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog search-modal">
+    <div class="modal-content search-modal-bg">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">장르 검색</h1>
+        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-2">
+          {% for genre in genre_dict_modal %}
+            <div class="col-md-3">
+              <a class="my-genre-btn w-100" href="{% url 'movies:genre_movies' genre %}">{{ genre }}</a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

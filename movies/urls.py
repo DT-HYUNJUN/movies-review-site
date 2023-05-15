@@ -14,4 +14,7 @@ urlpatterns = [
     path('collection/update/<str:username>/<int:collection_pk>/', views.update, name='update'),
     path('collection/delete/<str:username>/<int:collection_pk>/', views.delete, name='delete'),
     path('api/key/', views.api_convert, name='api_convert'),
+    # 장르별 영화조회
+    path('genre/<str:genre_name>/', views.genre_movies, name='genre_movies'),
+    path('collections/<int:collection_pk>/like/', views.like_collection, name='like_collection'),
 ]

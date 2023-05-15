@@ -14,6 +14,14 @@ class CustomUserCreationForm(UserCreationForm):
             }
         ),
     )
+    nickname = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control account-field',
+                'placeholder': '닉네임'
+            }
+        )
+    )
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
@@ -40,7 +48,7 @@ class CustomUserCreationForm(UserCreationForm):
     )
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = ('username', 'email', 'password1', 'password2',)
+        fields = ('username', 'email', 'nickname', 'password1', 'password2',)
 
 #회원정보 수정
 class CustomUserChangeForm(UserChangeForm):
@@ -88,9 +96,27 @@ class CustomUserChangeForm(UserChangeForm):
         ),
         required=False
     )
+    color = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'id': 'color-picker',
+            }
+        ),
+        required=False,    
+    )
+# 기본 프로필 색상 설정 & 변경시 출력
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'instance' in kwargs:
+            instance = kwargs['instance']
+            self.fields['color'].widget.attrs['value'] = instance.color or '#ffbfd3;'
+        else:
+            self.fields['color'].widget.attrs['value'] = '#ffbfd3;'
+
+
     class Meta(UserChangeForm.Meta):
         model = get_user_model()
-        fields = ('email', 'last_name', 'birthday', 'profile_image', 'nickname',)
+        fields = ('email', 'last_name', 'birthday', 'profile_image', 'nickname', 'color')
 
 # 비밀번호 수정
 class CustomPasswordChangeForm(PasswordChangeForm):
