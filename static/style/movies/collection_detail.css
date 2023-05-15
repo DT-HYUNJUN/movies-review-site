@@ -13,14 +13,16 @@
 }
 
 .bg-collection-poster-size {
+  margin-top: 58px;
   width: 384px;
   height: 512px;
   box-shadow: rgba(0, 0, 0, 0.65) 0px 0px 8px 4px;
 }
 
+
 .collcetion-bg-carousel {
   z-index: -10;
-  height: 512px;
+  height: 550px;
   position: relative; /* position 속성 추가 */
   background-color: black;
 }
@@ -32,25 +34,25 @@
   left: 0;
   right: 0;
   top: 0;
-  height: 100px; /* 변경된 부분 */
-  background: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
-}
-
-.collcetion-bg-carousel::after {
-  content: "";
-  position: absolute; /* position 속성 추가 */
-  z-index: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 100px; /* 변경된 부분 */
-  background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
+  height: 550px; /* 변경된 부분 */
+  background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 5%, rgba(255,255,255,0) 85%, rgba(0,0,0,1) 90%, rgba(0,0,0,1) 100%);
 }
 
 .collection-banner {
   overflow: hidden;
 }
 
+.c-wrapper {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.c-detail {
+  padding: 2rem 2rem 2rem 2rem;
+  background-color: white;
+  border: 1px solid #e3e3e3;
+  border-radius: 7px;
+}
 .collection-like {
   color: red;
 }
@@ -111,4 +113,11 @@
   left: calc(300px * 6);
 
   z-index: -7;
+}
+
+.c-main-title {
+  margin-top: 15px;
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 15px;
 }

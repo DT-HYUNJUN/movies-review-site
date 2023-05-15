@@ -1,8 +1,8 @@
 import re
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Collection, MovieCollection
-from reviews.models import Review
-from .forms import CollectionForm
+from reviews.models import Review, Emote
+from .forms import CollectionForm, CollectionMovieDeleteForm
 from reviews.models import Review
 from reviews.forms import ReviewForm
 from dotenv import load_dotenv
@@ -115,6 +115,22 @@ def detail(request, movie_id):
     # 리뷰
     reviews = Review.objects.filter(movie=movie_id).order_by('-pk')
     total_reviews = len(reviews)
+
+    review_info_lst = []
+    for review in reviews:
+        review_like = Emote.objects.filter(review=review.pk, emotion=1)
+        review_dislike = Emote.objects.filter(review=review.pk, emotion=0)
+        liked_by_user = False
+        for emote in review_like:
+            if request.user == emote.user:
+                liked_by_user = True
+                break
+        disliked_by_user = False
+        for emote in review_dislike:
+            if request.user == emote.user:
+                disliked_by_user = True
+                break
+        review_info_lst.append((review, liked_by_user, disliked_by_user))
     
     # 평점 계산
     rating_dict = {0.0: 0, 0.5: 0, 1.0: 0, 1.5: 0, 2.0: 0, 2.5: 0, 3.0: 0, 3.5: 0, 4.0: 0, 4.5: 0, 5.0: 0}
@@ -221,6 +237,7 @@ def detail(request, movie_id):
         'casts': casts,
         'review_form': review_form,
         'reviews': reviews,
+        'review_info_lst': review_info_lst,
     }
     return render(request, 'movies/detail.html', context)
 
@@ -269,12 +286,14 @@ def person_detail(request, person_id):
     }
     return render(request, 'movies/person_detail.html', context)
 
+
 def get_name_in_korean(names, lst):
     hangul = re.compile('[^ ㄱ-ㅣ가-힣]+')
     for name in names:
         result = hangul.sub('', name)
         if result.strip():
             lst.append(result)
+
 
 def check_korean_name(person, lst):
     name = ''
@@ -286,8 +305,8 @@ def check_korean_name(person, lst):
     else:
         name = person['name']
     return name
-    
-            
+
+
 def search(request):
     string = request.GET.get('search')
     path = f'/search'
@@ -313,6 +332,7 @@ def search(request):
     paginator = Paginator(range(1, total_pages+1), 1)
     # ex) 1 of 109 page
     pages = paginator.page(page)
+
 
     result = movies_response['results'] + people_response['results']
     
@@ -346,7 +366,7 @@ def create(request, username):
             collection.user = request.user
             collection.save()
             for movie in selected_movies:
-                MovieCollection.objects.create(collection=collection, movie_id=movie)
+                MovieCollection.objects.create(collection=collection, movie_id=movie['id'], movie_poster=movie['poster_path'])
 
             return redirect('movies:collection_detail', username, collection.pk)
     else:
@@ -392,18 +412,25 @@ def update(request, username, collection_pk):
     collection = Collection.objects.get(pk=collection_pk)
     if request.method == 'POST':
         collection_form = CollectionForm(request.POST, instance=collection)
-        movie_form = MovieCollectionForm(request.POST, instance=collection)
-        if collection_form.is_valid() and movie_form.is_valid():
+        movie_delete_form = CollectionMovieDeleteForm(request.POST)
+
+        if collection_form.is_valid() and movie_delete_form.is_valid():
             collection_form.save()
-            movie_form.save()
-            return redirect('movies:collection_detail', collection.pk)
+            movie_delete_form.save()
+            # js에서 만든 selected_list, deleted_list를 받아옴
+            selected_movies_json = request.POST.get('selected_list')
+            if selected_movies_json:
+                selected_movies = json.loads(selected_movies_json)
+                for movie in selected_movies:
+                    MovieCollection.objects.create(collection=collection, movie_id=movie['id'], movie_poster=movie['poster_path'])
+            return redirect('movies:collection_detail', username, collection.pk)
     else:
         collection_form = CollectionForm(instance=collection)
-        movie_form = MovieCollectionForm(instance=collection)
+        movie_delete_form = CollectionMovieDeleteForm(instance=collection)
     context = {
         'collection': collection,
         'collection_form': collection_form,
-        'movie_form': movie_form,
+        'movie_delete_form': movie_delete_form,
     }
     return render(request, 'movies/update.html', context)
 
@@ -419,6 +446,7 @@ def delete(request, username, collection_pk):
         movie.delete()
     collection.delete()
     return redirect('accounts:profile', username)
+
 
 def get_average_rating(movies):
     for movie in movies:
@@ -441,7 +469,6 @@ def get_average_rating(movies):
             if rating_people:
                 avg_rating = round((sum_ratings / rating_people), 1)
             movie['avg_rating'] = avg_rating
-
 
 
 def genre_movies(request, genre_name):
@@ -507,6 +534,7 @@ def genre_movies(request, genre_name):
     }
 
     return render(request, 'movies/genre_movies.html', context)
+
 
 @login_required
 def like_collection(request, collection_pk):

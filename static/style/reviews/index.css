@@ -8,7 +8,7 @@
 
 .review-card-body {
   height: 150px;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .review-card-header, .review-card-footer, .spoiler-review-card-footer {
@@ -52,10 +52,6 @@
   cursor:pointer;
 }
 
-.thumbs-up-icon:hover {
-  color: #ff0558;
-}
-
 .slick-prev:before, .slick-next:before {
   color: black
 }
@@ -69,6 +65,16 @@
   display:none;
 }
 
-/* .spoiler-thumbs-up-icon, .spoiler-thumbs-down-icon{
-  cursor: default;
-} */
+.review-emote-btn {
+  padding: 0 7px 0 7px;
+  height: 22px;
+  border: none;
+  color: #67686a;
+  font-size: 1rem;
+  border: 1px;
+}
+
+.review-emote-btn:hover {
+  z-index: 10;
+  background-color: white;
+}

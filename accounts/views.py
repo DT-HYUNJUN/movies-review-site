@@ -1,7 +1,11 @@
+import os
+from pprint import pprint
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View 
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
+from dotenv import load_dotenv
+import requests
 from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm, CustomAuthenticationForm
 
 from django.contrib.auth import login as auth_login
@@ -11,6 +15,12 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import get_user_model
 
 from reviews.models import Review
+from movies.models import Collection
+from django.db.models import Prefetch
+
+load_dotenv()
+base_url = 'https://api.themoviedb.org/3'
+api_key = os.getenv('TMDB_API_KEY')
 
 
 class Signup(View):
@@ -54,13 +64,12 @@ def logout(request):
     return redirect('movies:index')
 
 
-
 # 유저 정보 외에 다른 영화나 리뷰 정보들은 추후에 작업
 # 지금은 유저만 넘김
 def profile(request, username):
     User = get_user_model()
     person = User.objects.get(username=username)
-    collections = person.collection_set.all()
+    collections = Collection.objects.filter(user=person).prefetch_related('moviecollection_set')
     reviews = Review.objects.filter(user_id=person.id).order_by('-pk')
     context = {
         'reviews': reviews,

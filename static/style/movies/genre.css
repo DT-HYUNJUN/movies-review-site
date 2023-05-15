@@ -9,4 +9,20 @@
 
 .page-link {
   color: #ff2f6e;
+  background-color: #454550;
+  border: var(--bs-pagination-border-width) solid black;
+}
+
+.result-filter {
+  font-size: 18px;
+  display: flex;
+  align-items: end;
+  gap: 8px;
+  margin-bottom: 15px;
+  padding-right: 5px;
+  justify-content: end;
+}
+
+.result-filter a {
+  color: white;
 }

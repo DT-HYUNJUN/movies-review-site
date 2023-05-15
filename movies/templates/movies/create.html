@@ -7,7 +7,6 @@
   <div class="page-bg-inner">
     <div class="container container-pt white-font">
       <div class="mt-5 collcetion mx-auto">
-        {% comment %} <h1 class="text-center fs-3">새 컬렉션</h1> {% endcomment %}
         <form action="{% url 'movies:create' request.user.username %}" method="POST">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <a class="fs-5 text-dark" href="{% url 'accounts:profile' request.user.username %}">
@@ -24,15 +23,13 @@
             </div>
           {% endfor %}
 
-          
-
           <!-- 추가할 영화 리스트 출력될 부분 -->
           <div id="selected-list" class="d-flex gap-3 flex-wrap">
             <button type="button" class="btn btn-secondary movie-poster-size fs-1 opacity-50" data-bs-toggle="modal" data-bs-target="#addList">
               +
             </button>
           </div>
-          <input type="" id="movies-input" name="selected_list">
+          <input type="hidden" id="movies-input" name="selected_list">
         </form>
       </div>
     </div>
@@ -44,9 +41,6 @@
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header border-top border-bottom">
-        {% comment %} <form action="{% url 'movies:search' %}" class="d-flex" role="search"> {% endcomment %}
-          
-        {% comment %} </form> {% endcomment %}
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="d-flex align-items-center border-bottom ps-3">
