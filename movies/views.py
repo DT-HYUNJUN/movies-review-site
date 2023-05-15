@@ -371,7 +371,7 @@ def create(request, username):
             collection.user = request.user
             collection.save()
             for movie in selected_movies:
-                MovieCollection.objects.create(collection=collection, movie_id=movie)
+                MovieCollection.objects.create(collection=collection, movie_id=movie['id'], movie_poster=movie['poster_path'])
 
             return redirect('movies:collection_detail', username, collection.pk)
     else:
@@ -427,7 +427,7 @@ def update(request, username, collection_pk):
             if selected_movies_json:
                 selected_movies = json.loads(selected_movies_json)
                 for movie in selected_movies:
-                    MovieCollection.objects.create(collection=collection, movie_id=movie['id'])
+                    MovieCollection.objects.create(collection=collection, movie_id=movie['id'], movie_poster=movie['poster_path'])
 
             # deleted_movies_json = request.POST.get('deleted_list')
             # if deleted_movies_json:
