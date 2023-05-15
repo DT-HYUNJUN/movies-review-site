@@ -1,0 +1,75 @@
+.small-poster {
+  width: 90px;
+  height: 120px;
+}
+
+.review-detail-time, .comment-detail-time {
+  font-size: 0.8rem;
+}
+
+.review-movie-info {
+  font-size: 0.8rem;
+}
+
+.review-detail-content {
+  font-size: 16px;
+  color: rgb(91, 80, 74);
+}
+
+.emote-comment-info {
+  font-size: 0.8rem;
+}
+
+.emote-comment-btn {
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  color: #67686a;
+}
+
+.emote-comment-detail-btn {
+  margin-left: -8px;
+  height: 22px;
+  background-color: transparent;
+  border: none;
+  color: #67686a;
+  font-size: 0.8rem;
+}
+
+.emote-comment-btn-box {
+  border-right: 1.5px solid #f0f0f0;
+}
+
+.emote-comment > hr, .comment-detail > hr {
+  color: rgb(200, 200, 200);
+}
+
+.comment-detail-box {
+  width: 100%;
+  margin-left: 8px;
+}
+
+.comment-user {
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: black;
+}
+
+.comment-content {
+  color: #4a4a4a;
+  font-size: 0.9rem;
+}
+
+.menu-icon {
+  color: #A0A0A0;
+}
+
+.comment-btn {
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  background-color: #ff0558;
+  border: 0;
+  right: 0;
+}

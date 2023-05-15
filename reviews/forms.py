@@ -19,6 +19,17 @@ class ReviewForm(forms.ModelForm):
 
 
 class ReviewCommentForm(forms.ModelForm):
+    content = forms.CharField(
+        label='',
+        widget=forms.Textarea(
+            attrs={
+                'id': 'comment-field',
+                'placeholder': '',
+                'class': 'review-form w-100 border-0',
+            }
+        ),
+    )
+
     class Meta:
         model = ReviewComment
         fields = ('content',)
