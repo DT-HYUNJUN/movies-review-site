@@ -9,16 +9,12 @@
     <div class="container container-pt white-font">
       <!--결과-->
       <p class="title-size result-title">{{ genre_name }} 영화</p>
-      <!--총 N 건의 검색 결과가 있습니다-->
-      
-      <div class="d-flex justify-content-between">
-        <p class="title-size result-text">총 {{ total_results }} 건의 검색 결과가 있습니다</p>
-        <!-- 필터링 옵션 -->
-        <div class="title-size result-text filter">
-          <a href="?sort_by=popularity.desc">인기순</a>
-          <a href="?sort_by=release_date.desc">개봉순</a>
-          <a href="?sort_by=vote_count.desc">투표순</a>
-        </div>
+      <p class="title-size result-text">총 {{ total_results }} 건의 검색 결과가 있습니다.</p>
+      <!-- 필터링 옵션 -->
+      <div class="result-filter">
+        <a href="?sort_by=popularity.desc">인기순</a>
+        <a href="?sort_by=release_date.desc">최신순</a>
+        <a href="?sort_by=vote_count.desc">평점순</a>
       </div>
       
 
@@ -39,7 +35,7 @@
       </div>
       <!--영화 END-->
       <div class="pagination justify-content-center">
-        <ul class="pagination">
+        <ul class="pagination my-5">
           {% if pages.has_previous %}
             <li class="page-item">
               {% if pages.previous_page_number == 1 %}

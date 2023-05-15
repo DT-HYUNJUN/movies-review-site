@@ -1,8 +1,8 @@
 import re
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Collection, MovieCollection
 from reviews.models import Review, Emote
-from .forms import CollectionForm
+from .forms import CollectionForm, CollectionMovieDeleteForm
 from reviews.models import Review
 from reviews.forms import ReviewForm
 from dotenv import load_dotenv
@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.db.models import Avg
 from django.http import JsonResponse
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core.paginator import Paginator
 import json
 
 
@@ -325,7 +325,6 @@ def search(request):
             break
         movies = sorted(movies_response['results'], key=lambda x: x['popularity'], reverse=True)
         total_movies += movies
-        print(total_movies)
         page += 1
 
     total_people = []
@@ -389,7 +388,7 @@ def create(request, username):
             collection.user = request.user
             collection.save()
             for movie in selected_movies:
-                MovieCollection.objects.create(collection=collection, movie_id=movie['id'])
+                MovieCollection.objects.create(collection=collection, movie_id=movie['id'], movie_poster=movie['poster_path'])
 
             return redirect('movies:collection_detail', username, collection.pk)
     else:
@@ -404,12 +403,14 @@ def create(request, username):
 def collection_detail(request, username, collection_pk):
     person = get_user_model().objects.get(username=username)
     collection = Collection.objects.get(pk=collection_pk)
+    like_users_count = collection.like_users.count()
     movies = collection.moviecollection_set.all()
     collection_movies = []
     params = {
         'api_key': api_key,
         'language': 'ko-KR'
     }
+    
     for movie in movies:
         path = f'/movie/{movie.movie_id}'
         movie_info = requests.get(base_url+path, params=params).json()
@@ -417,9 +418,10 @@ def collection_detail(request, username, collection_pk):
         movie_info['avg'] = movie_avg['avg'] if movie_avg['avg'] != None else 0
         collection_movies.append(movie_info)
     context = {
-        'person': person,
-        'collection': collection,
-        'movies': collection_movies,
+        'person'          : person,
+        'collection'      : collection,
+        'movies'          : collection_movies,
+        'like_users_count': like_users_count,
     }
     return render(request, 'movies/collection_detail.html', context)
 
@@ -432,18 +434,42 @@ def update(request, username, collection_pk):
     collection = Collection.objects.get(pk=collection_pk)
     if request.method == 'POST':
         collection_form = CollectionForm(request.POST, instance=collection)
-        movie_form = MovieCollectionForm(request.POST, instance=collection)
-        if collection_form.is_valid() and movie_form.is_valid():
+        movie_delete_form = CollectionMovieDeleteForm(request.POST)
+
+        if collection_form.is_valid() and movie_delete_form.is_valid():
             collection_form.save()
-            movie_form.save()
-            return redirect('movies:collection_detail', collection.pk)
+            movie_delete_form.save()
+            # js에서 만든 selected_list, deleted_list를 받아옴
+            selected_movies_json = request.POST.get('selected_list')
+            if selected_movies_json:
+                selected_movies = json.loads(selected_movies_json)
+                for movie in selected_movies:
+                    MovieCollection.objects.create(collection=collection, movie_id=movie['id'], movie_poster=movie['poster_path'])
+
+            # deleted_movies_json = request.POST.get('deleted_list')
+            # if deleted_movies_json:
+            #     deleted_movies = json.loads(deleted_movies_json)
+            #     for movie_id in deleted_movies:
+            #         to_delete = MovieCollection.objects.get(collection=collection, movie_id=movie_id)
+            #         to_delete.delete()
+            return redirect('movies:collection_detail', username, collection.pk)
     else:
         collection_form = CollectionForm(instance=collection)
-        movie_form = MovieCollectionForm(instance=collection)
+        movie_delete_form = CollectionMovieDeleteForm(instance=collection)
+        # movies = collection.moviecollection_set.all()
+        # my_movies = []
+        # params = {
+        #     'api_key': api_key,
+        #     'language': 'ko-KR',
+        # }
+        # for movie in movies:
+        #     path = f'/movie/{movie.movie_id}'
+        #     movie = requests.get(base_url+path, params=params).json()
+        #     my_movies.append(movie)
     context = {
         'collection': collection,
         'collection_form': collection_form,
-        'movie_form': movie_form,
+        'movie_delete_form': movie_delete_form,
     }
     return render(request, 'movies/update.html', context)
 
@@ -487,25 +513,25 @@ def get_average_rating(movies):
 def genre_movies(request, genre_name):
     # 장르별 딕셔너리
     genre_dict = {
-        'Action'         : '28',
-        'Adventure'      : '12',
-        'Animation'      : '16',
-        'Comedy'         : '35',
-        'Crime'          : '80',
-        'Documentary'    : '99',
-        'Drama'          : '18',
-        'Family'         : '10751',
-        'Fantasy'        : '14',
-        'History'        : '36',
-        'Horror'         : '27',
-        'Music'          : '10402',
-        'Mystery'        : '9648',
-        'Romance'        : '10749',
-        'Science Fiction': '878',
-        'TV Movie'       : '10770',
-        'Thriller'       : '53',
-        'War'            : '10752',
-        'Western'        : '37'
+        '액션'         : '28',
+        '어드벤처'     : '12',
+        '애니메이션'   : '16',
+        '코미디'       : '35',
+        '범죄'         : '80',
+        '다큐멘터리'   : '99',
+        '드라마'       : '18',
+        '가족'         : '10751',
+        '판타지'       : '14',
+        '역사'         : '36',
+        '공포'         : '27',
+        '음악'         : '10402',
+        '미스터리'     : '9648',
+        '로맨스'       : '10749',
+        'SF'           : '878',
+        'TV'           : '10770',
+        '스릴러'       : '53',
+        '전쟁'         : '10752',
+        '서부'         : '37'
     }
     
     # 페이지 정보를 받아올 URL
@@ -547,3 +573,16 @@ def genre_movies(request, genre_name):
     }
 
     return render(request, 'movies/genre_movies.html', context)
+
+@login_required
+def like_collection(request, collection_pk):
+    collection = get_object_or_404(Collection, pk=collection_pk)
+    
+    if request.user in collection.like_users.all():
+        collection.like_users.remove(request.user)
+        liked = False
+    else:
+        collection.like_users.add(request.user)
+        liked = True
+        
+    return JsonResponse({'is_liked': liked, 'like_users_count': collection.like_users.count()})

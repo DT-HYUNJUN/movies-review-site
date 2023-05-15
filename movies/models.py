@@ -1,5 +1,9 @@
 from django.db import models
 from django.conf import settings
+from dotenv import load_dotenv
+import os
+import requests
+load_dotenv()
 
 
 class Collection(models.Model):
@@ -12,3 +16,7 @@ class Collection(models.Model):
 class MovieCollection(models.Model):
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
     movie_id = models.IntegerField()
+    movie_poster = models.CharField(max_length=200, default='')
+
+    def __str__(self):
+        return str(self.movie_id)

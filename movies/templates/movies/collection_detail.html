@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block content %}
+<!-- 배경 -->
 <div class="collcetion-bg-carousel">
   <div class="d-flex collection-banner">
     {% for movie in movies|slice:'7' %}
@@ -36,55 +37,97 @@
     </div>
   </div>
 </div>
+<section class="detail-bg-color">
+  <div class="container c-wrapper">
+    <div class="container-py">
+      <!-- 컬렉션 -->
+      <div class="c-detail">
+        <h3 class="fs-3 mb-3">{{ collection.title }}</h3>
+        <p class="fs-6 text-secondary mb-5">{{ collection.content }}</p>
+        
+        <form class="like-forms" data-collection-id="{{ collection.pk }}">
+          {% csrf_token %}
+          {% if request.user in collection.like_users.all %}
+            <button class="ps-0 border-0 bg-transparent collection-like" type="submit"><i id="like-{{ collection.pk }}" class="bi bi-suit-heart-fill"></i></button>
+          {% else %}
+            <button class="ps-0 border-0 bg-transparent collection-like" type="submit"><i id="like-{{ collection.pk }}" class="bi bi-suit-heart"></i></button>
+          {% endif %}
+          <span id="like_users_count">{{ like_users_count }}</span>
+        </form>
+        
+        
+        {% comment %} <span>좋아요 {{ collection.like_users|length }}</span> {% endcomment %}
+        <hr>
+        <div class='mb-3 d-flex align-items-center gap-2'>
+          <span class="c-main-title">작품들</span>
+          <span class="collection-movie-count">{{ movies|length }}</span>
+        </div>
+        {% comment %} {% for movie in movies %}
+          <a href="{% url 'movies:detail' movie.id %}">
+            <img class="collection-movie-poster" src="https://image.tmdb.org/t/p/w1280{{ movie.poster_path }}" alt="포스터 이미지">
+            {{ movie.title }}
+            평균 ★{{ movie.avg|floatformat:1 }}
+          </a>
+        {% endfor %} {% endcomment %}
 
-<div class="container">
-  <div class="container-py">
-    <!-- 컬렉션 -->
-    <div class="mt-3 border rounded-3 p-3">
-      <h3 class="fs-3 mb-3">{{ collection.title }}</h3>
-      <p class="fs-6 text-secondary mb-5">{{ collection.content }}</p>
-      
-      <form action="#" method="POST">
-        {% csrf_token %}
-        {% if request.user in person.like_users.all %}
-          <button class="ps-0 border-0 bg-transparent collection-like" type="submit"><i class="bi bi-suit-heart-fill"></i></button>
-        {% else %}
-          <button class="ps-0 border-0 bg-transparent collection-like" type="submit"><i class="bi bi-suit-heart"></i></button>
-        {% endif %}
-        <span>{{ collection.like_users|length }}</span>
-      </form>
-      
-      {% comment %} <span>좋아요 {{ collection.like_users|length }}</span> {% endcomment %}
-      <hr>
-      <div class='mb-3 d-flex align-items-center gap-2'>
-        <span class="fs-4">작품들</span>
-        <span class="collection-movie-count">{{ movies|length }}</span>
-      </div>
-      {% comment %} {% for movie in movies %}
-        <a href="{% url 'movies:detail' movie.id %}">
-          <img class="collection-movie-poster" src="https://image.tmdb.org/t/p/w1280{{ movie.poster_path }}" alt="포스터 이미지">
-          {{ movie.title }}
-          평균 ★{{ movie.avg|floatformat:1 }}
-        </a>
-      {% endfor %} {% endcomment %}
-
-      <div class="row row-cols-2 row-cols-md-5 g-1">
-        {% for movie in movies %}
-        <a class="black-font mb-3" href="{% url 'movies:detail' movie.id %}">
-          <div class="movie-card">
-            <div class="collection-poster-wrapper">
-              <img class="collection-movie-poster" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="">
+        <div class="row row-cols-2 row-cols-md-5 g-1">
+          {% for movie in movies %}
+          <a class="black-font mb-3" href="{% url 'movies:detail' movie.id %}">
+            <div class="movie-card">
+              <div class="collection-poster-wrapper">
+                <img class="collection-movie-poster" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="">
+              </div>
             </div>
-          </div>
-          <p class="black-movie-title">{{ movie.title }}</p>
-          <p class="black-movie-content">{{ movie.release_date }}</p>
-          <p class="black-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ movie.vote_average|floatformat:1 }}</p>
-        </a>
-        {% endfor %}
-      </div>
+            <p class="black-movie-title">{{ movie.title }}</p>
+            <p class="black-movie-content">{{ movie.release_date }}</p>
+            <p class="black-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ movie.vote_average|floatformat:1 }}</p>
+          </a>
+          {% endfor %}
+        </div>
 
+      </div>
     </div>
   </div>
-</div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const forms = document.querySelectorAll('.like-forms');
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  forms.forEach((form) => {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const collectionId = event.target.dataset.collectionId;
+      
+      
+      axios({
+        method: "POST",
+        url: `/movies/collections/${collectionId}/like/`,
+        headers: {'X-CSRFToken': csrftoken},
+      })
+        .then((response) => {
+          const likeIcon = document.querySelector(`#like-${collectionId}`);
+          const likeCount = document.querySelector(`#like_users_count`)
+          const isLiked = response.data.is_liked;
+          
+          if (isLiked === true) {
+            likeIcon.classList.remove('bi', 'bi-suit-heart');
+            likeIcon.classList.add('bi', 'bi-suit-heart-fill');
+            
+          } else {
+            likeIcon.classList.remove('bi-suit-heart-fill');
+            likeIcon.classList.add('bi', 'bi-suit-heart');
+            
+          }
+          likeCount.innerText = response.data.like_users_count;
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    });
+  });
+</script>
+
+
 
 {% endblock content %}
