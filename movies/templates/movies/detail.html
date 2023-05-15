@@ -218,7 +218,7 @@
       <div class="review-box">
         <div class="review-slide">
           <!-- Slides -->
-          {% for review in reviews %}
+          {% for review, liked_by_user, disliked_by_user in review_info_lst %}
             <div class="card mx-2 p-2 review-card" style="width: 18rem;">
               <!-- 카드 헤더 (프사, 닉네임, 별점) -->
               <div class="card-header review-card-header d-flex justify-content-between align-items-center">
@@ -234,7 +234,7 @@
               <div class="card-body review-card-body">
                 <!-- 스포일러 True False 조건문 -->
                 {% if review.is_spoiler %}
-                  <p class="spoiler-guide">스포일러가 있어요!!<span class="spoiler-check" data-spoiler="{{ review.is_spoiler }}"> 보기</span></p>
+                  <p class="spoiler-guide">스포일러가 있어요!!<span class="spoiler-check" data-spoiler="{{ review.is_spoiler }}" data-isLiked="{{liked_by_user}}" data-isDisliked="{{disliked_by_user}}" > 보기</span></p>
                   <p class="card-text review-content review-content-overflow content-href hide-spoiler-content" OnClick="location.href ='{% url 'reviews:detail' review.movie review.pk %}'">{{review.content}}</p>
                 {% else %}
                   <p class="card-text review-content review-content-overflow content-href"  OnClick="location.href ='{% url 'reviews:detail' review.movie review.pk %}'">{{review.content}}</p>
@@ -251,35 +251,46 @@
               ">
                 <div class="d-flex">
 
-                  <form action="{% url 'reviews:review_emote' review.pk 1 %}" method="POST">
+                  <form class="like-reviews-forms" data-review-id="{{ review.pk }}">
                     {% csrf_token %}
-                    {% if review.is_spoiler %}
-                    <button type="submit" class="border-0 bg-transparent spoiler-like-btn" disabled>
+                    {% if review.is_spoiler == True %}
+                    <button type="submit" id="like-reviews-btn-{{ review.pk }}" class="border-0 bg-transparent spoiler-like-btn" disabled>
+                    {% elif liked_by_user %}  
+                      <button type="submit" id="like-reviews-btn-{{ review.pk }}" class="border-0 bg-transparent review-like-btn review-emote-btn rounded is-liked-btn">
                     {% else %}
-                    <button type="submit" class="border-0 bg-transparent like-btn">
-                    {% endif %}<label class="
-                      {% if review.is_spoiler %}
-                        spoiler-thumbs-up-icon
-                      {% else %}
-                        thumbs-up-icon
-                      {% endif %}
-                      "><i class="bi bi-hand-thumbs-up"></i></label></button>
-                  </form><span>{{ review.num_likes }}</span>
+                      <button type="submit" id="like-reviews-btn-{{ review.pk }}" class="border-0 bg-transparent review-like-btn review-emote-btn rounded">
+                    {% endif %}
+                      <label class="{% if review.is_spoiler %} spoiler-thumbs-up-icon {% else %} thumbs-up-icon {% endif %}">
+                        {% if liked_by_user %}
+                          <i class="bi bi-hand-thumbs-up-fill" id="like-reviews-icon-{{ review.pk }}"></i>
+                        {% else %}
+                          <i class="bi bi-hand-thumbs-up" id="like-reviews-icon-{{ review.pk }}"></i>
+                        {% endif %}
+                    </label>
+                    <span id="like-reviews-cnt-{{ review.pk }}">{{ review.num_likes }}</span>
+                    </button>
+                  </form>
+                  
 
-                  <form action="{% url 'reviews:review_emote' review.pk 0 %}" method="POST">
+                  <form class="dislike-reviews-forms" data-review-id="{{ review.pk }}">
                     {% csrf_token %}
                     {% if review.is_spoiler %}
-                    <button type="submit" class="border-0 bg-transparent spoiler-dislike-btn" disabled>
+                      <button type="submit" id="dislike-reviews-btn-{{ review.pk }}" class="border-0 bg-transparent spoiler-dislike-btn" disabled>
+                    {% elif disliked_by_user %}
+                      <button type="submit" id="dislike-reviews-btn-{{ review.pk }}" class="border-0 bg-transparent review-dislike-btn review-emote-btn rounded is-disliked-btn">
                     {% else %}
-                    <button type="submit" class="border-0 bg-transparent dislike-btn">
-                    {% endif %}<label class="
-                      {% if review.is_spoiler %}
-                        spoiler-thumbs-down-icon
-                      {% else %}
-                        thumbs-down-icon
-                      {% endif %}
-                      "><i class="bi bi-hand-thumbs-down"></i></label></button>
-                  </form><span>{{ review.num_dislikes }}</span>
+                      <button type="submit" id="dislike-reviews-btn-{{ review.pk }}" class="border-0 bg-transparent review-dislike-btn review-emote-btn rounded">
+                    {% endif %}  
+                      <label class="{% if review.is_spoiler %} spoiler-thumbs-down-icon {% else %} thumbs-down-icon {% endif %}">
+                        {% if disliked_by_user %}
+                          <i class="bi bi-hand-thumbs-down-fill" id="dislike-reviews-icon-{{ review.pk }}"></i>
+                        {% else %}
+                          <i class="bi bi-hand-thumbs-down" id="dislike-reviews-icon-{{ review.pk }}"></i>
+                        {% endif %}
+                      </label>
+                      <span id="dislike-reviews-cnt-{{ review.pk }}">{{ review.num_dislikes }}</span>
+                    </button>
+                  </form>
 
                 </div>
                 <div>
