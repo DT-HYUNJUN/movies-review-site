@@ -496,35 +496,40 @@ def genre_movies(request, genre_name):
     
     # 페이지 정보를 받아올 URL
     params = {
-        'api_key': api_key,
-        'language': 'ko-KR',
-        'region': 'kr',
-        'with_genres':genre_dict[genre_name]
+        'api_key'    : api_key,
+        'language'   : 'ko-KR',
+        'region'     : 'kr',
+        'with_genres': genre_dict[genre_name]
     }
     path = '/discover/movie'
 
     # JSON 응답에서 총 페이지 수를 추출
     response = requests.get(base_url + path, params=params).json()
-    total_pages = response['total_pages']
     
+    # 파라미터 가져오기
+    page    = request.GET.get('page', 1)
+    # 기본: 인기순
+    sort_by = request.GET.get('sort_by', 'popularity.desc')
 
+    movies            = []
+    params['page']    = page
+    params['sort_by'] = sort_by
+    response          = requests.get(base_url + path, params=params).json()
+    total_pages       = response['total_pages']
+    total_results     = response['total_results']
+    
     # 페이지네이터 객체 생성
     paginator = Paginator(range(1, total_pages+1), 1)
-
-    # 현재 페이지 번호 가져오기
-    page = request.GET.get('page', 1)
-    
+    # ex) 1 of 109 page
     pages = paginator.page(page)
-    
-    movies = []
-    params['page'] = page
-    response = requests.get(base_url + path, params=params).json()
+
     movies += response['results']
     
     context = {
-        'genre_name': genre_name,
-        'movies': movies,
-        'pages': pages,
+        'genre_name'   : genre_name,
+        'movies'       : movies,
+        'pages'        : pages,
+        'total_results': total_results,
     }
 
     return render(request, 'movies/genre_movies.html', context)
