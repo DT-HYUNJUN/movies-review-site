@@ -43,3 +43,50 @@
 .profile-bg {
   background-color: white;
 }
+
+.profile-collection-poster {
+  box-sizing: border-box;
+  width: 65px;
+  height: 96px;
+  padding: 2px;
+  border-radius: 5px;
+}
+
+.profile-collection-poster-wrapper {
+  display: flex;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 2px;
+}
+
+.collection-list {
+  display: inline-block;
+}
+
+.collection-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  list-style: none;
+  padding: 0;
+}
+
+.collection-item {
+  width: calc(25% - 10px);
+  margin-bottom: 20px;
+}
+
+.profile-collection {
+  position: relative;
+  background: rgb(204, 205, 207);
+  box-sizing: border-box;
+  width: 100%;
+  padding-bottom: 144%;
+  border-radius: 5px;
+  overflow: hidden;
+}
