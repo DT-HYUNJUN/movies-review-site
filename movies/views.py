@@ -2,7 +2,7 @@ import re
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Collection, MovieCollection
 from reviews.models import Review
-from .forms import CollectionForm
+from .forms import CollectionForm, CollectionMovieDeleteForm
 from reviews.models import Review
 from reviews.forms import ReviewForm
 from dotenv import load_dotenv
@@ -417,18 +417,42 @@ def update(request, username, collection_pk):
     collection = Collection.objects.get(pk=collection_pk)
     if request.method == 'POST':
         collection_form = CollectionForm(request.POST, instance=collection)
-        movie_form = MovieCollectionForm(request.POST, instance=collection)
-        if collection_form.is_valid() and movie_form.is_valid():
+        movie_delete_form = CollectionMovieDeleteForm(request.POST)
+
+        if collection_form.is_valid() and movie_delete_form.is_valid():
             collection_form.save()
-            movie_form.save()
-            return redirect('movies:collection_detail', collection.pk)
+            movie_delete_form.save()
+            # js에서 만든 selected_list, deleted_list를 받아옴
+            selected_movies_json = request.POST.get('selected_list')
+            if selected_movies_json:
+                selected_movies = json.loads(selected_movies_json)
+                for movie in selected_movies:
+                    MovieCollection.objects.create(collection=collection, movie_id=movie['id'])
+
+            # deleted_movies_json = request.POST.get('deleted_list')
+            # if deleted_movies_json:
+            #     deleted_movies = json.loads(deleted_movies_json)
+            #     for movie_id in deleted_movies:
+            #         to_delete = MovieCollection.objects.get(collection=collection, movie_id=movie_id)
+            #         to_delete.delete()
+            return redirect('movies:collection_detail', username, collection.pk)
     else:
         collection_form = CollectionForm(instance=collection)
-        movie_form = MovieCollectionForm(instance=collection)
+        movie_delete_form = CollectionMovieDeleteForm(instance=collection)
+        # movies = collection.moviecollection_set.all()
+        # my_movies = []
+        # params = {
+        #     'api_key': api_key,
+        #     'language': 'ko-KR',
+        # }
+        # for movie in movies:
+        #     path = f'/movie/{movie.movie_id}'
+        #     movie = requests.get(base_url+path, params=params).json()
+        #     my_movies.append(movie)
     context = {
         'collection': collection,
         'collection_form': collection_form,
-        'movie_form': movie_form,
+        'movie_delete_form': movie_delete_form,
     }
     return render(request, 'movies/update.html', context)
 
