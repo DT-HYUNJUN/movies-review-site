@@ -58,20 +58,29 @@
       
             <p class="fs-5 mb-3">보고싶어요</p>
             <hr>
-      
-            <p class="fs-5 mb-3">보는중</p>
-            <hr>
+            
             <!-- 컬렉션 -->
-            {% if request.user == person %}
-              <a href="{% url 'movies:create' person.username %}">새 컬렉션</a>
-            {% endif %}
-            {% for collection in collections %}
-              <a href="{% url 'movies:collection_detail' person.username collection.pk %}">
-                {% for movie in collection.moviecollection_set.all|slice:"4" %}
-                  <img src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="">
-                {% endfor %}
-              </a>
-            {% endfor %}
+            <div class="d-flex justify-content-between align-items-center">
+              <p class="fs-5">컬렉션</p>
+              {% if request.user == person %}
+                <a href="{% url 'movies:create' person.username %}">새 컬렉션</a>
+              {% endif %}
+            </div>
+            <ul class="collection-list mt-3">
+              {% for collection in collections %}
+                <li class="collection-item">
+                  <a href="{% url 'movies:collection_detail' person.username collection.pk %}">
+                    <div class="profile-collection">
+                      <div class="profile-collection-poster-wrapper">
+                        {% for movie in collection.moviecollection_set.all|slice:"4" %}
+                          <img class="profile-collection-poster" src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="">
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
           </div>
         </div>
       </div>
