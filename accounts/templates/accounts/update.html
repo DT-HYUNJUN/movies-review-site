@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
+
+
+
 {% block content %}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css">
+
+
 <div class="page-bg-wrapper">
   <div class="page-bg-inner">
     <div class="account-update-form mx-auto">
@@ -17,7 +23,12 @@
         {% csrf_token %}
         {% for field in form %}
           <div class="input-group mb-3">
+            {% if field.name == 'color' %}
+            <p class="color-text">프로필 색상 변경</p>
+            <p>{{ field }}</p>
+            {% else %}
             {{ field }}
+            {% endif %}
           </div>
         {% endfor %}
         <div class="d-flex gap-3">
@@ -28,4 +39,9 @@
     </div>
   </div>
 </div>
+
+
+<script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js"></script>
+<script src="{% static 'js/accounts/color.js' %}"></script>
 {% endblock content %}
