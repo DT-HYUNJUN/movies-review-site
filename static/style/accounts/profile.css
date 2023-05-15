@@ -21,7 +21,10 @@
 }
 
 .profile-img {
-  width: 5rem;
+  position: absolute;
+  top: -32px;
+  left: 20px;
+  width: 8rem;
 }
 
 .profile-info {
@@ -41,13 +44,15 @@
 }
 
 .profile-bg {
+  padding-top: 30px;
   background-color: white;
 }
 
 .profile-collection-poster {
   box-sizing: border-box;
-  width: 65px;
-  height: 96px;
+  /* width: 65px;
+  height: 96px; */
+  width: 50%;
   padding: 2px;
   border-radius: 5px;
 }
@@ -89,4 +94,30 @@
   padding-bottom: 144%;
   border-radius: 5px;
   overflow: hidden;
+}
+
+.slick-slide {
+  padding: 0px;
+}
+
+.userinfo_img{
+  width: 50px;
+  height: 50px;
+}
+
+.userinfo_box{
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  overflow: hidden;
+  border-radius: 100%;
+  margin-bottom: 10px;
+}
+
+.userinfo-txt {
+  text-decoration: none;
+  font-size: 17px;
+  color: gray;
+  margin-top: 10px;
 }
