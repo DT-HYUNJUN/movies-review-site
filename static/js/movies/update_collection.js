@@ -4,10 +4,29 @@ async function getApiKey() {
       const response = await fetch('/movies/api/key/');
       const { api_key } = await response.json();
       return api_key;
-  } catch (error) {
+    } catch (error) {
       console.error(error);
-  }
+    }
 }
+
+
+// movie_delete_form 이미지 나오게
+// form의 구조 : ul-li-label-input&text
+const deleteUl = document.getElementById('id_delete_movies')
+const labels = deleteUl.querySelectorAll('li > label')
+labels.forEach(async (label) => {
+  const movie_id = label.textContent
+  console.log(label)
+
+  const api_key = await getApiKey()
+  const response = await fetch(`https://api.themoviedb.org/3/movie/${movie_id}?api_key=${api_key}&language=ko-KR`);
+  const movie = await response.json()
+  console.log(movie)
+  const formPoster = document.createElement('img')
+  formPoster.src = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+  formPoster.classList.add('movie-poster-size')
+  label.appendChild(formPoster)
+})
 
 
 // 검색창에 text입력 시 바로 검색결과 나오는 기능
@@ -22,7 +41,7 @@ searchInput.addEventListener('input', async (event) => {
   const query = searchInput.value.trim()
   if (query) {
     try {
-      const response = await fetch(`https://api.themoviedb.org/3//search/movie?api_key=${api_key}&query=${query}&language=ko-KR`);
+      const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${query}&language=ko-KR`);
       const movies = await response.json()
 
       // 각 movie의 칸 생성(이미지, 제목, 개봉일, form 포함)
@@ -57,22 +76,13 @@ searchInput.addEventListener('input', async (event) => {
           moviesInput.value = JSON.stringify(selectedList)
 
           // 추가한 영화 목록 사용자가 볼 수 있도록 출력
-          const selectedMovieDiv = document.createElement('div')
           const selectedMovieImg = document.createElement('img')
           selectedMovieImg.src = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
           selectedMovieImg.classList.add('movie-poster-size')
-          const selectedMovieTitle = document.createElement('div')
-          selectedMovieTitle.textContent = movie.title
-          const selectedMovieDate = document.createElement('div')
-          selectedMovieDate.textContent = movie.release_date
 
-          selectedMovieDiv.appendChild(selectedMovieImg)
-          selectedMovieDiv.appendChild(selectedMovieTitle)
-          selectedMovieDiv.appendChild(selectedMovieDate)
-          moviesDiv.appendChild(selectedMovieDiv)
+          moviesDiv.appendChild(selectedMovieImg)
         })
         
-
         textDiv.appendChild(titleDiv)
         textDiv.appendChild(dateDiv)
         divTag.appendChild(imgTag)

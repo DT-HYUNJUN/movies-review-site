@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="container container-pt profile">
@@ -13,9 +14,50 @@
           {{ field }}
         </div>
       {% endfor %}
-      {{ movie_form }}
+      {{ movie_delete_form.as_p }}
+      <div>#text가 뭘까</div>
+
+      {% comment %} {% for movie in movie_delete_form.delete_movies %}
+        {% with poster_url=movie.get_movie_poster %}
+          {% if poster_url %}
+            <img src="{{ poster_url }}" alt="poster">
+          {% endif %}
+        {% endwith %}
+      {% endfor %} {% endcomment %}
+      <!-- 추가할 영화 리스트 출력될 부분 -->
+      <h4>추가한 영화</h4>
+      <div id="selected-list">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addList">
+          +
+        </button>
+      </div>
+      <!-- 추가한 영화 리스트 받는 input -->
+      <input type="hidden" id="movies-input" name="selected_list">
+
+      <a href="{% url 'accounts:profile' request.user.username %}">취소</a>
       <input type="submit" value="저장">
     </form>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="addList" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex align-items-center dark-search rounded-1 ps-3">
+          <i class="bi bi-search"></i>
+          <input class="px-1 py-2 bg-transparent border-0 rounded-1 search" type="text" id="search-input" placeholder="작품 검색" aria-label="Search">
+        </div>
+        <button class="" type="submit" hidden>Search</button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="search-results">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="{% static 'js/movies/update_collection.js' %}"></script>
 {% endblock content %}
