@@ -1,4 +1,3 @@
-from pprint import pprint
 import re
 from django.shortcuts import render, redirect
 from .models import Collection, MovieCollection
@@ -15,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.db.models import Avg
 from django.http import JsonResponse
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 import json
 
 
@@ -130,7 +130,7 @@ def detail(request, movie_id):
         avg_rating = round((sum_ratings / total_reviews), 1)
     
     avg_rating_percent = avg_rating * 0.2 * 100
- 
+
     # 출연/제작
     path = f'/movie/{movie_id}'
     params = {
@@ -308,6 +308,7 @@ def search(request):
             break
         movies = sorted(movies_response['results'], key=lambda x: x['popularity'], reverse=True)
         total_movies += movies
+        print(total_movies)
         page += 1
 
     total_people = []
@@ -441,3 +442,91 @@ def delete(request, username, collection_pk):
         movie.delete()
     collection.delete()
     return redirect('accounts:profile', username)
+
+def get_average_rating(movies):
+    for movie in movies:
+        movie_id = movie['id']
+        # 리뷰
+        reviews = Review.objects.filter(movie=movie_id).order_by('-pk')
+        if len(reviews) == 0:
+            movie['avg_rating'] = ''
+        else:
+            # 평점 계산
+            movies_rating_dict = {0.0: 0, 0.5: 0, 1.0: 0, 1.5: 0, 2.0: 0, 2.5: 0, 3.0: 0, 3.5: 0, 4.0: 0, 4.5: 0, 5.0: 0}
+            for review in reviews:
+                movies_rating_dict[review.rating] = movies_rating_dict.get(0, 1) + 1
+            
+            sum_ratings = 0
+            avg_rating = 0
+            rating_people = sum(movies_rating_dict.values())
+            for key, value in movies_rating_dict.items():
+                sum_ratings += key * value
+            if rating_people:
+                avg_rating = round((sum_ratings / rating_people), 1)
+            movie['avg_rating'] = avg_rating
+
+
+
+def genre_movies(request, genre_name):
+    # 장르별 딕셔너리
+    genre_dict = {
+        'Action'         : '28',
+        'Adventure'      : '12',
+        'Animation'      : '16',
+        'Comedy'         : '35',
+        'Crime'          : '80',
+        'Documentary'    : '99',
+        'Drama'          : '18',
+        'Family'         : '10751',
+        'Fantasy'        : '14',
+        'History'        : '36',
+        'Horror'         : '27',
+        'Music'          : '10402',
+        'Mystery'        : '9648',
+        'Romance'        : '10749',
+        'Science Fiction': '878',
+        'TV Movie'       : '10770',
+        'Thriller'       : '53',
+        'War'            : '10752',
+        'Western'        : '37'
+    }
+    
+    # 페이지 정보를 받아올 URL
+    params = {
+        'api_key'    : api_key,
+        'language'   : 'ko-KR',
+        'region'     : 'kr',
+        'with_genres': genre_dict[genre_name]
+    }
+    path = '/discover/movie'
+
+    # JSON 응답에서 총 페이지 수를 추출
+    response = requests.get(base_url + path, params=params).json()
+    
+    # 파라미터 가져오기
+    page    = request.GET.get('page', 1)
+    # 기본: 인기순
+    sort_by = request.GET.get('sort_by', 'popularity.desc')
+
+    movies            = []
+    params['page']    = page
+    params['sort_by'] = sort_by
+    response          = requests.get(base_url + path, params=params).json()
+    total_pages       = response['total_pages']
+    total_results     = response['total_results']
+    
+    # 페이지네이터 객체 생성
+    paginator = Paginator(range(1, total_pages+1), 1)
+    # ex) 1 of 109 page
+    pages = paginator.page(page)
+
+    movies += response['results']
+    
+    context = {
+        'genre_name'   : genre_name,
+        'movies'       : movies,
+        'pages'        : pages,
+        'total_results': total_results,
+    }
+
+    return render(request, 'movies/genre_movies.html', context)
