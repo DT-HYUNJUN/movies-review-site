@@ -9,214 +9,218 @@
     <p class="bg-title-origin">{{ movie.original_title }}</p>
   </div>
 </div>
-
-<div class="container review-detail-container mt-3">
-  <!-- 리뷰 정보 -->
-  <section class="review-detail">
-    <div class="d-flex justify-content-between">
-      <div>
-        <div class="d-flex align-items-center profile-href" OnClick="location.href ='{% url 'accounts:profile' review.user %}'" style="cursor:pointer;">
-          <img class="review-card-profile-img me-2 rounded-circle" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile-img.png' %}" {% endif %}  alt="review-profile-image">
-          <span class="card-text me-2">{{ review.user }}</span>
-          <span class="text-secondary review-detail-time">{{ review.time_since_created }}</span>
-        </div>
-
-        <div class="mt-3" OnClick="location.href ='{% url 'movies:detail' review.movie %}'" style="cursor:pointer;">
-          <h2>{{ review.title }}</h2>
-          <span class="review-movie-info text-secondary mt-1">영화 · {{ year }}</span>
-        </div>
-      </div>
-
-      <a href="{% url 'movies:detail' review.movie %}"><img class="small-poster rounded" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="small-movie-poster"></a>
-    </div>
-
-    <div class="mb-4">
-      <span class="review-detail-content">{{ review.content }}</span>
-    </div>
-
-    <div class="d-flex justify-content-between">
-      <div class="d-flex gap-2 emote-comment-info text-secondary mt-4">
-        <span>좋아요 <span id="like-review-cnt-{{review.pk}}">{{review.num_likes}}</span></span>
-        <span>싫어요 <span id="dislike-review-cnt-{{review.pk}}">{{review.num_dislikes}}</span></span>
-        <span>댓글 {{review.reviewcomment_set.all|length}}</span>
-      </div>
-
-      <!-- 리뷰 수정/삭제 드롭다운 -->
-      {% if request.user == review.user %}
-        <div class="dropdown-center">
-            <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-three-dots-vertical menu-icon"></i>
-            </a>
-
-            <ul class="dropdown-menu text-center review-dropdown">
-              <li><a class="dropdown-item comment-dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#review-update">수정</a></li>
-              <li>
-                <form action="{% url 'reviews:review_delete' review.pk %}" id="comment-delete-form">
-                {% csrf_token %}
-                <a type="submit" class="dropdown-item comment-dropdown-item" href="#" onclick="document.getElementById('comment-delete-form').submit();">삭제</a>
-              </form></li>
-            </ul>
-        </div>
-      {% endif %}
-    </div>
-
-    <!-- 감정표현, 댓글 버튼 -->
-    <section class="emote-comment">
-      <hr class="hr-top">
-      <div class="row">
-        <p>{{review_emote.pk}}</p>
-        <div class="emote-comment-btn-box col d-flex justify-content-center">
-          <form class="emote-comment-form like-review-forms" data-review-id="{{ review.pk }}">
-            {% csrf_token %}
-            <button type="submit" id="like-review-btn-{{ review.pk }}" class="d-flex emote-comment-btn review-like-btn rounded
-            {% if liked_by_user %}
-              is-liked-btn
-            {% endif %}
-            ">
-              <div class="me-1">
-                {% if liked_by_user %}
-                  <i class="bi bi-hand-thumbs-up-fill" id="like-review-icon-{{review.pk}}"></i>
-                {% else %}
-                  <i class="bi bi-hand-thumbs-up" id="like-review-icon-{{review.pk}}"></i>
-                {% endif %}
+<section class="detail-bg-color">
+  <div class="container r-wrapper">
+    <div class="container-py">
+      <div class="r-detail">
+        <!-- 리뷰 정보 -->
+        <section class="review-detail">
+          <div class="d-flex justify-content-between">
+            <div>
+              <div class="d-flex align-items-center profile-href" OnClick="location.href ='{% url 'accounts:profile' review.user %}'" style="cursor:pointer;">
+                <img class="review-card-profile-img me-2 rounded-circle" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile-img.png' %}" {% endif %}  alt="review-profile-image">
+                <span class="card-text me-2">{{ review.user }}</span>
+                <span class="text-secondary review-detail-time">{{ review.time_since_created }}</span>
               </div>
-              좋아요</button>
-          </form>
-        </div>
 
-        <div class="emote-comment-btn-box col d-flex justify-content-center">
-          <form class="emote-comment-form dislike-review-forms" data-review-id="{{ review.pk }}">
-            {% csrf_token %}
-            <button type="submit" id="dislike-review-btn-{{ review.pk }}" class="d-flex emote-comment-btn rounded review-dislike-btn
-            {% if disliked_by_user %}
-              is-disliked-btn
-            {% endif %}
-            ">
-              <div class="me-1">
-                {% if disliked_by_user %}
-                  <i class="bi bi-hand-thumbs-down-fill" id="dislike-review-icon-{{review.pk}}"></i>
-                {% else %}
-                  <i class="bi bi-hand-thumbs-down" id="dislike-review-icon-{{review.pk}}"></i>
-                {% endif %}
+              <div class="mt-3" OnClick="location.href ='{% url 'movies:detail' review.movie %}'" style="cursor:pointer;">
+                <h2>{{ review.title }}</h2>
+                <span class="review-movie-info text-secondary mt-1">영화 · {{ year }}</span>
               </div>
-              싫어요</button>
-          </form>
-        </div>
-
-        <div class="col d-flex justify-content-center">
-          <button class="d-flex emote-comment-btn rounded" data-bs-toggle="modal" data-bs-target="#comment-create">
-            <div class="me-1">
-              <i class="bi bi-chat"></i>
             </div>
-            댓글</button>
-        </div>
-      </div>
-      <hr class="hr-bottom">
-    </section>
-  </section>
 
-  <!-- 댓글 조회 -->
-  <section class="comment-detail">
-    {% for comment, comment_update_form, comment_liked_by_user, comment_disliked_by_user in comment_update_form_lst %}
-    <div class="d-flex">
-      <div>
-        <a href="{% url 'accounts:profile' comment.user %}" class="profile-img-href"><img class="review-card-profile-img rounded-circle" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile-img.png' %}" {% endif %}  alt="review-profile-image"></a>
-      </div>
-      <div class="d-flex flex-column comment-detail-box">
-        <div class="d-flex justify-content-between">
-          <a href="{% url 'accounts:profile' comment.user %}" class="me-2 comment-user">{{ comment.user }}</a>
-          <span class="text-secondary comment-detail-time">{{ review.time_since_created }}</span>
-        </div>
-        <span class="mt-2 comment-content">{{ comment.content }}</span>
-        <div class="d-flex mt-2 justify-content-between">
+            <a href="{% url 'movies:detail' review.movie %}"><img class="small-poster rounded" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="small-movie-poster"></a>
+          </div>
+
+          <div class="mb-4">
+            <span class="review-detail-content">{{ review.content }}</span>
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <div class="d-flex gap-2 emote-comment-info text-secondary mt-4">
+              <span>좋아요 <span id="like-review-cnt-{{review.pk}}">{{review.num_likes}}</span></span>
+              <span>싫어요 <span id="dislike-review-cnt-{{review.pk}}">{{review.num_dislikes}}</span></span>
+              <span>댓글 {{review.reviewcomment_set.all|length}}</span>
+            </div>
+
+            <!-- 리뷰 수정/삭제 드롭다운 -->
+            {% if request.user == review.user %}
+              <div class="dropdown-center">
+                  <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical menu-icon"></i>
+                  </a>
+
+                  <ul class="dropdown-menu text-center review-dropdown">
+                    <li><a class="dropdown-item comment-dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#review-update">수정</a></li>
+                    <li>
+                      <form action="{% url 'reviews:review_delete' review.pk %}" id="comment-delete-form">
+                      {% csrf_token %}
+                      <a type="submit" class="dropdown-item comment-dropdown-item" href="#" onclick="document.getElementById('comment-delete-form').submit();">삭제</a>
+                    </form></li>
+                  </ul>
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- 감정표현, 댓글 버튼 -->
+          <section class="emote-comment">
+            <hr class="hr-top">
+            <div class="row">
+              <p>{{review_emote.pk}}</p>
+              <div class="emote-comment-btn-box col d-flex justify-content-center">
+                <form class="emote-comment-form like-review-forms" data-review-id="{{ review.pk }}">
+                  {% csrf_token %}
+                  <button type="submit" id="like-review-btn-{{ review.pk }}" class="d-flex emote-comment-btn review-like-btn rounded
+                  {% if liked_by_user %}
+                    is-liked-btn
+                  {% endif %}
+                  ">
+                    <div class="me-1">
+                      {% if liked_by_user %}
+                        <i class="bi bi-hand-thumbs-up-fill" id="like-review-icon-{{review.pk}}"></i>
+                      {% else %}
+                        <i class="bi bi-hand-thumbs-up" id="like-review-icon-{{review.pk}}"></i>
+                      {% endif %}
+                    </div>
+                    좋아요</button>
+                </form>
+              </div>
+
+              <div class="emote-comment-btn-box col d-flex justify-content-center">
+                <form class="emote-comment-form dislike-review-forms" data-review-id="{{ review.pk }}">
+                  {% csrf_token %}
+                  <button type="submit" id="dislike-review-btn-{{ review.pk }}" class="d-flex emote-comment-btn rounded review-dislike-btn
+                  {% if disliked_by_user %}
+                    is-disliked-btn
+                  {% endif %}
+                  ">
+                    <div class="me-1">
+                      {% if disliked_by_user %}
+                        <i class="bi bi-hand-thumbs-down-fill" id="dislike-review-icon-{{review.pk}}"></i>
+                      {% else %}
+                        <i class="bi bi-hand-thumbs-down" id="dislike-review-icon-{{review.pk}}"></i>
+                      {% endif %}
+                    </div>
+                    싫어요</button>
+                </form>
+              </div>
+
+              <div class="col d-flex justify-content-center">
+                <button class="d-flex emote-comment-btn rounded" data-bs-toggle="modal" data-bs-target="#comment-create">
+                  <div class="me-1">
+                    <i class="bi bi-chat"></i>
+                  </div>
+                  댓글</button>
+              </div>
+            </div>
+            <hr class="hr-bottom">
+          </section>
+        </section>
+
+        <!-- 댓글 조회 -->
+        <section class="comment-detail">
+          {% for comment, comment_update_form, comment_liked_by_user, comment_disliked_by_user in comment_update_form_lst %}
           <div class="d-flex">
-            <form class="like-comment-forms" data-review-id="{{ review.pk }}" data-comment-id="{{ comment.pk }}">
-            {% csrf_token %}
-            <button id="like-comment-btn-{{ comment.pk }}" class="d-flex emote-comment-detail-btn me-2 align-items-center rounded comment-like-btn 
-            {% if comment_liked_by_user %}
-              is-liked-btn
-            {% endif %}
-            ">
-              <div class="me-1">
-                {% if comment_liked_by_user %}
-                  <i class="bi bi-hand-thumbs-up-fill" id="like-comment-icon-{{ comment.pk }}"></i>
-                {% else %}
-                  <i class="bi bi-hand-thumbs-up" id="like-comment-icon-{{ comment.pk }}"></i>
-                {% endif %}
+            <div>
+              <a href="{% url 'accounts:profile' comment.user %}" class="profile-img-href"><img class="review-card-profile-img rounded-circle" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile-img.png' %}" {% endif %}  alt="review-profile-image"></a>
+            </div>
+            <div class="d-flex flex-column comment-detail-box">
+              <div class="d-flex justify-content-between">
+                <a href="{% url 'accounts:profile' comment.user %}" class="me-2 comment-user">{{ comment.user }}</a>
+                <span class="text-secondary comment-detail-time">{{ review.time_since_created }}</span>
               </div>
-              <span id="like-comment-cnt-{{ comment.pk }}">
-                {{ comment.num_likes }}
-              </span>
-            </button>
-          </form>
-          <form class="dislike-comment-forms" data-review-id="{{ review.pk }}" data-comment-id="{{ comment.pk }}">
-            {% csrf_token %}
-            <button id="dislike-comment-btn-{{ comment.pk }}" class="d-flex emote-comment-detail-btn align-items-center rounded comment-dislike-btn
-            {% if comment_disliked_by_user %}
-              is-disliked-btn
-            {% endif %}
-            ">
-              <div class="me-1">
-                {% if comment_disliked_by_user %}
-                  <i class="bi bi-hand-thumbs-down-fill" id="dislike-comment-icon-{{ comment.pk }}"></i>
-                {% else %}
-                  <i class="bi bi-hand-thumbs-down" id="dislike-comment-icon-{{ comment.pk }}"></i>
-                {% endif %}
-              </div>
-              <span id="dislike-comment-cnt-{{ comment.pk }}">
-                {{ comment.num_dislikes }}
-              </span>
-            </button>
-          </form>
-          </div>
-          <!-- 댓글 수정/삭제 드롭다운 -->
-          {% if request.user == review.user %}
-          <div class="dropdown-center">
-            <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-three-dots-vertical menu-icon"></i>
-            </a>
+              <span class="mt-2 comment-content">{{ comment.content }}</span>
+              <div class="d-flex mt-2 justify-content-between">
+                <div class="d-flex">
+                  <form class="like-comment-forms" data-review-id="{{ review.pk }}" data-comment-id="{{ comment.pk }}">
+                  {% csrf_token %}
+                  <button id="like-comment-btn-{{ comment.pk }}" class="d-flex emote-comment-detail-btn me-2 align-items-center rounded comment-like-btn 
+                  {% if comment_liked_by_user %}
+                    is-liked-btn
+                  {% endif %}
+                  ">
+                    <div class="me-1">
+                      {% if comment_liked_by_user %}
+                        <i class="bi bi-hand-thumbs-up-fill" id="like-comment-icon-{{ comment.pk }}"></i>
+                      {% else %}
+                        <i class="bi bi-hand-thumbs-up" id="like-comment-icon-{{ comment.pk }}"></i>
+                      {% endif %}
+                    </div>
+                    <span id="like-comment-cnt-{{ comment.pk }}">
+                      {{ comment.num_likes }}
+                    </span>
+                  </button>
+                </form>
+                <form class="dislike-comment-forms" data-review-id="{{ review.pk }}" data-comment-id="{{ comment.pk }}">
+                  {% csrf_token %}
+                  <button id="dislike-comment-btn-{{ comment.pk }}" class="d-flex emote-comment-detail-btn align-items-center rounded comment-dislike-btn
+                  {% if comment_disliked_by_user %}
+                    is-disliked-btn
+                  {% endif %}
+                  ">
+                    <div class="me-1">
+                      {% if comment_disliked_by_user %}
+                        <i class="bi bi-hand-thumbs-down-fill" id="dislike-comment-icon-{{ comment.pk }}"></i>
+                      {% else %}
+                        <i class="bi bi-hand-thumbs-down" id="dislike-comment-icon-{{ comment.pk }}"></i>
+                      {% endif %}
+                    </div>
+                    <span id="dislike-comment-cnt-{{ comment.pk }}">
+                      {{ comment.num_dislikes }}
+                    </span>
+                  </button>
+                </form>
+                </div>
+                <!-- 댓글 수정/삭제 드롭다운 -->
+                {% if request.user == review.user %}
+                <div class="dropdown-center">
+                  <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical menu-icon"></i>
+                  </a>
 
-            <ul class="dropdown-menu text-center comment-dropdown">
-              <li><a class="dropdown-item comment-dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#comment-update">수정</a></li>
-              <li>
-                <form action="{% url 'reviews:comment_delete' review.pk comment.pk %}" id="comment-delete-form">
-                {% csrf_token %}
-                <a type="submit" class="dropdown-item comment-dropdown-item" href="#" onclick="document.getElementById('comment-delete-form').submit();">삭제</a>
-              </form></li>
-            </ul>
-          </div>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-    <hr>
-
-    <!-- 댓글 수정 모달 -->
-    <div class="modal fade" id="comment-update" tabindex="-1">
-      <div class="modal-dialog login-modal">
-        <div class="modal-content">
-          <div class="modal-header pb-0">
-            <h1 class="modal-title fs-5" id="comment-updateLabel">댓글</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <form action="{% url 'reviews:comment_update' review.pk comment.pk %}" method="POST">
-            <div class="modal-body">
-              {% csrf_token %}
-              <div class="mt-3 comment-update-form" data-movie-title="{{review.title}}">
-                {{ comment_update_form.as_p }}
-              </div>
-              <div class="align-items-center d-flex justify-content-end">
-                <button id="comment-btn" type="submit" class="comment-btn fs-5">작성</button>
+                  <ul class="dropdown-menu text-center comment-dropdown">
+                    <li><a class="dropdown-item comment-dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#comment-update">수정</a></li>
+                    <li>
+                      <form action="{% url 'reviews:comment_delete' review.pk comment.pk %}" id="comment-delete-form">
+                      {% csrf_token %}
+                      <a type="submit" class="dropdown-item comment-dropdown-item" href="#" onclick="document.getElementById('comment-delete-form').submit();">삭제</a>
+                    </form></li>
+                  </ul>
+                </div>
+                {% endif %}
               </div>
             </div>
-          </form>
-        </div>
+          </div>
+          <hr>
+
+          <!-- 댓글 수정 모달 -->
+          <div class="modal fade" id="comment-update" tabindex="-1">
+            <div class="modal-dialog login-modal">
+              <div class="modal-content">
+                <div class="modal-header pb-0">
+                  <h1 class="modal-title fs-5" id="comment-updateLabel">댓글</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{% url 'reviews:comment_update' review.pk comment.pk %}" method="POST">
+                  <div class="modal-body">
+                    {% csrf_token %}
+                    <div class="mt-3 comment-update-form" data-movie-title="{{review.title}}">
+                      {{ comment_update_form.as_p }}
+                    </div>
+                    <div class="align-items-center d-flex justify-content-end">
+                      <button id="comment-btn" type="submit" class="comment-btn fs-5">작성</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </section>
       </div>
     </div>
-    {% endfor %}
-  </section>
-</div>
-
+  </div>
+</section>
 <!-- 댓글 작성 모달 -->
 <div class="modal fade" id="comment-create" tabindex="-1">
   <div class="modal-dialog login-modal">
