@@ -24,7 +24,6 @@
                 </li>
               </ul>
             </div>
-            
           </div>
           <!--하단 영역-->
           <div class="px-3 pb-3 z-3">
@@ -43,13 +42,13 @@
               <p class="fs-5 fw-bold">{{ person.nickname }}</p>
               <form action="{% url 'accounts:follow' person.pk %}" method="POST">
                 {% csrf_token %}
-                {% if request.user != person %}
-                  {% if request.user in person.followers.all %}
-                    <input class='btn btn-outline-primary' type="submit" value="unfollow">
+                  {% if request.user != person %}
+                    {% if request.user in person.followers.all %}
+                      <input class='btn btn-outline-primary' type="submit" value="unfollow">
+                    {% else %}
+                      <input class="btn btn-outline-primary" type="submit" value="follow">
+                    {% endif %}
                   {% else %}
-                    <input class="btn btn-outline-primary" type="submit" value="follow">
-                  {% endif %}
-                {% else %}
                 {% endif %}
               </form>
             </div>
@@ -68,32 +67,17 @@
             {% endif %}
             {% for collection in collections %}
               <a href="{% url 'movies:collection_detail' person.username collection.pk %}">
-                {{ collection.title }}
+                <div>
+                  {% for poster in posters %}
+                    {{ poster }}
+                  {% endfor %}
+                </div>
               </a>
             {% endfor %}
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {% endblock %}

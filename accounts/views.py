@@ -1,7 +1,11 @@
+import os
+from pprint import pprint
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View 
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
+from dotenv import load_dotenv
+import requests
 from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm, CustomAuthenticationForm
 
 from django.contrib.auth import login as auth_login
@@ -11,6 +15,11 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import get_user_model
 
 from reviews.models import Review
+from movies.models import MovieCollection
+
+load_dotenv()
+base_url = 'https://api.themoviedb.org/3'
+api_key = os.getenv('TMDB_API_KEY')
 
 
 class Signup(View):
@@ -61,8 +70,34 @@ def profile(request, username):
     User = get_user_model()
     person = User.objects.get(username=username)
     collections = person.collection_set.all()
+    posters = []
+    for collection in collections:
+        c_title = collection.title
+        c_content = collection.content
+        tmp = []
+        movies = MovieCollection.objects.filter(collection=collection)
+        
+        for i, movie in enumerate(movies):
+            collection_movie_id = movie.movie_id
+            path = f'/movie/{collection_movie_id}'
+            params = {
+                'api_key': api_key,
+                'language': 'ko-KR',
+            }
+            
+            poster = requests.get(base_url+path, params=params).json()['poster_path']
+            tmp.append(poster)
+            if i == 3:
+                break
+        collection_context = {}
+        
+            
+        posters.append(tmp)
+    # pprint(posters)
+
     reviews = Review.objects.filter(user_id=person.id).order_by('-pk')
     context = {
+        'posters': posters,
         'reviews': reviews,
         'person': person,
         'collections': collections,
