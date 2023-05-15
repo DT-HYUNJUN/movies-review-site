@@ -1,6 +1,6 @@
 $(document).ready(function(){
   $('.review-slide').slick({
-    infinite: true,
+    infinite: false,
     slidesToShow: 3,
     slidesToScroll: 3,
     prevArrow : "<button type='button' class='slick-prev'>Previous</button>",    
