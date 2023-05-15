@@ -6,7 +6,7 @@ class CollectionForm(forms.ModelForm):
     title = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control',
+                'class': 'collection-field',
                 'placeholder': '컬렉션 제목',
             }
         )
@@ -14,7 +14,7 @@ class CollectionForm(forms.ModelForm):
     content = forms.CharField(
         widget=forms.Textarea(
             attrs={
-                'class': 'form-control',
+                'class': 'collection-field',
                 'placeholder': '설명 입력하기',
             }
         )
