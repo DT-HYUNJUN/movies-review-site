@@ -2,9 +2,9 @@
   width: 640px;
 }
 
-/* .banner {
+.banner {
   position: relative;
-  background-image: url(https://an2-ast.amz.wtchn.net/ayg/images/mypagePatternResize.2e73487f09488acbeb2d.jpg);
+  background-color: #ffbfd3;
   background-size: 180px 177px;
   padding-bottom: 32%;
 }
@@ -17,9 +17,8 @@
   top: 0;
   right: 0;
   left: 0;
-  background-image: linear-gradient( -180deg,rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100% );
   height: 44px
-} */
+}
 
 .profile-img {
   width: 5rem;
@@ -39,4 +38,8 @@
 
 .movie-section {
   margin-top: 60px;
+}
+
+.profile-bg {
+  background-color: white;
 }
