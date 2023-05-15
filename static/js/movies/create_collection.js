@@ -30,7 +30,10 @@ searchInput.addEventListener('input', async (event) => {
       searchResults.innerHTML = ''
       movies.results.forEach((movie) => {
         const divTag = document.createElement('div')
-        divTag.classList.add('d-flex')
+        divTag.classList.add('d-flex','justify-content-between', 'align-items-center', 'gap-1', 'mb-2')
+
+        const divTag2 = document.createElement('div')
+        divTag2.classList.add('d-flex', 'align-items-center', 'gap-1')
 
         const imgTag = document.createElement('img')
         const imgUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
@@ -46,11 +49,14 @@ searchInput.addEventListener('input', async (event) => {
         const addBtn = document.createElement('button')
         addBtn.classList.add('add-btn')
         addBtn.textContent = '추가'
+
         addBtn.addEventListener('click', function (event) {
           // 클릭 시 버튼 체크모양
           addBtn.textContent = ''
           const iTag = document.createElement('i')
           iTag.classList.add('bi', 'bi-check2-circle')
+          addBtn.style.opacity = 0.5
+          addBtn.disabled = true
           addBtn.appendChild(iTag)
 
           // selectedList 배열에 movie추가 후 문자열로 변환하여 input 필드 값으로 설정
@@ -67,18 +73,22 @@ searchInput.addEventListener('input', async (event) => {
           const selectedMovieDate = document.createElement('div')
           selectedMovieDate.textContent = movie.release_date
 
-          selectedMovieDiv.appendChild(selectedMovieImg)
-          selectedMovieDiv.appendChild(selectedMovieTitle)
-          selectedMovieDiv.appendChild(selectedMovieDate)
-          moviesDiv.appendChild(selectedMovieDiv)
+          // selectedMovieDiv.appendChild(selectedMovieImg)
+          // selectedMovieDiv.appendChild(selectedMovieTitle)
+          // selectedMovieDiv.appendChild(selectedMovieDate)
+          moviesDiv.appendChild(selectedMovieImg)
         })
         
 
         textDiv.appendChild(titleDiv)
         textDiv.appendChild(dateDiv)
-        divTag.appendChild(imgTag)
-        divTag.appendChild(textDiv)
+        
+        divTag2.appendChild(imgTag)
+        divTag2.appendChild(textDiv)
+
+        divTag.appendChild(divTag2)
         divTag.appendChild(addBtn)
+
         searchResults.appendChild(divTag)
       })
     } catch (error) {

@@ -9,6 +9,26 @@
 }
 
 .movie-poster-size {
-  width: 4rem;
-  height: 6rem;
+  width: 86px;
+  height: 129px;
+}
+
+.collcetion {
+  padding: 1rem;
+  width: 640px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}
+
+.collection-field {
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  outline: none;
+  width: 100%;
+}
+
+.collcetion-search {
+  outline: none;
+  width: 100%;
 }
