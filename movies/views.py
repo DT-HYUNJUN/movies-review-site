@@ -269,12 +269,14 @@ def person_detail(request, person_id):
     }
     return render(request, 'movies/person_detail.html', context)
 
+
 def get_name_in_korean(names, lst):
     hangul = re.compile('[^ ㄱ-ㅣ가-힣]+')
     for name in names:
         result = hangul.sub('', name)
         if result.strip():
             lst.append(result)
+
 
 def check_korean_name(person, lst):
     name = ''
@@ -286,8 +288,8 @@ def check_korean_name(person, lst):
     else:
         name = person['name']
     return name
-    
-            
+
+
 def search(request):
     string = request.GET.get('search')
     path = f'/search'
@@ -428,27 +430,10 @@ def update(request, username, collection_pk):
                 selected_movies = json.loads(selected_movies_json)
                 for movie in selected_movies:
                     MovieCollection.objects.create(collection=collection, movie_id=movie['id'], movie_poster=movie['poster_path'])
-
-            # deleted_movies_json = request.POST.get('deleted_list')
-            # if deleted_movies_json:
-            #     deleted_movies = json.loads(deleted_movies_json)
-            #     for movie_id in deleted_movies:
-            #         to_delete = MovieCollection.objects.get(collection=collection, movie_id=movie_id)
-            #         to_delete.delete()
             return redirect('movies:collection_detail', username, collection.pk)
     else:
         collection_form = CollectionForm(instance=collection)
         movie_delete_form = CollectionMovieDeleteForm(instance=collection)
-        # movies = collection.moviecollection_set.all()
-        # my_movies = []
-        # params = {
-        #     'api_key': api_key,
-        #     'language': 'ko-KR',
-        # }
-        # for movie in movies:
-        #     path = f'/movie/{movie.movie_id}'
-        #     movie = requests.get(base_url+path, params=params).json()
-        #     my_movies.append(movie)
     context = {
         'collection': collection,
         'collection_form': collection_form,
@@ -468,6 +453,7 @@ def delete(request, username, collection_pk):
         movie.delete()
     collection.delete()
     return redirect('accounts:profile', username)
+
 
 def get_average_rating(movies):
     for movie in movies:
@@ -490,7 +476,6 @@ def get_average_rating(movies):
             if rating_people:
                 avg_rating = round((sum_ratings / rating_people), 1)
             movie['avg_rating'] = avg_rating
-
 
 
 def genre_movies(request, genre_name):
@@ -556,6 +541,7 @@ def genre_movies(request, genre_name):
     }
 
     return render(request, 'movies/genre_movies.html', context)
+
 
 @login_required
 def like_collection(request, collection_pk):
