@@ -19,4 +19,11 @@ class MovieCollection(models.Model):
     movie_poster = models.CharField(max_length=200, default='')
 
     def __str__(self):
-        return str(self.movie_id)
+        url = f'https://api.themoviedb.org/3/movie/{self.movie_id}'
+        api_key = os.getenv('TMDB_API_KEY')
+        params = {
+            'api_key': api_key,
+            'language': 'ko-KR',
+        }
+        movie = requests.get(url, params=params).json()
+        return movie['title']
