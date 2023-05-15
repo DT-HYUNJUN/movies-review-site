@@ -14,6 +14,14 @@ class CustomUserCreationForm(UserCreationForm):
             }
         ),
     )
+    nickname = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control account-field',
+                'placeholder': '닉네임'
+            }
+        )
+    )
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
@@ -40,7 +48,7 @@ class CustomUserCreationForm(UserCreationForm):
     )
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = ('username', 'email', 'password1', 'password2',)
+        fields = ('username', 'email', 'nickname', 'password1', 'password2',)
 
 #회원정보 수정
 class CustomUserChangeForm(UserChangeForm):

@@ -60,7 +60,7 @@ searchInput.addEventListener('input', async (event) => {
           addBtn.appendChild(iTag)
 
           // selectedList 배열에 movie추가 후 문자열로 변환하여 input 필드 값으로 설정
-          selectedList.push(movie)
+          selectedList.push(movie['id'])
           moviesInput.value = JSON.stringify(selectedList)
 
           // 추가한 영화 목록 사용자가 볼 수 있도록 출력
