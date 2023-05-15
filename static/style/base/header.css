@@ -35,3 +35,31 @@
   border-radius: 5px;
   padding: 3px 10px
 }
+
+.search-modal-bg {
+  background-color: #1C1D1F;
+  object-fit: contain;
+}
+
+.my-genre-btn {
+  background-color: #3b4869;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border-radius: 6px;
+  border: 0px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease-in-out;
+}
+
+/* .search-modal {
+  max-width: 50rem;
+} */

@@ -30,14 +30,22 @@
           <div class="d-flex align-items-center gap-5 flex-nowrap">
             <!--평가하기-->
             <div class="ms-5">
+              {% if reviews.count == 0 %}
+              <p class="text-center mb-2">평균 <img src="{% static 'img/rating-star.svg' %}" alt="">  - ({{ total_reviews }}명)</p>
+              {% else %}
               <p class="text-center mb-2">평균 <img src="{% static 'img/rating-star.svg' %}" alt="">{{ avg_rating }} ({{ total_reviews }}명)</p>
+              {% endif %}
               <div id="rating-print" class='star-box comment-starbox'>
+                {% if reviews.count == 0 %}
+                <p class="no-rating text-secondary">작성된 리뷰가 없습니다.</p>
+                {% else %}
                 <div class='star-gray'>
                   <img class='w-100' src="{% static 'img/star-fill-gray.png' %}" alt="graystar">
                 </div>
                 <div class='star-star comment-star-star' style="width: {{ avg_rating_percent }}%">
                   <img src="{% static 'img/star-fill.png' %}" alt="star">
                 </div>
+                {% endif %}
               </div>
             </div>
             <div class="ms-4 d-flex fs-5 gap-5">
@@ -133,10 +141,19 @@
         <div>
           <div class="d-flex justify-content-between align-items-center flex-nowrap">
             <p class="fw-bold fs-5">별점 그래프</p>
-            <p class="">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ avg_rating }}</p>
+            
+            <p class="">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{% if reviews.count == 0 %}- {% else %}{{ avg_rating }}{% endif %}</p>
           </div>
           <p class="rating-people text-secondary">({{ total_reviews }}명)</p>
-          <div id="chart" class="mx-auto gap-1" data-ratings="{{ ratings }}">
+          {% if reviews.count == 0 %}
+          <div class="text-center fs-1">
+            <i class="bi bi-bar-chart-fill"></i>
+            <div>
+
+            </div>
+          </div>
+          {% else %}
+          <div id="chart" class="d-flex justify-content-center gap-1" data-ratings="{{ ratings }}">
             <div>
               <div class="bar"></div>
               <p>0</p>
@@ -182,9 +199,22 @@
               <p>5</p>
             </div>
           </div>
+          {% endif %}
           <hr>
         </div>
       <!-- 리뷰 캐러셀 -->
+      <div class="mb-3">
+        <span class="fs-5 fw-bold">리뷰</span> <span class="text-secondary">{{ reviews.count }}</span>
+      </div>
+      {% if reviews.count == 0 %}
+      <div class="text-center">
+        <div class="fs-1 mb-2">
+          <i class="bi bi-pen-fill"></i>
+        </div>
+        <p>작성된 리뷰가 없습니다.</p>
+        <p class="text-secondary mt-2">처음으로 작품에 대한 감상을 공유해보는 건 어떨까요?</p>
+      </div>
+      {% else %}
       <div class="review-box">
         <div class="review-slide">
           <!-- Slides -->
@@ -261,6 +291,7 @@
           {% endfor %}
         </div>
       </div>
+      {% endif %}
     </div>
   </div>
 </section>

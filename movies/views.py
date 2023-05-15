@@ -372,7 +372,7 @@ def create(request, username):
             collection.user = request.user
             collection.save()
             for movie in selected_movies:
-                MovieCollection.objects.create(collection=collection, movie_id=movie['id'])
+                MovieCollection.objects.create(collection=collection, movie_id=movie)
 
             return redirect('movies:collection_detail', username, collection.pk)
     else:
@@ -470,25 +470,25 @@ def get_average_rating(movies):
 def genre_movies(request, genre_name):
     # 장르별 딕셔너리
     genre_dict = {
-        'Action'         : '28',
-        'Adventure'      : '12',
-        'Animation'      : '16',
-        'Comedy'         : '35',
-        'Crime'          : '80',
-        'Documentary'    : '99',
-        'Drama'          : '18',
-        'Family'         : '10751',
-        'Fantasy'        : '14',
-        'History'        : '36',
-        'Horror'         : '27',
-        'Music'          : '10402',
-        'Mystery'        : '9648',
-        'Romance'        : '10749',
-        'Science Fiction': '878',
-        'TV Movie'       : '10770',
-        'Thriller'       : '53',
-        'War'            : '10752',
-        'Western'        : '37'
+        '액션'         : '28',
+        '어드벤처'     : '12',
+        '애니메이션'   : '16',
+        '코미디'       : '35',
+        '범죄'         : '80',
+        '다큐멘터리'   : '99',
+        '드라마'       : '18',
+        '가족'         : '10751',
+        '판타지'       : '14',
+        '역사'         : '36',
+        '공포'         : '27',
+        '음악'         : '10402',
+        '미스터리'     : '9648',
+        '로맨스'       : '10749',
+        'SF'           : '878',
+        'TV'           : '10770',
+        '스릴러'       : '53',
+        '전쟁'         : '10752',
+        '서부'         : '37'
     }
     
     # 페이지 정보를 받아올 URL
