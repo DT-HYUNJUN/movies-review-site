@@ -308,7 +308,6 @@ def search(request):
             break
         movies = sorted(movies_response['results'], key=lambda x: x['popularity'], reverse=True)
         total_movies += movies
-        print(total_movies)
         page += 1
 
     total_people = []
