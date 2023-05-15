@@ -145,26 +145,6 @@
 
     <hr>
   </section>
-
-  <h3>코멘트 작성</h3>
-
-  <hr>
-  {% for comment in review_comments %}
-    <p>{{ comment.content }}</p>
-    <form action="{% url 'reviews:comment_emote' review.pk comment.pk 1 %}" method="POST">
-      {% csrf_token %}
-      <input type="submit" value="좋아요">
-      <span>{{ comment.num_likes }}</span>
-    </form>
-    <form action="{% url 'reviews:comment_emote' review.pk comment.pk 0 %}" method="POST">
-      {% csrf_token %}
-      <input type="submit" value="싫어요">
-      <span>{{ comment.num_dislikes }}</span>
-    </form>
-    <hr>
-  {% endfor %}
-</div>
-
 <!-- 리뷰 작성 모달 -->
 <div class="modal fade" id="comment-create" tabindex="-1">
   <div class="modal-dialog login-modal">
