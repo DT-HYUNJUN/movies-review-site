@@ -20,15 +20,44 @@
   font-size: 0.8rem;
 }
 
+.emote-comment-form {
+  width:100%;
+  height: 40px;
+}
+
 .emote-comment-btn {
   justify-content: center;
+  align-items: center;
   background-color: transparent;
   border: none;
   color: #67686a;
+  height: 100%;
+  width:100%;
+}
+
+.emote-comment-btn:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.review-like-btn:hover {
+  color: #ff0558;
+}
+
+.review-dislike-btn:hover, .comment-dislike-btn:hover {
+  color: black;
+}
+
+.hr-top {
+  margin-bottom: 0.4rem;
+}
+
+.hr-bottom {
+  margin-top: 0.4rem;
 }
 
 .emote-comment-detail-btn {
   margin-left: -8px;
+  padding: 0 7px 0 7px;
   height: 22px;
   background-color: transparent;
   border: none;
@@ -36,9 +65,27 @@
   font-size: 0.8rem;
 }
 
+.emote-comment-detail-btn:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.comment-like-btn:hover {
+  color: #ff0558;
+}
+
 .emote-comment-btn-box {
   border-right: 1.5px solid #f0f0f0;
+  padding: 0 5px 0 5px;
 }
+
+.is-liked-btn {
+  color: #ff0558;
+}
+
+.is-disliked-btn {
+  color: black;
+}
+
 
 .emote-comment > hr, .comment-detail > hr {
   color: rgb(200, 200, 200);
