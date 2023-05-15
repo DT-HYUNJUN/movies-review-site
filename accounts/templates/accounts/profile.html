@@ -67,11 +67,9 @@
             {% endif %}
             {% for collection in collections %}
               <a href="{% url 'movies:collection_detail' person.username collection.pk %}">
-                <div>
-                  {% for poster in posters %}
-                    {{ poster }}
-                  {% endfor %}
-                </div>
+                {% for movie in collection.moviecollection_set.all|slice:"4" %}
+                  <img src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="">
+                {% endfor %}
               </a>
             {% endfor %}
           </div>
