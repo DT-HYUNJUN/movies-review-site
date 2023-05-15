@@ -44,15 +44,16 @@
       <h3 class="fs-3 mb-3">{{ collection.title }}</h3>
       <p class="fs-6 text-secondary mb-5">{{ collection.content }}</p>
       
-      <form action="#" method="POST">
+      <form class="like-forms" data-collection-id="{{ collection.pk }}">
         {% csrf_token %}
-        {% if request.user in person.like_users.all %}
-          <button class="ps-0 border-0 bg-transparent collection-like" type="submit"><i class="bi bi-suit-heart-fill"></i></button>
+        {% if request.user in collection.like_users.all %}
+          <button class="ps-0 border-0 bg-transparent collection-like" type="submit"><i id="like-{{ collection.pk }}" class="bi bi-suit-heart-fill"></i></button>
         {% else %}
-          <button class="ps-0 border-0 bg-transparent collection-like" type="submit"><i class="bi bi-suit-heart"></i></button>
+          <button class="ps-0 border-0 bg-transparent collection-like" type="submit"><i id="like-{{ collection.pk }}" class="bi bi-suit-heart"></i></button>
         {% endif %}
-        <span>{{ collection.like_users|length }}</span>
+        <span id="like_users_count">{{ like_users_count }}</span>
       </form>
+      
       
       {% comment %} <span>좋아요 {{ collection.like_users|length }}</span> {% endcomment %}
       <hr>
@@ -86,5 +87,46 @@
     </div>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const forms = document.querySelectorAll('.like-forms');
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  forms.forEach((form) => {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const collectionId = event.target.dataset.collectionId;
+      
+      
+      axios({
+        method: "POST",
+        url: `/movies/collections/${collectionId}/like/`,
+        headers: {'X-CSRFToken': csrftoken},
+      })
+        .then((response) => {
+          const likeIcon = document.querySelector(`#like-${collectionId}`);
+          const likeCount = document.querySelector(`#like_users_count`)
+          const isLiked = response.data.is_liked;
+          
+          if (isLiked === true) {
+            likeIcon.classList.remove('bi', 'bi-suit-heart');
+            likeIcon.classList.add('bi', 'bi-suit-heart-fill');
+            
+          } else {
+            likeIcon.classList.remove('bi-suit-heart-fill');
+            likeIcon.classList.add('bi', 'bi-suit-heart');
+            
+          }
+          likeCount.innerText = response.data.like_users_count;
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    });
+  });
+</script>
+
+
 
 {% endblock content %}

@@ -1,5 +1,5 @@
 import re
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Collection, MovieCollection
 from reviews.models import Review
 from .forms import CollectionForm
@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.db.models import Avg
 from django.http import JsonResponse
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core.paginator import Paginator
 import json
 
 
@@ -387,12 +387,14 @@ def create(request, username):
 def collection_detail(request, username, collection_pk):
     person = get_user_model().objects.get(username=username)
     collection = Collection.objects.get(pk=collection_pk)
+    like_users_count = collection.like_users.count()
     movies = collection.moviecollection_set.all()
     collection_movies = []
     params = {
         'api_key': api_key,
         'language': 'ko-KR'
     }
+    
     for movie in movies:
         path = f'/movie/{movie.movie_id}'
         movie_info = requests.get(base_url+path, params=params).json()
@@ -400,9 +402,10 @@ def collection_detail(request, username, collection_pk):
         movie_info['avg'] = movie_avg['avg'] if movie_avg['avg'] != None else 0
         collection_movies.append(movie_info)
     context = {
-        'person': person,
-        'collection': collection,
-        'movies': collection_movies,
+        'person'          : person,
+        'collection'      : collection,
+        'movies'          : collection_movies,
+        'like_users_count': like_users_count,
     }
     return render(request, 'movies/collection_detail.html', context)
 
@@ -530,3 +533,16 @@ def genre_movies(request, genre_name):
     }
 
     return render(request, 'movies/genre_movies.html', context)
+
+@login_required
+def like_collection(request, collection_pk):
+    collection = get_object_or_404(Collection, pk=collection_pk)
+    
+    if request.user in collection.like_users.all():
+        collection.like_users.remove(request.user)
+        liked = False
+    else:
+        collection.like_users.add(request.user)
+        liked = True
+        
+    return JsonResponse({'is_liked': liked, 'like_users_count': collection.like_users.count()})
