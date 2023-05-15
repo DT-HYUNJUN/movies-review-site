@@ -30,7 +30,7 @@
           <div class="d-flex align-items-center gap-5 flex-nowrap">
             <!--평가하기-->
             <div class="ms-5">
-              <p class="text-center mb-2">평점</p>
+              <p class="text-center mb-2">평균 <img src="{% static 'img/rating-star.svg' %}" alt="">{{ avg_rating }} ({{ total_reviews }}명)</p>
               <div id="rating-print" class='star-box comment-starbox'>
                 <div class='star-gray'>
                   <img class='w-100' src="{% static 'img/star-fill-gray.png' %}" alt="graystar">
@@ -66,13 +66,13 @@
       </div>
     </div>
   </div>
-  <div class="text-center">
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video_key }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <div class="text-center mb-5">
+    <iframe width="720" height="405" src="https://www.youtube.com/embed/{{ video_key }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
 </div>
 
 <section class="detail-bg-color">
-  <div class="container pt-5">
+  <div class="container pt-5 pb-5">
     <div class="container-py">
       <div class="movie-detail">
         <!--영화정보-->
@@ -84,7 +84,7 @@
             <span>{{ movie.release_date }} · </span>
             <span>{{ country }} · </span>
             <span>{{ genres }}</span>
-            <p class="mt-2">{{ movie.runtime }}</p>
+            <p class="mt-2">{{ movie.runtime }}분</p>
           </div>
         </div>
         <p class="detail-title">출연 / 제작</p>
@@ -133,9 +133,9 @@
         <div>
           <div class="d-flex justify-content-between align-items-center flex-nowrap">
             <p class="fw-bold fs-5">별점 그래프</p>
-            <p class="">평균 ★ {{ avg_rating }}</p>
+            <p class="">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ avg_rating }}</p>
           </div>
-          <p class="rating-people text-secondary">({{ rating_people }}명)</p>
+          <p class="rating-people text-secondary">({{ total_reviews }}명)</p>
           <div id="chart" class="mx-auto gap-1" data-ratings="{{ ratings }}">
             <div>
               <div class="bar"></div>
@@ -196,7 +196,7 @@
                   <img class="review-card-profile-img me-1 rounded-circle" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile-img.png' %}" {% endif %}  alt="review-profile-image">
                   <p class="card-text">{{ review.user }}</p>
                 </div>
-                <p class="card-text">★ {{ review.rating }}</p>
+                <p class="card-text d-flex gap-1"><img src="{% static 'img/rating-star.svg' %}" alt="">{{ review.rating }}</p>
               </div>
               <!-- 카드바디 (리뷰내용) -->
               
@@ -314,7 +314,7 @@
                 </svg>
               </div>
             </div>
-            <input type="number" hidden name="rating" value="0" id="rating">
+            <input type="number" hidden name="rating" value="0.0" id="rating">
           </div>
           <div class="mt-3">
             {{ review_form.as_p }}
