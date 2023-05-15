@@ -72,9 +72,11 @@ def review_update(request, review_pk):
 @login_required
 def review_delete(request, review_pk):
     review = Review.objects.get(pk=review_pk)
+    movie_id = review.movie
+
     if review.user == request.user:
         review.delete()
-    return redirect('reviews:index')
+    return redirect('movies:detail', movie_id)
 
 
 def detail(request, movie_id, review_pk):
