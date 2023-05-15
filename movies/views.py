@@ -2,7 +2,7 @@ import re
 from django.shortcuts import render, redirect
 from .models import Collection, MovieCollection
 from reviews.models import Review
-from .forms import CollectionForm, MovieCollectionForm
+from .forms import CollectionForm
 from reviews.models import Review
 from reviews.forms import ReviewForm
 from dotenv import load_dotenv
@@ -15,8 +15,6 @@ from django.contrib.auth import get_user_model
 from django.db.models import Avg
 from django.http import JsonResponse
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-# json 데이터 편하게 보기위해 추가했습니다.
-# 개발 끝날시 삭제
 import json
 
 
@@ -36,7 +34,7 @@ def get_average_rating(movies):
             # 평점 계산
             movies_rating_dict = {0.0: 0, 0.5: 0, 1.0: 0, 1.5: 0, 2.0: 0, 2.5: 0, 3.0: 0, 3.5: 0, 4.0: 0, 4.5: 0, 5.0: 0}
             for review in reviews:
-                movies_rating_dict[review.rating] = movies_rating_dict.get(0, 1) + 1
+                movies_rating_dict[review.rating] += 1
             
             sum_ratings = 0
             avg_rating = 0
@@ -61,7 +59,7 @@ def index(request):
     # 현재 상영 영화 인기순으로 5개
     path = '/movie/now_playing'
     playing_movies_response = requests.get(base_url+path, params=params).json()
-    playing_movies = sorted(playing_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:5]
+    playing_movies = sorted(playing_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:20]
     get_average_rating(playing_movies)
     
     playing_movies_trailers = []
@@ -83,19 +81,19 @@ def index(request):
     # 인기영화 5개
     path = '/movie/popular'
     popular_movies_response = requests.get(base_url+path, params=params).json()
-    popular_movies = popular_movies_response['results'][:5]
+    popular_movies = popular_movies_response['results'][:20]
     get_average_rating(popular_movies)
 
     # 평점 높은 영화
     path = '/movie/top_rated'
     top_movies_response = requests.get(base_url+path, params=params).json()
-    top_movies = top_movies_response['results'][:5]
+    top_movies = top_movies_response['results'][:20]
     get_average_rating(top_movies)
 
     # 상영예정작(인기 많은 5개 뽑아서 d-day순으로 정렬)
     path = '/movie/upcoming'
     upcoming_movies_response = requests.get(base_url+path, params=params).json()
-    upcoming_movies = sorted(upcoming_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:5]
+    upcoming_movies = sorted(upcoming_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:20]
     get_average_rating(upcoming_movies)
 
     context = {
@@ -116,20 +114,20 @@ def detail(request, movie_id):
     
     # 리뷰
     reviews = Review.objects.filter(movie=movie_id).order_by('-pk')
+    total_reviews = len(reviews)
     
     # 평점 계산
     rating_dict = {0.0: 0, 0.5: 0, 1.0: 0, 1.5: 0, 2.0: 0, 2.5: 0, 3.0: 0, 3.5: 0, 4.0: 0, 4.5: 0, 5.0: 0}
     for review in reviews:
-        rating_dict[review.rating] = rating_dict.get(0, 1) + 1
+        rating_dict[review.rating] += 1
     ratings = list(rating_dict.values())
     
     sum_ratings = 0
     avg_rating = 0
-    rating_people = sum(rating_dict.values())
     for key, value in rating_dict.items():
         sum_ratings += key * value
-    if rating_people:
-        avg_rating = round((sum_ratings / rating_people), 1)
+    if total_reviews:
+        avg_rating = round((sum_ratings / total_reviews), 1)
     
     avg_rating_percent = avg_rating * 0.2 * 100
 
@@ -211,7 +209,7 @@ def detail(request, movie_id):
     
     context = {
         'avg_rating_percent': avg_rating_percent,
-        'rating_people': rating_people,
+        'total_reviews': total_reviews,
         'avg_rating': avg_rating,
         'ratings': ratings,
         'video_key': video_key,
@@ -365,24 +363,23 @@ def create(request, username):
     
     if request.method == 'POST':
         collection_form = CollectionForm(request.POST)
-        # movie_form = MovieCollectionForm(request.POST)
-        #  and movie_form.is_valid()
+        # js에서 만든 selected_list를 받아옴
+        selected_movies_json = request.POST.get('selected_list')
+        selected_movies = json.loads(selected_movies_json)
+
         if collection_form.is_valid():
             collection = collection_form.save(commit=False)
             collection.user = request.user
             collection.save()
-            
-            # movies = movie_form.save(commit=False)
-            # movies.collection = collection
-            # movies.save()
-            return redirect('accounts:profile', username)
+            for movie in selected_movies:
+                MovieCollection.objects.create(collection=collection, movie_id=movie['id'])
+
+            return redirect('movies:collection_detail', username, collection.pk)
     else:
         collection_form = CollectionForm()
-        # movie_form = MovieCollectionForm()
     context = {
         'api_key': api_key,
         'collection_form': collection_form,
-        # 'movie_form': movie_form,
     }
     return render(request, 'movies/create.html', context)
 
