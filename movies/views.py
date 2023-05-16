@@ -51,9 +51,6 @@ def get_average_rating(movies):
         movie['avg_rating'] = round(avg_rating, 1) if rating_counts.get(movie_id, 0) > 0 else ''
 
 
-
-
-@cache_page(60 * 5) # 5분 동안 캐시 유지
 def index(request):
     # 현재 시간
     print('첫번쨰 함수! 캐싱xxx')
@@ -244,7 +241,8 @@ def detail(request, movie_id):
         is_like_movie = False
     
     movie_collections = MovieCollection.objects.filter(movie_id=movie_id).select_related('collection').annotate(like_number=Count('collection__like_users')).order_by('-like_number')
-
+    print("--------리뷰-----------")
+    print(reviews)
     context = {
         'avg_rating_percent': avg_rating_percent,
         'total_reviews': total_reviews,
