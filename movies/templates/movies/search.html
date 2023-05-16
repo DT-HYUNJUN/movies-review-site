@@ -9,51 +9,56 @@
     <div class="container container-pt white-font">
       <!--결과-->
       <p class="title-size result-title">'{{ key_word }}' 검색 결과</p>
-      <p class="title-size result-title">{{ total_results }}건의 결과</p>
+      <p class="title-size result-title">{{ count_results }}건의 결과</p>
       
 <!--영화 START-->
-{% if results %}
+
     <!-- 영화일경우-->
-    <p class="title-size result-text">영화</p>
-    <div class="search-card-wrap">
-        {% for result in results %}
-            {% if result.overview %}
-                <a class="search-card" href="{% url 'movies:detail' result.id %}">
-                    <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ result.poster_path }}" alt="{{ result.title }}">
-                    <p class="white-movie-title">{{ result.title }}</p>
-                    <p class="white-movie-content">{{ result.release_date|slice:":4" }}</p>
-                    <p class="white-movie-avg">평점<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ result.vote_average|floatformat:1 }}</p>
-                </a>
-            {% endif %}
-        {% endfor %}
-{% else %}
-    <p class="result-text-none">검색 결과가 없습니다.</p>
-{% endif %}
+    <div>
+      <p class="title-size result-text">영화</p>
+      <div class="search-card-wrap">
+          {% if movies %}
+            {% for movie in movies %}
+                    <a class="search-card" href="{% url 'movies:detail' movie.id %}">
+                        <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
+                        <p class="white-movie-title">{{ movie.title }}</p>
+                        <p class="white-movie-content">{{ movie.release_date|slice:":4" }}</p>
+                        <p class="white-movie-avg">평점<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ movie.vote_average|floatformat:1 }}</p>
+                    </a>
+            {% endfor %}
+          {% elif not movies %}
+            <p class="result-text-none">검색 결과가 없습니다.</p>
+          {% endif %}
+      </div>
+    </div>
+    
+
+    
+
 <!--영화 END-->
 
 <!--인물 START-->
-{% if results %}
+
     <!-- 인물일경우 -->
-    <p class="title-size result-text">인물</p>
-    <div class="search-card-wrap">
-        {% for result in results %}
-            {% if result.profile_path %}
-                <a class="search-card"href="{% url 'movies:person_detail' result.id %}">
-                    <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ result.profile_path }}" alt="{{ result.name }}">
-                    <p class="white-movie-title">{{ result.name }}</p>
-                    <p class="white-movie-content">대표작: {{ result.known_for.0.title }}</p>
-                </a>
-            {% endif %}
-        {% endfor %}
-    {% else %}
-        <p class="result-text-none">검색 결과가 없습니다.</p>
-    {% endif %}
+    <div>
+      <p class="title-size result-text">인물</p>
+      <div class="search-card-wrap">
+          {% if people %}
+            {% for person in people %}
+                    <a class="search-card"href="{% url 'movies:person_detail' person.id %}">
+                        <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ person.profile_path }}" alt="{{ person.name }}">
+                        <p class="white-movie-title">{{ person.name }}</p>
+                        <p class="white-movie-content">대표작: {{ person.known_for.0.title }}</p>
+                    </a>
+            {% endfor %}
+          {% elif not people %}
+            <p class="result-text-none">검색 결과가 없습니다.</p>
+          {% endif %}
+      </div>
     </div>
+    
 <!--인물 END-->
 
-    </div>
-  </div>
-</div>
     <!-- 페이지 -->
     <div class="pagination justify-content-center">
       <ul class="pagination my-5">
