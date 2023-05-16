@@ -26,14 +26,21 @@
       {% endif %}
       <div class="movie-overview">
         <!--제목, 개봉일, 장르, 국가-->
-          <div>
-            <div class='text-body-secondary fs-5 mt-3'>
+          <div class="d-flex justify-content-between align-items-center mt-5">
+            <div class='text-body-secondary fs-5'>
               <span>{{ year}}</span>
               <span> ・ {{ genres }}</span>
               <span>{% if country %} ・ {{ country }}{% endif %}</span>
             </div>
-            <hr>
+            <div>
+              {% for keyword in kr_keywords %}
+                <span class="me-3 keyword-{{ forloop.counter }}">
+                  #{{ keyword }}
+                </span>
+              {% endfor %}
+            </div>
           </div>
+          <hr>
           <!--상호작용-->
           <div class="d-flex align-items-center gap-5 flex-nowrap">
             <!--평가하기-->
@@ -366,27 +373,6 @@
       {% endif %}
 
       <hr>
-      <!--비슷한 작품-->
-      <div>
-        <p class="detail-title">비슷한 작품</p>
-          <div class="r-card-wrap">
-          {% for r_movie in recommend %}
-          <a class="r-card" href="{% url 'movies:detail' r_movie.id %}">
-            {% if r_movie.poster_path %}
-            <img class="r-poster-size" src="https://image.tmdb.org/t/p/w342{{ r_movie.poster_path }}" alt="">
-            {% else %}
-            <img class="r-poster-size" src="{% static 'img/no-poster-2.png' %}" alt="">
-            {% endif %}
-            <span class="r-movie-title">{{ r_movie.title }}</span>
-            <p class="r-movie-content">{{ movie.release_date|slice:":4" }}</p>
-            <p class="r-movie-avg">평점<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ r_movie.vote_average|floatformat:1 }}</p>
-          </a>
-          {% endfor %}
-        </div>
-
-
-      <!--컬렉션-->
-      <hr>
         <span class="fs-5 fw-bold">컬렉션</span> <span class="text-secondary">{{ collections.count }}</span>
       <div>
         <div class="collection-list mt-3">
@@ -405,6 +391,46 @@
           {% endfor %}
         </div>
       </div>
+      <hr>
+      <!--비슷한 작품-->
+      <div>
+        <p class="fs-5 fw-bold">비슷한 작품</p>
+          <div class="r-card-wrap">
+          {% for r_movie in recommend %}
+          <a class="r-card" href="{% url 'movies:detail' r_movie.id %}">
+            {% if r_movie.poster_path %}
+            <img class="r-poster-size" src="https://image.tmdb.org/t/p/w342{{ r_movie.poster_path }}" alt="">
+            {% else %}
+            <img class="r-poster-size" src="{% static 'img/no-poster-2.png' %}" alt="">
+            {% endif %}
+            <span class="r-movie-title">{{ r_movie.title }}</span>
+            <p class="r-movie-content">{{ movie.release_date|slice:":4" }}</p>
+            <p class="r-movie-avg">평점<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ r_movie.vote_average|floatformat:1 }}</p>
+          </a>
+          {% endfor %}
+        </div>
+
+
+      <!--컬렉션-->
+      {% comment %} <hr>
+        <span class="fs-5 fw-bold">컬렉션</span> <span class="text-secondary">{{ collections.count }}</span>
+      <div>
+        <div class="collection-list mt-3">
+          {% for movie_collection in movie_collections %}
+            <li class="collection-item">
+              <a href="{% url 'movies:collection_detail' movie_collection.collection.user movie_collection.collection.pk %}">
+                <div class="detail-collection">
+                  <div class="detail-collection-poster-wrapper">
+                    {% for movie in movie_collection.collection.moviecollection_set.all|slice:"4" %}
+                      <img class="profile-collection-poster" src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="">
+                    {% endfor %}
+                  </div>
+                </div>
+              </a>
+            </li>
+          {% endfor %}
+        </div>
+      </div> {% endcomment %}
 
       <!-- 컬렉션 -->
       {% comment %} {% for movie_collection in movie_collections %}
