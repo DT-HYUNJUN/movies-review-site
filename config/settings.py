@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     # 필요한 소셜 로그인
     'allauth.socialaccount.providers.google',
+    # 세자리마다 콤마
+    'django.contrib.humanize',
     # 기본
     'django.contrib.admin',
     'django.contrib.auth',

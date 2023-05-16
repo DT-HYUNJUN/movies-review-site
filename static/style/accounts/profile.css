@@ -121,3 +121,16 @@
   color: gray;
   margin-top: 10px;
 }
+
+.profile-title {
+  font-size: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #00000030;
+}
+.profile-collection-title{
+  font-size: 15px;
+}
+.profile-content{
+  padding-right: 2.5rem;
+  padding-left: 2.5rem;
+}

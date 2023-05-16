@@ -9,8 +9,8 @@
     <div class="container container-pt white-font">
       <!--결과-->
       <p class="title-size result-title">'{{ key_word }}' 검색 결과</p>
-      <p class="title-size result-title">{{ total_results }}건의 결과</p>
-
+      <p class="title-size result-title">{{ count_results }}건의 결과</p>
+      
 <!--영화 START-->
 {% if results %}
 <div>
@@ -35,11 +35,13 @@
 {% else %}
     <p class="result-text-none">검색 결과가 없습니다.</p>
 {% endif %}
+
 <!--영화 END-->
 </div>
 
 <div>
 <!--인물 START-->
+
 {% if results %}
   <!-- 인물일경우 -->
   <p class="title-size result-text">인물</p>
@@ -58,12 +60,10 @@
 <p class="result-text-none">검색 결과가 없습니다.</p>
     {% endif %}
   </div>
+
 <!--인물 END-->
 </div>
 
-    </div>
-  </div>
-</div>
     <!-- 페이지 -->
     <div class="pagination justify-content-center">
       <ul class="pagination my-5">
