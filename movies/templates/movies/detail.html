@@ -28,9 +28,9 @@
         <!--제목, 개봉일, 장르, 국가-->
           <div>
             <div class='text-body-secondary fs-5 mt-3'>
-              <span>{{ year}} ・</span>
-              <span>{{ genres }} ・</span>
-              <span>{{ country }}</span>
+              <span>{{ year}}</span>
+              <span> ・ {{ genres }}</span>
+              <span>{% if country %} ・ {{ country }}{% endif %}</span>
             </div>
             <hr>
           </div>
@@ -99,9 +99,9 @@
           <hr>
           <div class="info-content">
             <p class="mb-2">{{ movie.original_title }}</p>
-            <span>{{ movie.release_date }} · </span>
-            <span>{{ country }} · </span>
-            <span>{{ genres }}</span>
+            <span>{{ movie.release_date }}</span>
+            <span>{% if country %} · {{ country }}{% endif %}</span>
+            <span> · {{ genres }}</span>
             <p class="mt-2">{{ movie.runtime }}분</p>
           </div>
         </div>
