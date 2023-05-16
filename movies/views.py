@@ -59,7 +59,7 @@ def index(request):
     params = {
         'api_key' : api_key,
         'language': 'ko-kr',
-        'region'  : 'kr'
+        'region'  : 'kr',
     }
 
     # 현재 상영 영화 인기순으로 5개
@@ -187,6 +187,7 @@ def detail(request, movie_id):
     params = {
         'api_key': api_key,
         'movie_id': movie_id,
+        'language': 'ko-kr',
     }
     recommend = requests.get(base_url+path, params=params).json()['results'][:10]
 

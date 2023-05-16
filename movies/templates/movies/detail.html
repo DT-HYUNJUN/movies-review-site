@@ -100,7 +100,7 @@
       </div>
     </div>
   </div>
-  <div class="text-center mb-5">
+  <div class="text-center mb-5 mt-3">
     {% if video_key %}
     <iframe width="720" height="405" src="https://www.youtube.com/embed/{{ video_key }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     {% endif %}
@@ -362,12 +362,12 @@
         <span class="fs-5 fw-bold">컬렉션</span> <span class="text-secondary">{{ collections.count }}</span>
       <div>
         <div class="collection-list mt-3">
-          {% for collection in collections %}
+          {% for movie_collection in movie_collections %}
             <li class="collection-item">
-              <a href="{% url 'movies:collection_detail' person.username collection.pk %}">
+              <a href="{% url 'movies:collection_detail' movie_collection.collection.user movie_collection.collection.pk %}">
                 <div class="detail-collection">
-                  <div class="profile-collection-poster-wrapper">
-                    {% for movie in collection.moviecollection_set.all|slice:"4" %}
+                  <div class="detail-collection-poster-wrapper">
+                    {% for movie in movie_collection.collection.moviecollection_set.all|slice:"4" %}
                       <img class="profile-collection-poster" src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="">
                     {% endfor %}
                   </div>
@@ -379,14 +379,15 @@
       </div>
 
       <!-- 컬렉션 -->
-      <div>컬렉션</div>
-      {% for movie_collection in movie_collections %}
+      {% comment %} {% for movie_collection in movie_collections %}
         <a href="{% url 'movies:collection_detail' movie_collection.collection.user movie_collection.collection.pk %}">
           {% for movie in movie_collection.collection.moviecollection_set.all|slice:"4" %}
             <img src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="포스터">
           {% endfor %}
         </a>
-      {% endfor %}
+      {% endfor %} {% endcomment %}
+
+
     </div>
   </div>
 </section>

@@ -264,12 +264,13 @@
 }
 
 
+
 /* .slick-slide {
   padding-right: 20px;
 } */
 
 .index-collection-section {
-  height: 500px;
+  height: 550px;
 }
 .index-collection-section::before {
   content: "";
@@ -279,7 +280,7 @@
   left: 0;
   right: 0;
   width: 100%;
-  height: 500px;
+  height: 550px;
   z-index: -1;
 }
 
@@ -288,7 +289,7 @@
   background: rgb(204, 205, 207);
   box-sizing: border-box;
   width: 100%;
-  padding-bottom: 450px;
+  padding-bottom: 148%;
   border-radius: 5px;
   overflow: hidden;
 }
@@ -303,4 +304,8 @@
   box-sizing: border-box;
   width: 100%;
   padding: 2px;
+}
+
+.profile-collection-poster-div {
+  height: max-content;
 }

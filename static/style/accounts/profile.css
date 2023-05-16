@@ -53,6 +53,7 @@
   /* width: 65px;
   height: 96px; */
   width: 50%;
+  height: 100%;
   padding: 2px;
   border-radius: 5px;
 }
@@ -161,4 +162,9 @@
 
 .like-movies-star {
   display: inline-block !important;
+}
+
+/* test */
+.tmp-poster {
+  width: calc(50% - 10px);
 }
