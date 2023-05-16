@@ -1,7 +1,7 @@
 import re
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Collection, MovieCollection
-from reviews.models import Review
+from reviews.models import Review, Emote
 from .forms import CollectionForm, CollectionMovieDeleteForm
 from reviews.models import Review
 from reviews.forms import ReviewForm
@@ -115,6 +115,22 @@ def detail(request, movie_id):
     # 리뷰
     reviews = Review.objects.filter(movie=movie_id).order_by('-pk')
     total_reviews = len(reviews)
+
+    review_info_lst = []
+    for review in reviews:
+        review_like = Emote.objects.filter(review=review.pk, emotion=1)
+        review_dislike = Emote.objects.filter(review=review.pk, emotion=0)
+        liked_by_user = False
+        for emote in review_like:
+            if request.user == emote.user:
+                liked_by_user = True
+                break
+        disliked_by_user = False
+        for emote in review_dislike:
+            if request.user == emote.user:
+                disliked_by_user = True
+                break
+        review_info_lst.append((review, liked_by_user, disliked_by_user))
     
     # 평점 계산
     rating_dict = {0.0: 0, 0.5: 0, 1.0: 0, 1.5: 0, 2.0: 0, 2.5: 0, 3.0: 0, 3.5: 0, 4.0: 0, 4.5: 0, 5.0: 0}
@@ -221,6 +237,7 @@ def detail(request, movie_id):
         'casts': casts,
         'review_form': review_form,
         'reviews': reviews,
+        'review_info_lst': review_info_lst,
     }
     return render(request, 'movies/detail.html', context)
 
@@ -269,12 +286,14 @@ def person_detail(request, person_id):
     }
     return render(request, 'movies/person_detail.html', context)
 
+
 def get_name_in_korean(names, lst):
     hangul = re.compile('[^ ㄱ-ㅣ가-힣]+')
     for name in names:
         result = hangul.sub('', name)
         if result.strip():
             lst.append(result)
+
 
 def check_korean_name(person, lst):
     name = ''
@@ -286,8 +305,8 @@ def check_korean_name(person, lst):
     else:
         name = person['name']
     return name
-    
-            
+
+
 def search(request):
     string = request.GET.get('search')
     path = f'/search'
@@ -295,57 +314,33 @@ def search(request):
         'api_key': api_key,
         'query': string,
         'language': 'ko-KR',
-        'region': 'kr'
+        'region': 'kr',
+        'include_adult': 'false'
     }
 
-    # 영화/인물 검색 데이터 1page ~ 존재하는 page까지 인기순 정렬
-    total_movies = []
-    page = 1
-    while 1:
-        params['page'] = page
-        movies_response = requests.get(base_url+path+'/movie', params=params).json()
-        if len(movies_response['results']) == 0:
-            break
-        movies = sorted(movies_response['results'], key=lambda x: x['popularity'], reverse=True)
-        total_movies += movies
-        page += 1
+    # 영화 1페이지
+    page            = request.GET.get('page', 1)
+    params['page']  = page
+    movies_response = requests.get(base_url+path+'/movie', params=params).json()
+    movies_pages    = movies_response['total_pages']
+    people_response = requests.get(base_url+path+'/person', params=params).json()
+    people_pages    = people_response['total_pages']
+    total_pages     = max(movies_pages, people_pages)
+    total_results   = movies_response['total_results'] + people_response['total_results']
 
-    total_people = []
-    page = 1
-    while 1:
-        params['page'] = page
-        people_response = requests.get(base_url+path+'/person', params=params).json()
-        if len(people_response['results']) == 0:
-            break
-        people = sorted(people_response['results'], key=lambda x: x['popularity'], reverse=True)
-        for person in people:
-            if person['known_for_department'] in {'Acting', 'Actors'}:
-                person['job'] = '배우'
-            elif person['known_for_department'] == 'Directing':
-                person['job'] = '감독'
-            elif person['known_for_department'] == 'Writing':
-                person['job'] = '작가'
-            elif person['known_for_department'] == 'Production':
-                person['job'] = '프로듀서'
-            else:
-                person['job'] = '스탭'
-            new = []
-            cnt = 0
-            for movie in sorted(person['known_for'], key=lambda x: x['popularity'], reverse=True):
-                if cnt == 2:
-                    break
-                if movie['media_type'] == 'movie':
-                    new.append(movie)
-                    cnt += 1
-            person['known_for'] = new
+    # 페이지네이터 객체 생성
+    paginator = Paginator(range(1, total_pages+1), 1)
+    # ex) 1 of 109 page
+    pages = paginator.page(page)
 
-        total_people += people
-        page += 1
 
+    result = movies_response['results'] + people_response['results']
+    
     context = {
-        'key_word': string,
-        'movies': total_movies,
-        'people': total_people,
+        'key_word'     : string,
+        'results'      : result,
+        'total_results': total_results,
+        'pages'        : pages,
     }
     return render(request, 'movies/search.html', context)
 
@@ -428,27 +423,10 @@ def update(request, username, collection_pk):
                 selected_movies = json.loads(selected_movies_json)
                 for movie in selected_movies:
                     MovieCollection.objects.create(collection=collection, movie_id=movie['id'], movie_poster=movie['poster_path'])
-
-            # deleted_movies_json = request.POST.get('deleted_list')
-            # if deleted_movies_json:
-            #     deleted_movies = json.loads(deleted_movies_json)
-            #     for movie_id in deleted_movies:
-            #         to_delete = MovieCollection.objects.get(collection=collection, movie_id=movie_id)
-            #         to_delete.delete()
             return redirect('movies:collection_detail', username, collection.pk)
     else:
         collection_form = CollectionForm(instance=collection)
         movie_delete_form = CollectionMovieDeleteForm(instance=collection)
-        # movies = collection.moviecollection_set.all()
-        # my_movies = []
-        # params = {
-        #     'api_key': api_key,
-        #     'language': 'ko-KR',
-        # }
-        # for movie in movies:
-        #     path = f'/movie/{movie.movie_id}'
-        #     movie = requests.get(base_url+path, params=params).json()
-        #     my_movies.append(movie)
     context = {
         'collection': collection,
         'collection_form': collection_form,
@@ -468,6 +446,7 @@ def delete(request, username, collection_pk):
         movie.delete()
     collection.delete()
     return redirect('accounts:profile', username)
+
 
 def get_average_rating(movies):
     for movie in movies:
@@ -490,7 +469,6 @@ def get_average_rating(movies):
             if rating_people:
                 avg_rating = round((sum_ratings / rating_people), 1)
             movie['avg_rating'] = avg_rating
-
 
 
 def genre_movies(request, genre_name):
@@ -556,6 +534,7 @@ def genre_movies(request, genre_name):
     }
 
     return render(request, 'movies/genre_movies.html', context)
+
 
 @login_required
 def like_collection(request, collection_pk):

@@ -15,15 +15,14 @@ async function getApiKey() {
 const deleteUl = document.getElementById('id_delete_movies')
 const labels = deleteUl.querySelectorAll('li > label')
 labels.forEach(async (label) => {
-  const movie_id = label.textContent
-  console.log(label)
-
+  const movie_title = label.textContent
   const api_key = await getApiKey()
-  const response = await fetch(`https://api.themoviedb.org/3/movie/${movie_id}?api_key=${api_key}&language=ko-KR`);
-  const movie = await response.json()
-  console.log(movie)
+  const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${movie_title}&language=ko-KR`);
+  const movie_response = await response.json()
+  const movie = movie_response.results
+  console.log(movie[0].poster_path)
   const formPoster = document.createElement('img')
-  formPoster.src = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+  formPoster.src = `https://image.tmdb.org/t/p/w500/${movie[0].poster_path}`
   formPoster.classList.add('movie-poster-size')
   label.appendChild(formPoster)
 })

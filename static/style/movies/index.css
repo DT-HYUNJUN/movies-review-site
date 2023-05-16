@@ -4,7 +4,7 @@
   height: 369px;
   border-radius: 5px;
 }
-/* 테없그있 */
+
 .poster-size {
   width: 246px;
   height: 369px;
@@ -219,9 +219,16 @@
   position: absolute;
   z-index: 5;
   bottom: 5rem;
+  text-align: left;
   left: 1rem;
   color: white;
   font-size: 35px;
+}
+.carousel-title-origin {
+  padding-top: 5px;
+  
+  font-size: 20px;
+
 }
 
 .slick-index-prev:before {

@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% load static %}
-{% load i18n %}
 
 {% block content %}
 <div class="container container-pt profile">
@@ -14,16 +13,8 @@
           {{ field }}
         </div>
       {% endfor %}
-      {{ movie_delete_form.as_p }}
-      <div>#text가 뭘까</div>
+      {{ movie_delete_form }}
 
-      {% comment %} {% for movie in movie_delete_form.delete_movies %}
-        {% with poster_url=movie.get_movie_poster %}
-          {% if poster_url %}
-            <img src="{{ poster_url }}" alt="poster">
-          {% endif %}
-        {% endwith %}
-      {% endfor %} {% endcomment %}
       <!-- 추가할 영화 리스트 출력될 부분 -->
       <h4>추가한 영화</h4>
       <div id="selected-list">

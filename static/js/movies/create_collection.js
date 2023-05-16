@@ -71,13 +71,9 @@ searchInput.addEventListener('input', async (event) => {
           selectedMovieTitle.textContent = movie.title
           const selectedMovieDate = document.createElement('div')
           selectedMovieDate.textContent = movie.release_date
-
-          // selectedMovieDiv.appendChild(selectedMovieImg)
-          // selectedMovieDiv.appendChild(selectedMovieTitle)
-          // selectedMovieDiv.appendChild(selectedMovieDate)
+          
           moviesDiv.appendChild(selectedMovieImg)
         })
-        
 
         textDiv.appendChild(titleDiv)
         textDiv.appendChild(dateDiv)
