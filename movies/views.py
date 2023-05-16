@@ -326,21 +326,20 @@ def search(request):
     people_response = requests.get(base_url+path+'/person', params=params).json()
     people_pages    = people_response['total_pages']
     total_pages     = max(movies_pages, people_pages)
-    total_results   = movies_response['total_results'] + people_response['total_results']
-
+    count_results   = movies_response['total_results'] + people_response['total_results']
+    movies          = movies_response['results']
+    people          = people_response['results']
     # 페이지네이터 객체 생성
     paginator = Paginator(range(1, total_pages+1), 1)
     # ex) 1 of 109 page
     pages = paginator.page(page)
-
-
-    result = movies_response['results'] + people_response['results']
     
     context = {
         'key_word'     : string,
-        'results'      : result,
-        'total_results': total_results,
+        'count_results': count_results,
         'pages'        : pages,
+        'movies'       : movies,
+        'people'       : people,
     }
     return render(request, 'movies/search.html', context)
 
