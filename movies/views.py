@@ -16,6 +16,7 @@ from django.db.models import Avg
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import json
+from django.views.decorators.cache import cache_page
 
 
 load_dotenv()
@@ -46,6 +47,7 @@ def get_average_rating(movies):
             movie['avg_rating'] = avg_rating
 
 
+@cache_page(60 * 5) # 5분 동안 캐시 유지
 def index(request):
     # 현재 시간
     now_time = timezone.now()
@@ -181,11 +183,14 @@ def detail(request, movie_id):
     genres = '/'.join(tmp)
     
     # 국가 코드
-    country_code = movie['production_countries'][0]['iso_3166_1']
-    try:
-        country = pycountry.countries.get(alpha_2=country_code).name
-    except AttributeError:
-        pass
+    if movie['production_countries']:
+        country_code = movie['production_countries'][0]['iso_3166_1']
+        try:
+            country = pycountry.countries.get(alpha_2=country_code).name
+        except AttributeError:
+            pass
+    else:
+        country = ''
 
     # 감독
     crews = []
@@ -326,21 +331,20 @@ def search(request):
     people_response = requests.get(base_url+path+'/person', params=params).json()
     people_pages    = people_response['total_pages']
     total_pages     = max(movies_pages, people_pages)
-    total_results   = movies_response['total_results'] + people_response['total_results']
-
+    count_results   = movies_response['total_results'] + people_response['total_results']
+    movies          = movies_response['results']
+    people          = people_response['results']
     # 페이지네이터 객체 생성
     paginator = Paginator(range(1, total_pages+1), 1)
     # ex) 1 of 109 page
     pages = paginator.page(page)
-
-
-    result = movies_response['results'] + people_response['results']
     
     context = {
         'key_word'     : string,
-        'results'      : result,
-        'total_results': total_results,
+        'count_results': count_results,
         'pages'        : pages,
+        'movies'       : movies,
+        'people'       : people,
     }
     return render(request, 'movies/search.html', context)
 
