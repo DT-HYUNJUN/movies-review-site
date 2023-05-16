@@ -12,7 +12,7 @@ import requests
 import pycountry
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from django.db.models import Avg
+from django.db.models import Avg, Count
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import json
@@ -98,13 +98,18 @@ def index(request):
     upcoming_movies = sorted(upcoming_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:20]
     get_average_rating(upcoming_movies)
 
+    # 컬렉션 인기순
+    collections = Collection.objects.prefetch_related('moviecollection_set').annotate(likes_cnt=Count('like_users')).all().order_by('-likes_cnt')
+    collections = collections[:10] if len(collections) > 10 else collections
+
     context = {
         'playing_movies_trailers': playing_movies_trailers,
         'now_time': now_time,
         'playing_movies': playing_movies,
         'popular_movies': popular_movies,
         'top_movies': top_movies,
-        'upcoming_movies': sorted(upcoming_movies, key=lambda x: x['release_date'])
+        'upcoming_movies': sorted(upcoming_movies, key=lambda x: x['release_date']),
+        'collections': collections,
     }
     
     return render(request, 'movies/index.html', context)
@@ -231,6 +236,8 @@ def detail(request, movie_id):
     else:
         is_like_movie = False
     
+    movie_collections = MovieCollection.objects.filter(movie_id=movie_id).select_related('collection').annotate(like_number=Count('collection__like_users')).order_by('-like_number')
+
     context = {
         'avg_rating_percent': avg_rating_percent,
         'total_reviews': total_reviews,
@@ -247,6 +254,7 @@ def detail(request, movie_id):
         'reviews': reviews,
         'review_info_lst': review_info_lst,
         'is_like_movie': is_like_movie,
+        'movie_collections': movie_collections,
     }
     return render(request, 'movies/detail.html', context)
 

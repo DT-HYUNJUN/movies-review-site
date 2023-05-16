@@ -219,6 +219,16 @@
         </div>
       </div>
     </div>
+    
+    <!-- 컬렉션 -->
+    <div>컬렉션</div>
+    {% for collection in collections %}
+      <a href="{% url 'movies:collection_detail' collection.user collection.pk %}">
+        {% for movie in collection.moviecollection_set.all|slice:"4" %}
+          <img src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="포스터">
+        {% endfor %}
+      </a>
+    {% endfor %}
   </div>
 
 <!--비디오 모달창 5개-->
