@@ -75,18 +75,32 @@
                 </button>
               </div>
               <div class="dropdown">
-                <button class="dropdown-toggle border-0 bg-transparent {% if is_like_movie %}pink-color{% endif %}" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  {% if is_added %}
-                    <i class="bi bi-check2 pink-color" id="is-like"></i>
-                  {% else %}
-                    <i class="bi bi-plus-lg pink-color" id="is-not-like"></i>
-                  {% endif %}
+                <button class="dropdown-toggle border-0 bg-transparent" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   내 컬렉션
                 </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <ul class="dropdown-menu add-collection">
+                  {% if my_collection %}
+                    {% for collection in my_collection %}
+                      <li class="d-flex justify-content-between my-3 px-2 align-items-center">
+                        <a class="dropdown-item text-truncate" href="{% url 'movies:collection_detail' request.user.username collection.pk %}">{{ collection.title }}</a>
+                        {% if collection.movie_cnt > 0 %}
+                          <button class="text-pink border-0 bg-transparent me-2" disabled>
+                            <i class="bi bi-check2-circle"></i>
+                          </button>
+                        {% else %}
+                          <form action="{% url 'movies:add_collection_movie' collection.pk movie.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="text-pink add-collection-btn border-0 bg-transparent">추가</button>
+                          </form>
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  {% else %}
+                    <li class="text-center my-3">컬렉션이 없어요!</li>
+                  {% endif %}
+                  <div class="text-center">
+                    <a href="{% url 'movies:create' request.user.username %}" class="my-btn">컬렉션 만들기</a>
+                  </div>
                 </ul>
               </div>
             </div>

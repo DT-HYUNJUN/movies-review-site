@@ -39,8 +39,6 @@ def review_create(request):
             form.is_spoiler = request.POST.get('is_spoiler')
             form.save()
             movie_id = request.POST.get('movie-id')
-            print('-----리뷰내용-----')
-            print(form)
             return redirect('movies:detail', movie_id)
     else:
         form = ReviewForm()
