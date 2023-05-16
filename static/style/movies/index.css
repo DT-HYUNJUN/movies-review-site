@@ -125,8 +125,7 @@
   right: 0;
   top: 0;
   height: 720px;
-  background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 15%, rgba(0,0,0,0.01) 85%, rgba(0,0,0,1) 100%),
-  linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 16%, rgba(0,0,0,0) 26%, rgba(0,0,0,0.01) 74%, rgba(0,0,0,1) 84%, rgba(0,0,0,1) 100%);
+  background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 15%, rgba(0,0,0,0) 85%, rgba(0,0,0,0.6979166666666667) 100%);
 }
 
 .btn-video {
@@ -213,14 +212,20 @@
 
 .carousel-poster {
   height: 720px;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.carousel-poster button {
+  width: 100%;
 }
 
 .carousel-movie-title {
   position: absolute;
   z-index: 5;
-  bottom: 5rem;
+  bottom: 2rem;
   text-align: left;
-  left: 1rem;
+  left: 20rem;
   color: white;
   font-size: 35px;
 }
@@ -257,7 +262,3 @@
 .slick-list {
   margin-right: -20px;
 }
-
-/* .slick-slide {
-  padding-right: 20px;
-} */
