@@ -8,15 +8,6 @@ $(document).ready(function(){
   });
 })
 
-$(document).ready(function(){
-  $('.collection-list').slick({
-    infinite: false,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    prevArrow : "<button type='button' class='slick-prev'>Previous</button>",    
-    nextArrow : "<button type='button' class='slick-next'>Next</button>",
-  });
-})
 
 const isSpoilerList = document.querySelectorAll(".spoiler-check")
 const reviewContentList = document.querySelectorAll(".hide-spoiler-content")

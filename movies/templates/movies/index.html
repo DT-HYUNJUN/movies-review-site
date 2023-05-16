@@ -221,7 +221,7 @@
     </div>
 
     <!--테스트용 컬렉션 자리-->
-    <div class="index-collection-section">
+    {% comment %} <div class="index-collection-section">
       <div class="review-box">
         <p class="title-size white-font pt-3 mb-3">상영예정작</p>
         <div class="movie-slide-black">
@@ -243,16 +243,17 @@
           {% endfor %}
         </div>
       </div>
-    </div>
+    </div> {% endcomment %}
 
-    <!--프로필 컬렉션-->
+    <!--컬렉션-->
     <div class="index-collection-section">
+      <p class="title-size white-font pt-3 mb-3">컬렉션</p>
       <div class="collection-list">
-        <!--{% for collection in collections %}-->
+        {% for collection in collections %}
           <li class="collection-item">
-            <a href="{% url 'movies:collection_detail' person.username collection.pk %}">
+            <a href="{% url 'movies:collection_detail' collection.user collection.pk %}">
               <div class="index-collection">
-                <div class="profile-collection-poster-wrapper">
+                <div class="index-collection-poster-wrapper">
                   {% for movie in collection.moviecollection_set.all|slice:"4" %}
                     <img class="profile-collection-poster" src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="">
                   {% endfor %}
@@ -260,20 +261,20 @@
               </div>
             </a>
           </li>
-        <!--{% endfor %}-->
+        {% endfor %}
       </div>
     </div>
 
     
     <!-- 컬렉션 -->
-    <div>컬렉션</div>
+    {% comment %} <div>컬렉션</div>
     {% for collection in collections %}
       <a href="{% url 'movies:collection_detail' collection.user collection.pk %}">
         {% for movie in collection.moviecollection_set.all|slice:"4" %}
           <img src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="포스터">
         {% endfor %}
       </a>
-    {% endfor %}
+    {% endfor %} {% endcomment %}
 
   </div>
 
