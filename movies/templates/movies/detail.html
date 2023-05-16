@@ -98,8 +98,8 @@
       <div class="movie-detail">
         <!--영화정보-->
         <div class="mb-5">
-          <p class="detail-title">영화 정보</p>
           <hr>
+          <p class="detail-title mb-3">영화 정보</p>
           <div class="info-content">
             <p class="mb-2">{{ movie.original_title }}</p>
             <span>{{ movie.release_date }}</span>
@@ -108,8 +108,8 @@
             <p class="mt-2">{{ movie.runtime }}분</p>
           </div>
         </div>
-        <p class="detail-title">출연 / 제작</p>
         <hr>
+        <p class="detail-title mb-3">출연 / 제작</p>
         <div class="row row-cols-1 row-cols-md-4 gx-4 mx-auto">
           <!--감독-->
           {% for crew in crews %}
@@ -158,7 +158,7 @@
           {% endfor %}
         </div>
         <!--평점-->
-        <hr>
+        <hr>  
         <div>
           <div class="d-flex justify-content-between align-items-center flex-nowrap">
             <p class="fw-bold fs-5">별점 그래프</p>
@@ -321,6 +321,27 @@
         </div>
       </div>
       {% endif %}
+
+      <!--컬렉션-->
+      <hr>
+        <span class="fs-5 fw-bold">컬렉션</span> <span class="text-secondary">{{ collections.count }}</span>
+      <div>
+        <div class="collection-list mt-3">
+          {% for collection in collections %}
+            <li class="collection-item">
+              <a href="{% url 'movies:collection_detail' person.username collection.pk %}">
+                <div class="detail-collection">
+                  <div class="profile-collection-poster-wrapper">
+                    {% for movie in collection.moviecollection_set.all|slice:"4" %}
+                      <img class="profile-collection-poster" src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="">
+                    {% endfor %}
+                  </div>
+                </div>
+              </a>
+            </li>
+          {% endfor %}
+        </div>
+      </div>
     </div>
   </div>
 </section>
