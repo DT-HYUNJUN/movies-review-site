@@ -104,7 +104,13 @@
               <div class="card crew-card mb-3 p-2 border-0" style="max-width: 15rem;">
                 <div class="row g-0">
                   <div class="col-md-4">
-                    <img src="https://image.tmdb.org/t/p/w185{{ crew.profile_path }}" class="img-fluid rounded" alt="...">
+                    {% if crew.profile_path %}
+                      <img src="https://image.tmdb.org/t/p/w185{{ crew.profile_path }}" class="img-fluid rounded" alt="...">
+                    {% else %}
+                      <div class="no-person-wrapper rounded d-flex flex-column justify-content-center">
+                        <img class="no-person rounded" src="{% static 'img/person-default-2.webp' %}" alt="">
+                      </div>
+                    {% endif %}
                   </div>
                   <div class="col-md-8">
                     <div class="ms-2 d-flex flex-column justify-content-center h-100 gap-3">
@@ -123,7 +129,13 @@
               <div class="card cast-card mb-3 p-2 border-0" style="max-width: 15rem;">
                 <div class="row g-0">
                   <div class="col-md-4">
+                    {% if cast.profile_path %}
                     <img src="https://image.tmdb.org/t/p/w500{{ cast.profile_path }}" class="img-fluid rounded" alt="...">
+                    {% else %}
+                      <div class="no-person-wrapper rounded d-flex flex-column justify-content-center">
+                        <img class="no-person rounded" src="{% static 'img/person-default-2.webp' %}" alt="">
+                      </div>
+                    {% endif %}
                   </div>
                   <div class="col-md-8">
                     <div class="ms-2 d-flex flex-column justify-content-center h-100 gap-3">
@@ -146,11 +158,8 @@
           </div>
           <p class="rating-people text-secondary">({{ total_reviews }}명)</p>
           {% if reviews.count == 0 %}
-          <div class="text-center fs-1">
+          <div class="text-center fs-1 mb-4">
             <i class="bi bi-bar-chart-fill"></i>
-            <div>
-
-            </div>
           </div>
           {% else %}
           <div id="chart" class="d-flex justify-content-center gap-1" data-ratings="{{ ratings }}">

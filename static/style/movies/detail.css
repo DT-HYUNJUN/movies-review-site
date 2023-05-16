@@ -269,3 +269,14 @@
   font-size: 14px;
   text-align: center;
 }
+
+.no-person-wrapper {
+  width: 70px;
+  height: 105px;
+  padding-bottom: 10px;
+  background-color: #e4e6e7;
+}
+
+.no-person {
+  width: 100%;
+}
