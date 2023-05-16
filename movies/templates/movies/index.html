@@ -80,7 +80,7 @@
               <p class="white-movie-title">{{ p_movie.title }}</p>
               <p class="white-movie-content">{{ p_movie.release_date }}</p>
               <p class="white-movie-avg">
-                평균
+                평점
                 <img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">
                 {{ p_movie.avg_rating }}
               </p>
@@ -108,7 +108,7 @@
               </div>
               <p class="black-movie-title">{{ p_movie.title }}</p>
               <p class="black-movie-content">{{ p_movie.release_date }}</p>
-              <p class="black-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ p_movie.avg_rating }}</p>
+              <p class="black-movie-avg">평점<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ p_movie.avg_rating }}</p>
             </a>
           </div>
           {% endfor %}
@@ -169,7 +169,7 @@
               </div>
               <p class="black-movie-title">{{ t_movie.title }}</p>
               <p class="black-movie-content">{{ t_movie.release_date }}</p>
-              <p class="black-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ t_movie.avg_rating }}</p>
+              <p class="black-movie-avg">평점<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ t_movie.avg_rating }}</p>
             </a>
           </div>
           {% endfor %}
@@ -212,7 +212,7 @@
               </div>
               <p class="white-movie-title">{{ u_movie.title }}</p>
               <p class="white-movie-content">{{ u_movie.release_date }}</p>
-              <p class="white-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ u_movie.avg_rating }}</p>
+              <p class="white-movie-avg">평점<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ u_movie.avg_rating }}</p>
             </a>
           </div>
           {% endfor %}
