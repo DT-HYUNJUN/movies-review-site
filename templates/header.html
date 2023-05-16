@@ -24,13 +24,29 @@
           <a class="nav-link active" aria-current="page" href="{% url 'movies:genre_movies' '로맨스' %}">로맨스</a>
         </li>
       </ul>
-      <form action="{% url 'movies:search' %}" class="d-flex" role="search">
-        <div id="search" class="d-flex align-items-center dark-search rounded-1 ps-3">
-          <i class="bi bi-search"></i>
-          <input class="px-1 py-2 bg-transparent border-0 rounded-1 dark-search" type="search" name="search" placeholder="검색" aria-label="Search">
+      <div class="search-box">
+        <form action="{% url 'movies:search' %}" class="d-flex" role="search">
+          <div id="search" class="d-flex align-items-center dark-search rounded-1 ps-3">
+            <i class="bi bi-search"></i>
+            <input class="px-1 py-2 bg-transparent border-0 rounded-1 dark-search movie-search" type="search" name="search" placeholder="검색" aria-label="Search">
+          </div>
+          <button class="" type="submit" hidden>Search</button>
+        </form>
+
+        <!-- 검색어 추천 (일간 인기영화 ) -->
+        <div class="trending-box is-onblur" tabindex="0">
+          <form action="{% url 'movies:search' %}" role="search" class="">
+          <span class="popular-search pink-text">인기 검색어</span>
+          <div class="d-flex flex-column mt-2">
+            {% for dtm in day_trending_movies %}
+              <div class="trending-movies">
+                <input type="submit" name="search" value="{{ dtm }}">
+              </div>
+            {% endfor %}
+          </div>
+        </form>
         </div>
-        <button class="" type="submit" hidden>Search</button>
-      </form>
+      </div>
       <!-- 로그인 / 회원가입 -->
       <div class="d-flex align-items-center">
         <!--로그인 시-->
@@ -76,3 +92,5 @@
     </div>
   </div>
 </div>
+
+<script src="{% static 'js/base/trending.js' %}"></script>
