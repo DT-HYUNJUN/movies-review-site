@@ -53,9 +53,9 @@
                   <ul class="dropdown-menu text-center review-dropdown">
                     <li><a class="dropdown-item comment-dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#review-update">수정</a></li>
                     <li>
-                      <form action="{% url 'reviews:review_delete' review.pk %}" id="comment-delete-form">
+                      <form action="{% url 'reviews:review_delete' review.pk %}" id="review-delete-form">
                       {% csrf_token %}
-                      <a type="submit" class="dropdown-item comment-dropdown-item" href="#" onclick="document.getElementById('comment-delete-form').submit();">삭제</a>
+                      <a type="submit" class="dropdown-item comment-dropdown-item" href="#" onclick="document.getElementById('review-delete-form').submit();">삭제</a>
                     </form></li>
                   </ul>
               </div>
@@ -117,6 +117,15 @@
           </section>
         </section>
 
+        {% if comment_update_form_lst|length == 0 %}
+        <div class="text-center mt-5">
+          <div class="fs-1 mb-2">
+            <i class="bi bi-pen-fill"></i>
+          </div>
+          <p>작성된 댓글이 없습니다.</p>
+          <p class="text-secondary mt-2">처음으로 감상평에 대한 생각을 공유해보는 건 어떨까요?</p>
+        </div>
+        {% else %}
         <!-- 댓글 조회 -->
         <section class="comment-detail">
           {% for comment, comment_update_form, comment_liked_by_user, comment_disliked_by_user in comment_update_form_lst %}
@@ -217,6 +226,7 @@
           </div>
           {% endfor %}
         </section>
+        {% endif %}
       </div>
     </div>
   </div>

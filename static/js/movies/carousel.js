@@ -1,5 +1,4 @@
 $(document).ready(function(){
-  console.log('캐루젤')
   $('.movie-slide-black').slick({
     infinite: false,
     slidesToShow: 5,
@@ -10,7 +9,6 @@ $(document).ready(function(){
 })
 
 $(document).ready(function(){
-  console.log('캐루젤')
   $('.movie-slide').slick({
     infinite: false,
     slidesToShow: 5,

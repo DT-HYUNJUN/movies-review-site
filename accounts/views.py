@@ -1,6 +1,7 @@
 import os
 from pprint import pprint
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.views import View 
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
@@ -123,13 +124,30 @@ def delete(request):
 
 @login_required
 def follow(request, user_pk):
+    # User = get_user_model()
+    # you = User.objects.get(pk=user_pk)
+    # me = request.user
+
+    # if you != me:
+    #     if you.followers.filter(username=request.user.username).exists():
+    #         you.followers.remove(me)
+    #     else:
+    #         you.followers.add(me)
+    # return redirect('accounts:profile', username = you.username)
     User = get_user_model()
     you = User.objects.get(pk=user_pk)
     me = request.user
-
     if you != me:
-        if you.followers.filter(username=request.user.username).exists():
+        if you.followers.filter(pk=request.user.pk).exists():
             you.followers.remove(me)
+            is_followed = False
         else:
             you.followers.add(me)
-    return redirect('accounts:profile', username = you.username)
+            is_followed = True
+        context = {
+            'is_followed': is_followed,
+            'followings_count': you.followings.count(),
+            'followers_count': you.followers.count(),
+        }
+        return JsonResponse(context)
+    return redirect('accounts:profile', you.user_pk)
