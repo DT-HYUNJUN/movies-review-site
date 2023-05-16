@@ -120,9 +120,11 @@ class ProfileUpdate(LoginRequiredMixin, View):
         return render(request, 'accounts/update.html', {'form': form})
 
     def post(self, request):
+        print('post pass')
         form = CustomUserChangeForm(request.POST, instance=request.user, files=request.FILES)
 
         if form.is_valid():
+            print('form valid pass')
             form.save()
             return redirect('accounts:profile', request.user)
         
