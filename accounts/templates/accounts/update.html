@@ -24,10 +24,13 @@
         {% for field in form %}
           <div class="input-group mb-3">
             {% if field.name == 'color' %}
-            <p class="color-text">프로필 색상 변경</p>
-            <p>{{ field }}</p>
+              <p class="color-text">프로필 색상 변경</p>
+              <p>{{ field }}</p>
             {% else %}
-            {{ field }}
+              {{ field }}
+              {% if field.errors %}
+                <span class="text-white">{{ field.errors }}</span>
+              {% endif %}
             {% endif %}
           </div>
         {% endfor %}
