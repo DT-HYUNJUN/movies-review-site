@@ -51,9 +51,6 @@ def get_average_rating(movies):
         movie['avg_rating'] = round(avg_rating, 1) if rating_counts.get(movie_id, 0) > 0 else ''
 
 
-
-
-@cache_page(60 * 5) # 5분 동안 캐시 유지
 def index(request):
     # 현재 시간
     print('첫번쨰 함수! 캐싱xxx')
@@ -238,12 +235,20 @@ def detail(request, movie_id):
         name = check_korean_name(person, casts_tmp)
         cast['kor_name'] = name
     
+    # 영화 보고싶어요 눌렀는지
     if MovieLike.objects.filter(user=request.user, movie_id=movie['id']).exists():
         is_like_movie = True
     else:
         is_like_movie = False
     
+    # 해당 영화가 담긴 컬렉션
     movie_collections = MovieCollection.objects.filter(movie_id=movie_id).select_related('collection').annotate(like_number=Count('collection__like_users')).order_by('-like_number')
+    # 이 영화가 내 컬렉션에 있는지
+    is_added = False
+    my_collection = Collection.objects.filter(user=request.user)
+    for collection in my_collection:
+        if MovieCollection.objects.filter(collection=collection, movie_id=movie_id).exists():
+            is_added = True
 
     context = {
         'avg_rating_percent': avg_rating_percent,
@@ -262,6 +267,8 @@ def detail(request, movie_id):
         'review_info_lst': review_info_lst,
         'is_like_movie': is_like_movie,
         'movie_collections': movie_collections,
+        'my_collection': my_collection,
+        'is_added': is_added,
     }
     return render(request, 'movies/detail.html', context)
 

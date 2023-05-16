@@ -74,6 +74,21 @@
                   코멘트
                 </button>
               </div>
+              <div class="dropdown">
+                <button class="dropdown-toggle border-0 bg-transparent {% if is_like_movie %}pink-color{% endif %}" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {% if is_added %}
+                    <i class="bi bi-check2 pink-color" id="is-like"></i>
+                  {% else %}
+                    <i class="bi bi-plus-lg pink-color" id="is-not-like"></i>
+                  {% endif %}
+                  내 컬렉션
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </div>
             </div>
           </div>
           <hr>
