@@ -18,6 +18,8 @@ from django.core.paginator import Paginator
 import json
 from django.db.models import Avg, Count, Q
 
+# 번역 테스트
+from googletrans  import Translator
 
 
 load_dotenv()
@@ -166,7 +168,7 @@ def detail(request, movie_id):
     }
     movie = requests.get(base_url+path, params=params).json()
     movie_credits = requests.get(base_url+path+'/credits', params=params).json()
-    
+
     # 메인 예고편
     movie_id = movie['id']
     path = f'/movie/{movie_id}/videos'
@@ -264,9 +266,23 @@ def detail(request, movie_id):
             movie_cnt=Count('moviecollection', filter=Q(moviecollection__movie_id=movie_id))
         )
     else:
-        my_collection = False
+        my_collection = False\
 
-    
+    # 키워드 테스트
+    # path = f'/movie/{movie_id}/keywords'
+    # params = {
+    #     'api_key': api_key,
+    #     'language': 'ko-KR',
+    # }
+    # test = requests.get(base_url+path, params=params).json()['keywords']
+    # translator = Translator()
+    # keywords = [i['name'] for i in test[:4]]
+    # kr_keywords = []
+    # for keyword in keywords:
+    #     translation = translator.translate(keyword, src='en', dest='ko')
+    #     kr_keywords.append(translation.text)
+    # print(kr_keywords)   
+
     context = {
         'avg_rating_percent': avg_rating_percent,
         'total_reviews': total_reviews,
@@ -287,6 +303,9 @@ def detail(request, movie_id):
         'movie_collections': movie_collections,
         'my_collection': my_collection,
     }
+
+    
+
     return render(request, 'movies/detail.html', context)
 
 
