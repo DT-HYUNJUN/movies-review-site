@@ -49,19 +49,19 @@
               </div>
             </div>
             <div class="ms-4 d-flex fs-5 gap-5">
-              <div class="ms-2">
-                <i class="bi bi-plus-lg"></i>
-                보고싶어요
-              </div>
+              <form action="{% url 'movies:like' movie.id %}" class="ms-2" method="POST" id="movie-like-form" data-movie-id="{{ movie.id }}">
+                {% csrf_token %}
+                <button type="submit" class="border-0 bg-transparent" id="movie-like-input">
+                  <i class="bi bi-plus-lg pink-color" id="is-like"></i>
+                  <i class="bi bi-check2" id="is-not-like" hidden></i>
+                  보고 싶어요
+                </button>
+              </form>
               <div>
                 <button class="border-0 bg-transparent" data-bs-toggle="modal" {% if request.user.is_authenticated %} data-bs-target="#review-create" {% else %} data-bs-target="#please-login" {% endif %}>
                   <i class="bi bi-pen-fill"></i>
                   코멘트
                 </button>
-              </div>
-              <div>
-                <i class="bi bi-eye-fill"></i>
-                보는중
               </div>
             </div>
           </div>
@@ -412,4 +412,5 @@
 <script src="{% static 'js/movies/more.js' %}"></script>
 <script src="{% static 'js/movies/rating-chart.js' %}"></script>
 <script src="{% static 'js/movies/spoiler.js' %}"></script>
+<script src="{% static 'js/movies/movie_like.js' %}"></script>
 {% endblock content %}

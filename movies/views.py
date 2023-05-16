@@ -1,6 +1,6 @@
 import re
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Collection, MovieCollection
+from .models import MovieLike, Collection, MovieCollection
 from reviews.models import Review, Emote
 from .forms import CollectionForm, CollectionMovieDeleteForm
 from reviews.models import Review
@@ -343,6 +343,21 @@ def search(request):
         'pages'        : pages,
     }
     return render(request, 'movies/search.html', context)
+
+
+@login_required
+def like(request, movie_id):
+    like_movie = MovieLike.objects.filter(user=request.user, movie_id=movie_id)
+    if like_movie.exists():
+        like_movie.delete()
+        is_liked = False
+    else:
+        MovieLike.objects.create(user=request.user, movie_id=movie_id)
+        is_liked = True
+    context = {
+        'is_liked': is_liked,
+    }
+    return JsonResponse(context)
 
 
 def api_convert(request):

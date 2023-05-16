@@ -16,7 +16,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import get_user_model
 
 from reviews.models import Review
-from movies.models import Collection
+from movies.models import Collection, MovieLike
 from django.db.models import Prefetch
 
 load_dotenv()
@@ -72,10 +72,21 @@ def profile(request, username):
     person = User.objects.get(username=username)
     collections = Collection.objects.filter(user=person).prefetch_related('moviecollection_set')
     reviews = Review.objects.filter(user_id=person.id).order_by('-pk')
+    like_movies = MovieLike.objects.filter(user=person).order_by('-pk')
+    like_movies_info = []
+    params = {
+        'api_key': api_key,
+        'language': 'ko-KR',
+    }
+    for movie in like_movies:
+        path = f'/movie/{movie.movie_id}'
+        movie = requests.get(base_url+path, params=params).json()
+        like_movies_info.append(movie)
     context = {
         'reviews': reviews,
         'person': person,
         'collections': collections,
+        'like_movies': like_movies_info,
     }
     return render(request, 'accounts/profile.html', context)
 
