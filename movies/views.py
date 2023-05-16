@@ -50,7 +50,6 @@ def get_average_rating(movies):
         avg_rating = rating_sums.get(movie_id, 0) / rating_counts.get(movie_id, 1)
         movie['avg_rating'] = round(avg_rating, 1) if rating_counts.get(movie_id, 0) > 0 else ''
 
-
 def index(request):
     # 현재 시간
     print('첫번쨰 함수! 캐싱xxx')
@@ -65,7 +64,7 @@ def index(request):
     # 현재 상영 영화 인기순으로 5개
     path = '/movie/now_playing'
     playing_movies_response = requests.get(base_url+path, params=params).json()
-    playing_movies = sorted(playing_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:20]
+    playing_movies = sorted(playing_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:5]
     get_average_rating(playing_movies)
     
     playing_movies_trailers = []
@@ -87,19 +86,19 @@ def index(request):
     # 인기영화 5개
     path = '/movie/popular'
     popular_movies_response = requests.get(base_url+path, params=params).json()
-    popular_movies = popular_movies_response['results'][:20]
+    popular_movies = popular_movies_response['results'][:5]
     get_average_rating(popular_movies)
 
     # 평점 높은 영화
     path = '/movie/top_rated'
     top_movies_response = requests.get(base_url+path, params=params).json()
-    top_movies = top_movies_response['results'][:20]
+    top_movies = top_movies_response['results'][:5]
     get_average_rating(top_movies)
 
     # 상영예정작(인기 많은 5개 뽑아서 d-day순으로 정렬)
     path = '/movie/upcoming'
     upcoming_movies_response = requests.get(base_url+path, params=params).json()
-    upcoming_movies = sorted(upcoming_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:20]
+    upcoming_movies = sorted(upcoming_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:5]
     get_average_rating(upcoming_movies)
 
     # 컬렉션 인기순

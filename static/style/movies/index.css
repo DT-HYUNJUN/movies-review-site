@@ -283,12 +283,24 @@
   z-index: -1;
 }
 
-.index-collection- {
+.index-collection {
   position: relative;
   background: rgb(204, 205, 207);
   box-sizing: border-box;
   width: 100%;
-  padding-bottom: 0px;
+  padding-bottom: 450px;
   border-radius: 5px;
   overflow: hidden;
+}
+
+.index-collection-poster-wrapper {
+  display: flex;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 2px;
 }
