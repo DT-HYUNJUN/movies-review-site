@@ -19,7 +19,7 @@
             <div>
               <div class="d-flex align-items-center profile-href" OnClick="location.href ='{% url 'accounts:profile' review.user %}'" style="cursor:pointer;">
                 <img class="review-card-profile-img me-2 rounded-circle" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile-img.png' %}" {% endif %}  alt="review-profile-image">
-                <span class="card-text me-2">{{ review.user }}</span>
+                <span class="card-text me-2">{{ review.user.nickname }}</span>
                 <span class="text-secondary review-detail-time">{{ review.time_since_created }}</span>
               </div>
 
@@ -135,7 +135,7 @@
             </div>
             <div class="d-flex flex-column comment-detail-box">
               <div class="d-flex justify-content-between">
-                <a href="{% url 'accounts:profile' comment.user %}" class="me-2 comment-user">{{ comment.user }}</a>
+                <a href="{% url 'accounts:profile' comment.user %}" class="me-2 comment-user">{{ comment.user.nickname }}</a>
                 <span class="text-secondary comment-detail-time">{{ review.time_since_created }}</span>
               </div>
               <span class="mt-2 comment-content">{{ comment.content }}</span>

@@ -127,20 +127,21 @@ def detail(request, movie_id):
     total_reviews = len(reviews)
 
     review_info_lst = []
-    for review in reviews:
-        review_like = Emote.objects.filter(review=review.pk, emotion=1)
-        review_dislike = Emote.objects.filter(review=review.pk, emotion=0)
-        liked_by_user = False
-        for emote in review_like:
-            if request.user == emote.user:
-                liked_by_user = True
-                break
-        disliked_by_user = False
-        for emote in review_dislike:
-            if request.user == emote.user:
-                disliked_by_user = True
-                break
-        review_info_lst.append((review, liked_by_user, disliked_by_user))
+    if request.user.is_authenticated:
+        for review in reviews:
+            review_like = Emote.objects.filter(review=review.pk, emotion=1)
+            review_dislike = Emote.objects.filter(review=review.pk, emotion=0)
+            liked_by_user = False
+            for emote in review_like:
+                if request.user == emote.user:
+                    liked_by_user = True
+                    break
+            disliked_by_user = False
+            for emote in review_dislike:
+                if request.user == emote.user:
+                    disliked_by_user = True
+                    break
+            review_info_lst.append((review, liked_by_user, disliked_by_user))
     
     # 평점 계산
     rating_dict = {0.0: 0, 0.5: 0, 1.0: 0, 1.5: 0, 2.0: 0, 2.5: 0, 3.0: 0, 3.5: 0, 4.0: 0, 4.5: 0, 5.0: 0}
@@ -245,8 +246,12 @@ def detail(request, movie_id):
         cast['kor_name'] = name
     
     # 영화 보고싶어요 눌렀는지
-    if MovieLike.objects.filter(user=request.user, movie_id=movie['id']).exists():
-        is_like_movie = True
+    # 로그인 유저인가?
+    if request.user.is_authenticated:
+        if MovieLike.objects.filter(user=request.user, movie_id=movie['id']).exists():
+            is_like_movie = True
+        else:
+            is_like_movie = False
     else:
         is_like_movie = False
     
@@ -254,10 +259,14 @@ def detail(request, movie_id):
     movie_collections = MovieCollection.objects.filter(movie_id=movie_id).select_related('collection').annotate(like_number=Count('collection__like_users')).order_by('-like_number')
 
     # 이 영화가 내 컬렉션에 있는지
-    my_collection = Collection.objects.filter(user=request.user).annotate(
-        movie_cnt=Count('moviecollection', filter=Q(moviecollection__movie_id=movie_id))
-    )
+    if request.user.is_authenticated:
+        my_collection = Collection.objects.filter(user=request.user).annotate(
+            movie_cnt=Count('moviecollection', filter=Q(moviecollection__movie_id=movie_id))
+        )
+    else:
+        my_collection = False
 
+    
     context = {
         'avg_rating_percent': avg_rating_percent,
         'total_reviews': total_reviews,
