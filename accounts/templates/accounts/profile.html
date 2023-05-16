@@ -161,6 +161,19 @@
                 {% endfor %}
               </div>
             </div>
+
+            <!-- 보고 싶어요 -->
+            <div>
+              <p class="fs-5">보고 싶어요</p>
+              {% for movie in like_movies %}
+                <div>
+                  <img src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" alt="포스터">
+                  {{ movie.title }}
+                  {{ movie.release_date }}
+                  평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ movie.vote_average }}
+                </div>
+              {% endfor %}
+            </div>
             
             <!-- 컬렉션 -->
             <div class="d-flex justify-content-between align-items-center profile-title">
