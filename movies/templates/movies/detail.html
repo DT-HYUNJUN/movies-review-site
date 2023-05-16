@@ -337,6 +337,26 @@
       </div>
       {% endif %}
 
+      <hr>
+      <!--비슷한 작품-->
+      <div>
+        <p class="detail-title">비슷한 작품</p>
+          <div class="r-card-wrap">
+          {% for r_movie in recommend %}
+          <a class="r-card" href="{% url 'movies:detail' r_movie.id %}">
+            {% if r_movie.poster_path %}
+            <img class="r-poster-size" src="https://image.tmdb.org/t/p/w342{{ r_movie.poster_path }}" alt="">
+            {% else %}
+            <img class="r-poster-size" src="{% static 'img/no-poster-2.png' %}" alt="">
+            {% endif %}
+            <span class="r-movie-title">{{ r_movie.title }}</span>
+            <p class="r-movie-content">{{ movie.release_date|slice:":4" }}</p>
+            <p class="r-movie-avg">평점<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ r_movie.vote_average|floatformat:1 }}</p>
+          </a>
+          {% endfor %}
+        </div>
+
+
       <!--컬렉션-->
       <hr>
         <span class="fs-5 fw-bold">컬렉션</span> <span class="text-secondary">{{ collections.count }}</span>
@@ -367,7 +387,6 @@
           {% endfor %}
         </a>
       {% endfor %}
-
     </div>
   </div>
 </section>
