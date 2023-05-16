@@ -12,31 +12,29 @@ async function getApiKey() {
 
 // movie_delete_form 이미지 나오게
 // form의 구조 : ul-li-label-input&text
+const deleteForm = document.getElementById('delete-form')
+const pathString = deleteForm.dataset.posterPath.replace('[', '').replace(']', '').replace(/\'/gi, '')
+const posterPath = pathString.split(', ')
+
 const deleteUl = document.getElementById('id_delete_movies')
 deleteUl.classList.add('delete-movie-ul')
 const labels = deleteUl.querySelectorAll('li > label')
 
+let i = 0
 labels.forEach(async (label) => {
   label.classList.add('me-3', 'd-flex','justify-content-between', 'align-items-center')
   const labelInput = label.querySelector('input')
   labelInput.classList.add('me-2')
 
-  const movie_title = label.textContent
-  const api_key = await getApiKey()
-  const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${movie_title}&language=ko-KR`);
-  const movie_response = await response.json()
-  const movie = movie_response.results
-  
-  // console.log(movie[0].poster_path)
   const formPoster = document.createElement('img')
-  if (movie[0].poster_path) {
-    formPoster.src = `https://image.tmdb.org/t/p/w500/${movie[0].poster_path}`  
+  if (posterPath[i] != '') {
+    formPoster.src = `https://image.tmdb.org/t/p/w500${posterPath[i]}`  
   } else {
     formPoster.src = ''
   }
-  // formPoster.src = `https://image.tmdb.org/t/p/w500/${movie[0].poster_path}`
   formPoster.classList.add('movie-poster-size', 'ms-2')
   label.appendChild(formPoster)
+  i++
 })
 
 
