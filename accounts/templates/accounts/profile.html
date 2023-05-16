@@ -82,7 +82,7 @@
                     <div class="card-header review-card-header d-flex justify-content-between align-items-center">
                       <div class="d-flex align-items-center profile-href" OnClick="location.href ='{% url 'accounts:profile' review.user %}'" style="cursor:pointer;">
                         <img class="review-card-profile-img me-1 rounded-circle" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile-img.png' %}" {% endif %}  alt="review-profile-image">
-                        <p class="card-text">{{ review.user }}</p>
+                        <p class="card-text">{{ review.user.nickname }}</p>
                       </div>
                       <p class="card-text d-flex gap-1"><img src="{% static 'img/rating-star.svg' %}" alt="">{{ review.rating }}</p>
                     </div>
@@ -231,7 +231,7 @@
               <img src="{% static 'img/profile-img.png' %}" alt="profile_image_none" class="userinfo_img">
             {% endif %}
           </div>
-          <p class="text-center">{{ follower.username }}</p>
+          <p class="text-center">{{ follower.nickname }}</p>
         </a>
       </div>
       <!---->
@@ -261,7 +261,7 @@
               <img src="{% static 'img/profile-img.png' %}" alt="profile_image_none" class="userinfo_img">
             {% endif %}
           </div>
-          <p class="text-center">{{ following.username }}</p>
+          <p class="text-center">{{ following.nickname }}</p>
         </a>
       </div>
       {% empty %}

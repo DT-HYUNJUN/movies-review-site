@@ -1,22 +1,31 @@
 {% extends 'base.html' %}
 
-{% block content %}
-<form class="account-form mx-auto" action="{% url 'socialaccount_signup' %}" method="POST">
-  {% csrf_token %}
-  {% for field in form %}
-    <div class="input-group mb-3">
-      {{ field }}
-    </div>
-  {% endfor %}
-  <div class="d-grid">
-    {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button class="btn btn-primary" type="submit">회원가입</button>
-  </div>
-</form>
-<div class="text-center mt-3">
-  <p class="mt-3">이미 가입하셨나요? <a href="{% url 'accounts:login' %}">로그인</a></p>
-</div>
+{% load socialaccount %}
+{% load static %}
 
+{% block content %}
+  <div class="page-bg-wrapper">
+    <div class="page-bg-inner">
+      <form class="account-signup-form mx-auto" action="{% url 'socialaccount_signup' %}" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="input-group mb-3">
+            {{ field }}
+            {% if field.errors %}
+            <span class="text-white">{{ field.errors }}</span>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <div class="d-grid">
+          {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button class="btn btn-primary" type="submit">구글 회원가입</button>
+        </div>
+      </form>
+      <div class="account-info mx-auto text-center">
+        <p class="account-text-color mt-3">이미 가입하셨나요? <a class='a-underline' href="{% url 'accounts:login' %}">로그인</a></p>
+      </div>
+    </div>
+  </div>
 {% endblock content %}

@@ -327,7 +327,7 @@
   font-weight: 400;
   display: flex;
   color: black;
-  align-items: flex-end; 
+  align-items: flex-end;
 }
 
 .detail-collection {
@@ -350,4 +350,12 @@
   box-sizing: border-box;
   width: 100%;
   padding: 2px;
+}
+
+.add-collection {
+  width: 200px;
+}
+
+.add-collection-btn {
+  width: 50px;
 }
