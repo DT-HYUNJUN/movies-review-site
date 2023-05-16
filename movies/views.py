@@ -181,6 +181,15 @@ def detail(request, movie_id):
             video_key = video['key']
             break
 
+    #비슷한 작품
+    movie_id = movie['id']
+    path = f'/movie/{movie_id}/recommendations'
+    params = {
+        'api_key': api_key,
+        'movie_id': movie_id,
+    }
+    recommend = requests.get(base_url+path, params=params).json()['results'][:10]
+
     # 개봉연도
     year = movie['release_date'][:4]
     
@@ -259,6 +268,7 @@ def detail(request, movie_id):
         'reviews': reviews,
         'review_info_lst': review_info_lst,
         'is_like_movie': is_like_movie,
+        'recommend': recommend,
         'movie_collections': movie_collections,
     }
     return render(request, 'movies/detail.html', context)
