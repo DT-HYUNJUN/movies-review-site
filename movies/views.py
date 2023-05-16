@@ -226,7 +226,10 @@ def detail(request, movie_id):
         name = check_korean_name(person, casts_tmp)
         cast['kor_name'] = name
     
-    collection_create_form = CollectionForm
+    if MovieLike.objects.filter(user=request.user, movie_id=movie['id']).exists():
+        is_like_movie = True
+    else:
+        is_like_movie = False
     
     context = {
         'avg_rating_percent': avg_rating_percent,
@@ -243,6 +246,7 @@ def detail(request, movie_id):
         'review_form': review_form,
         'reviews': reviews,
         'review_info_lst': review_info_lst,
+        'is_like_movie': is_like_movie,
     }
     return render(request, 'movies/detail.html', context)
 

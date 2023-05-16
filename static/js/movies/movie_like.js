@@ -11,17 +11,18 @@ movieLikeForm.addEventListener('submit', function (event) {
   })
   .then((response) => {
     const isLiked = response.data.is_liked
-    const likeIcon = document.getElementById('is-like')
-    const notLikeIcon = document.getElementById('is-not-like')
     const inputBtn = document.getElementById('movie-like-input')
     if (isLiked === true) {
-      likeIcon.hidden = true
-      notLikeIcon.hidden = false
+      const iconTag = inputBtn.querySelector('i')
       inputBtn.classList.add('pink-color')
+      iconTag.classList.remove('bi-plus-lg')
+      iconTag.classList.add('bi-check2')
+
     } else {
-      likeIcon.hidden = false
-      notLikeIcon.hidden = true
+      const iconTag = inputBtn.querySelector('i')
       inputBtn.classList.remove('pink-color')
+      iconTag.classList.remove('bi-check2')
+      iconTag.classList.add('bi-plus-lg')
     }
   })
 })
