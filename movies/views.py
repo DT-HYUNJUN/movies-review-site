@@ -269,19 +269,18 @@ def detail(request, movie_id):
         my_collection = False\
 
     # 키워드 테스트
-    # path = f'/movie/{movie_id}/keywords'
-    # params = {
-    #     'api_key': api_key,
-    #     'language': 'ko-KR',
-    # }
-    # test = requests.get(base_url+path, params=params).json()['keywords']
-    # translator = Translator()
-    # keywords = [i['name'] for i in test[:4]]
-    # kr_keywords = []
-    # for keyword in keywords:
-    #     translation = translator.translate(keyword, src='en', dest='ko')
-    #     kr_keywords.append(translation.text)
-    # print(kr_keywords)   
+    path = f'/movie/{movie_id}/keywords'
+    params = {
+        'api_key': api_key,
+        'language': 'ko-KR',
+    }
+    test = requests.get(base_url+path, params=params).json()['keywords']
+    translator = Translator()
+    keywords = [i['name'] for i in test[:4]]
+    kr_keywords = []
+    for keyword in keywords:
+        translation = translator.translate(keyword, src='en', dest='ko')
+        kr_keywords.append(translation.text)
 
     context = {
         'avg_rating_percent': avg_rating_percent,
@@ -302,6 +301,7 @@ def detail(request, movie_id):
         'recommend': recommend,
         'movie_collections': movie_collections,
         'my_collection': my_collection,
+        'kr_keywords': kr_keywords,
     }
 
     
