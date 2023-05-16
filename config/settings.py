@@ -77,6 +77,7 @@ TEMPLATES = [
             'context_processors': [
                 'utils.context_processors.review_count',
                 'utils.context_processors.genre_dict_modal',
+                'utils.context_processors.day_trending_movies',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',

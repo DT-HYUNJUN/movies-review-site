@@ -16,6 +16,7 @@ from django.db.models import Avg
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import json
+from django.views.decorators.cache import cache_page
 
 
 load_dotenv()
@@ -45,7 +46,7 @@ def get_average_rating(movies):
                 avg_rating = round((sum_ratings / rating_people), 1)
             movie['avg_rating'] = avg_rating
 
-
+@cache_page(60 * 5)
 def index(request):
     # 현재 시간
     now_time = timezone.now()
