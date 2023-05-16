@@ -14,15 +14,22 @@
 }
 
 .result-filter {
-  font-size: 18px;
+  width: 100%;
   display: flex;
-  align-items: end;
-  gap: 8px;
-  margin-bottom: 15px;
-  padding-right: 5px;
   justify-content: end;
+  padding-right: 7px;
+}
+.result-filter-inner{
+  width: 85px;
+  margin-bottom: 10px;
 }
 
-.result-filter a {
-  color: white;
+.gnere-select-form {
+  background-color: #1C1D1F;
+  color: rgb(240, 240, 240);
+  border: none;
+}
+
+.gnere-select-form > option:hover {
+  background-color: #3b4869 !important;
 }

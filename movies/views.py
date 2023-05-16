@@ -1,6 +1,6 @@
 import re
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Collection, MovieCollection
+from .models import MovieLike, Collection, MovieCollection
 from reviews.models import Review, Emote
 from .forms import CollectionForm, CollectionMovieDeleteForm
 from reviews.models import Review
@@ -12,7 +12,7 @@ import requests
 import pycountry
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from django.db.models import Avg
+from django.db.models import Avg, Count
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import json
@@ -53,6 +53,7 @@ def get_average_rating(movies):
 
 
 
+@cache_page(60 * 5) # 5분 동안 캐시 유지
 def index(request):
     # 현재 시간
     print('첫번쨰 함수! 캐싱xxx')
@@ -104,13 +105,18 @@ def index(request):
     upcoming_movies = sorted(upcoming_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:20]
     get_average_rating(upcoming_movies)
 
+    # 컬렉션 인기순
+    collections = Collection.objects.prefetch_related('moviecollection_set').annotate(likes_cnt=Count('like_users')).all().order_by('-likes_cnt')
+    collections = collections[:10] if len(collections) > 10 else collections
+
     context = {
         'playing_movies_trailers': playing_movies_trailers,
         'now_time': now_time,
         'playing_movies': playing_movies,
         'popular_movies': popular_movies,
         'top_movies': top_movies,
-        'upcoming_movies': sorted(upcoming_movies, key=lambda x: x['release_date'])
+        'upcoming_movies': sorted(upcoming_movies, key=lambda x: x['release_date']),
+        'collections': collections,
     }
     
     return render(request, 'movies/index.html', context)
@@ -189,11 +195,14 @@ def detail(request, movie_id):
     genres = '/'.join(tmp)
     
     # 국가 코드
-    country_code = movie['production_countries'][0]['iso_3166_1']
-    try:
-        country = pycountry.countries.get(alpha_2=country_code).name
-    except AttributeError:
-        pass
+    if movie['production_countries']:
+        country_code = movie['production_countries'][0]['iso_3166_1']
+        try:
+            country = pycountry.countries.get(alpha_2=country_code).name
+        except AttributeError:
+            pass
+    else:
+        country = ''
 
     # 감독
     crews = []
@@ -229,8 +238,13 @@ def detail(request, movie_id):
         name = check_korean_name(person, casts_tmp)
         cast['kor_name'] = name
     
-    collection_create_form = CollectionForm
+    if MovieLike.objects.filter(user=request.user, movie_id=movie['id']).exists():
+        is_like_movie = True
+    else:
+        is_like_movie = False
     
+    movie_collections = MovieCollection.objects.filter(movie_id=movie_id).select_related('collection').annotate(like_number=Count('collection__like_users')).order_by('-like_number')
+
     context = {
         'avg_rating_percent': avg_rating_percent,
         'total_reviews': total_reviews,
@@ -246,6 +260,8 @@ def detail(request, movie_id):
         'review_form': review_form,
         'reviews': reviews,
         'review_info_lst': review_info_lst,
+        'is_like_movie': is_like_movie,
+        'movie_collections': movie_collections,
     }
     return render(request, 'movies/detail.html', context)
 
@@ -350,6 +366,21 @@ def search(request):
         'people'       : people,
     }
     return render(request, 'movies/search.html', context)
+
+
+@login_required
+def like(request, movie_id):
+    like_movie = MovieLike.objects.filter(user=request.user, movie_id=movie_id)
+    if like_movie.exists():
+        like_movie.delete()
+        is_liked = False
+    else:
+        MovieLike.objects.create(user=request.user, movie_id=movie_id)
+        is_liked = True
+    context = {
+        'is_liked': is_liked,
+    }
+    return JsonResponse(context)
 
 
 def api_convert(request):

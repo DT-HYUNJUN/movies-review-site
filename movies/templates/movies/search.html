@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load humanize %}
 
 {% block content %}
 <!--배경-->
@@ -9,7 +10,7 @@
     <div class="container container-pt white-font">
       <!--결과-->
       <p class="title-size result-title">'{{ key_word }}' 검색 결과</p>
-      <p class="title-size result-title">{{ count_results }}건의 결과</p>
+      <p class="title-size result-text">{{ count_results|intcomma }} 건의 결과가 있습니다.</p>
       
 <!--영화 START-->
 
@@ -20,7 +21,11 @@
           {% if movies %}
             {% for movie in movies %}
                     <a class="search-card" href="{% url 'movies:detail' movie.id %}">
-                        <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
+                      {% if movie.poster_path %}
+                        <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ result.title }}">
+                      {% else %}
+                        <img class="poster-size" src="{% static 'img/no-poster-2.png' %}" alt="">
+                      {% endif %}
                         <p class="white-movie-title">{{ movie.title }}</p>
                         <p class="white-movie-content">{{ movie.release_date|slice:":4" }}</p>
                         <p class="white-movie-avg">평점<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ movie.vote_average|floatformat:1 }}</p>
@@ -46,7 +51,11 @@
           {% if people %}
             {% for person in people %}
                     <a class="search-card"href="{% url 'movies:person_detail' person.id %}">
-                        <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ person.profile_path }}" alt="{{ person.name }}">
+                        {% if person.profile_path %}
+                          <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ person.profile_path }}" alt="{{ person.name }}">
+                        {% else %}
+                          <img class="poster-size" src="{% static 'img/no-poster-2.png' %}" alt="">
+                        {% endif %}
                         <p class="white-movie-title">{{ person.name }}</p>
                         <p class="white-movie-content">대표작: {{ person.known_for.0.title }}</p>
                     </a>

@@ -1,5 +1,5 @@
 const form = document.querySelector('#follow-form')
-const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+const csrftokenFollow = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
 const followerList = document.querySelector('#follower-list')
 const child = followerList.querySelectorAll('div')
@@ -65,7 +65,7 @@ const formEvent = (e) => {
   axios({
     method: 'post',
     url: `/accounts/${userPk}/follow/`,
-    headers: {'X-CSRFToken': csrftoken},
+    headers: {'X-CSRFToken': csrftokenFollow},
   })
     .then((response) => {
       const isFollowed = response.data.is_followed

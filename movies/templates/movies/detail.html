@@ -4,7 +4,11 @@
 
 {% block content %}
 <div class="bg-poster">
-  <img class="bg-poster-size"src="https://image.tmdb.org/t/p/w1280{{ movie.backdrop_path }}" alt="">
+  {% if movie.backdrop_path %}
+    <img class="bg-poster-size" src="https://image.tmdb.org/t/p/w1280{{ movie.backdrop_path }}" alt="">
+  {% else %}
+    <div class="bg-poster-size bg-black"></div>
+  {% endif %}
   <div class="bg-title-color">
     <p>{{ movie.title }}</p>
     <p class="bg-title-origin">{{ movie.original_title }}</p>
@@ -15,14 +19,18 @@
   <div class="container-py">
     <div class="d-flex align-items-center gap-3 flex-nowrap">
       <!---->
-      <img class="poster" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="">
+      {% if movie.poster_path %}
+        <img class="poster" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="">
+      {% else %}
+        <img class="poster" src="{% static 'img/no-poster-2.png' %}" alt="">
+      {% endif %}
       <div class="movie-overview">
         <!--제목, 개봉일, 장르, 국가-->
           <div>
             <div class='text-body-secondary fs-5 mt-3'>
-              <span>{{ year}} ・</span>
-              <span>{{ genres }} ・</span>
-              <span>{{ country }}</span>
+              <span>{{ year}}</span>
+              <span> ・ {{ genres }}</span>
+              <span>{% if country %} ・ {{ country }}{% endif %}</span>
             </div>
             <hr>
           </div>
@@ -49,19 +57,22 @@
               </div>
             </div>
             <div class="ms-4 d-flex fs-5 gap-5">
-              <div class="ms-2">
-                <i class="bi bi-plus-lg"></i>
-                보고싶어요
-              </div>
+              <form action="{% url 'movies:like' movie.id %}" class="ms-2" method="POST" id="movie-like-form" data-movie-id="{{ movie.id }}">
+                {% csrf_token %}
+                <button type="submit" class="border-0 bg-transparent {% if is_like_movie %}pink-color{% endif %}" id="movie-like-input">
+                  {% if is_like_movie %}
+                    <i class="bi bi-check2 pink-color" id="is-like"></i>
+                  {% else %}
+                    <i class="bi bi-plus-lg pink-color" id="is-not-like"></i>
+                  {% endif %}
+                  보고 싶어요
+                </button>
+              </form>
               <div>
                 <button class="border-0 bg-transparent" data-bs-toggle="modal" {% if request.user.is_authenticated %} data-bs-target="#review-create" {% else %} data-bs-target="#please-login" {% endif %}>
                   <i class="bi bi-pen-fill"></i>
                   코멘트
                 </button>
-              </div>
-              <div>
-                <i class="bi bi-eye-fill"></i>
-                보는중
               </div>
             </div>
           </div>
@@ -75,7 +86,9 @@
     </div>
   </div>
   <div class="text-center mb-5">
+    {% if video_key %}
     <iframe width="720" height="405" src="https://www.youtube.com/embed/{{ video_key }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    {% endif %}
   </div>
 </div>
 
@@ -89,9 +102,9 @@
           <hr>
           <div class="info-content">
             <p class="mb-2">{{ movie.original_title }}</p>
-            <span>{{ movie.release_date }} · </span>
-            <span>{{ country }} · </span>
-            <span>{{ genres }}</span>
+            <span>{{ movie.release_date }}</span>
+            <span>{% if country %} · {{ country }}{% endif %}</span>
+            <span> · {{ genres }}</span>
             <p class="mt-2">{{ movie.runtime }}분</p>
           </div>
         </div>
@@ -107,9 +120,7 @@
                     {% if crew.profile_path %}
                       <img src="https://image.tmdb.org/t/p/w185{{ crew.profile_path }}" class="img-fluid rounded" alt="...">
                     {% else %}
-                      <div class="no-person-wrapper rounded d-flex flex-column justify-content-center">
-                        <img class="no-person rounded" src="{% static 'img/person-default-2.webp' %}" alt="">
-                      </div>
+                      <img class="no-person img-fluid rounded" src="{% static 'img/person-default-2.webp' %}" alt="">
                     {% endif %}
                   </div>
                   <div class="col-md-8">
@@ -132,9 +143,7 @@
                     {% if cast.profile_path %}
                     <img src="https://image.tmdb.org/t/p/w500{{ cast.profile_path }}" class="img-fluid rounded" alt="...">
                     {% else %}
-                      <div class="no-person-wrapper rounded d-flex flex-column justify-content-center">
-                        <img class="no-person rounded" src="{% static 'img/person-default-2.webp' %}" alt="">
-                      </div>
+                      <img class="no-person rounded img-fluid" src="{% static 'img/person-default-2.webp' %}" alt="">
                     {% endif %}
                   </div>
                   <div class="col-md-8">
@@ -312,6 +321,16 @@
         </div>
       </div>
       {% endif %}
+
+      <!-- 컬렉션 -->
+      <div>컬렉션</div>
+      {% for movie_collection in movie_collections %}
+        <a href="{% url 'movies:collection_detail' movie_collection.collection.user movie_collection.collection.pk %}">
+          {% for movie in movie_collection.collection.moviecollection_set.all|slice:"4" %}
+            <img src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="포스터">
+          {% endfor %}
+        </a>
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -412,4 +431,5 @@
 <script src="{% static 'js/movies/more.js' %}"></script>
 <script src="{% static 'js/movies/rating-chart.js' %}"></script>
 <script src="{% static 'js/movies/spoiler.js' %}"></script>
+<script src="{% static 'js/movies/movie_like.js' %}"></script>
 {% endblock content %}

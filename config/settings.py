@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     # 필요한 소셜 로그인
     'allauth.socialaccount.providers.google',
+    # 세자리마다 콤마
+    'django.contrib.humanize',
     # 기본
     'django.contrib.admin',
     'django.contrib.auth',
@@ -85,6 +87,7 @@ TEMPLATES = [
             'context_processors': [
                 'utils.context_processors.review_count',
                 'utils.context_processors.genre_dict_modal',
+                'utils.context_processors.day_trending_movies',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',

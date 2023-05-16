@@ -63,3 +63,49 @@
 /* .search-modal {
   max-width: 50rem;
 } */
+
+.search-box {
+  position: relative;
+}
+  
+.trending-box {
+  position: absolute;
+  top: 100%;
+  margin-top: 5px;
+  left: 0;
+  right: 0;
+  background-color: #1C1D1F;
+  border-radius: 2px;
+  box-shadow: 0.1px 0.1px 3px #1C1D1F,
+  0.1px 0.1px 3px #1C1D1F;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.is-onblur{
+  display: none;
+}
+
+.trending-movies {
+  display: flex;
+  align-items: center;
+}
+
+.trending-movies:hover {
+  background-color: #3b4869;
+}
+
+.trending-movies > input {
+  background-color: transparent;
+  color: rgb(240, 240, 240);
+  border: none;
+  margin-left: 8px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 0;
+}
+
+.popular-search {
+  padding-left: 8px;
+  padding-top: 3px;
+}

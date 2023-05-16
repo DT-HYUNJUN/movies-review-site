@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load humanize %}
 
 {% block content %}
 <!--배경-->
@@ -9,14 +10,15 @@
     <div class="container container-pt white-font">
       <!--결과-->
       <p class="title-size result-title">{{ genre_name }} 영화</p>
-      <p class="title-size result-text">총 {{ total_results }} 건의 검색 결과가 있습니다.</p>
+      <p class="title-size result-text">총 {{ total_results|intcomma }} 건의 검색 결과가 있습니다.</p>
       <!-- 필터링 옵션 -->
       <div class="result-filter">
-        <a href="?sort_by=popularity.desc">인기순</a>
-        <a href="?sort_by=release_date.desc">최신순</a>
-        <a href="?sort_by=vote_count.desc">평점순</a>
-      </div>
-      
+        <select class="form-select form-select-sm result-filter-inner gnere-select-form" aria-label=".form-select-sm example" onchange="window.open(value,'_self');">
+          <option value="?sort_by=popularity.desc" selected>인기순</option>
+          <option value="?sort_by=release_date.desc">최신순</option>
+          <option value="?sort_by=vote_count.desc">평점순</option>
+        </select>
+     </div>
 
       <!--영화 START-->
       <div class="search-card-wrap">
@@ -88,4 +90,5 @@
   </div>
 </div>
 
+<script src="{% static 'js/movies/genre.js' %}"></script>
 {% endblock content %}
