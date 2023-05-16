@@ -59,9 +59,12 @@
             <div class="ms-4 d-flex fs-5 gap-5">
               <form action="{% url 'movies:like' movie.id %}" class="ms-2" method="POST" id="movie-like-form" data-movie-id="{{ movie.id }}">
                 {% csrf_token %}
-                <button type="submit" class="border-0 bg-transparent" id="movie-like-input">
-                  <i class="bi bi-plus-lg pink-color" id="is-like"></i>
-                  <i class="bi bi-check2" id="is-not-like" hidden></i>
+                <button type="submit" class="border-0 bg-transparent {% if is_like_movie %}pink-color{% endif %}" id="movie-like-input">
+                  {% if is_like_movie %}
+                    <i class="bi bi-check2 pink-color" id="is-like"></i>
+                  {% else %}
+                    <i class="bi bi-plus-lg pink-color" id="is-not-like"></i>
+                  {% endif %}
                   보고 싶어요
                 </button>
               </form>
