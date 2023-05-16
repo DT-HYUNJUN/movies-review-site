@@ -58,7 +58,7 @@ def index(request):
     params = {
         'api_key' : api_key,
         'language': 'ko-kr',
-        'region'  : 'kr'
+        'region'  : 'kr',
     }
 
     # 현재 상영 영화 인기순으로 5개

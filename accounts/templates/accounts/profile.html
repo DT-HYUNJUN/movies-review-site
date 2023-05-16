@@ -77,7 +77,7 @@
               <div class="profile-review-slide">
                 <!-- Slides -->
                 {% for review, liked_by_user, disliked_by_user in review_info_lst %}
-                  <div class="card mx-2 p-2 review-card" style="width: 18rem;">
+                  <div class="card mx-2 p-2 review-card mb-3" style="width: 18rem;">
                     <!-- 카드 헤더 (프사, 닉네임, 별점) -->
                     <div class="card-header review-card-header d-flex justify-content-between align-items-center">
                       <div class="d-flex align-items-center profile-href" OnClick="location.href ='{% url 'accounts:profile' review.user %}'" style="cursor:pointer;">

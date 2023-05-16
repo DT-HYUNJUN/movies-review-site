@@ -335,9 +335,21 @@
   background: rgb(204, 205, 207);
   box-sizing: border-box;
   width: 100%;
-  padding-bottom: 0px;
+  padding-bottom: 148%;
   border-radius: 5px;
   overflow: hidden;
+}
+
+.detail-collection-poster-wrapper {
+  display: flex;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 2px;
 }
 
 .add-collection {
