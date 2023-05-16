@@ -24,7 +24,7 @@
             </div>
           {% endfor %}
           <h4 class="fs-5 text-dark my-3">추가한 영화</h4>
-          <div class="text-dark">
+          <div class="text-dark" id="delete-form" data-poster-path="{{ collection_poster }}">
             {% for field in movie_delete_form %}
               {{ field }}
             {% endfor %}

@@ -489,10 +489,12 @@ def update(request, username, collection_pk):
     else:
         collection_form = CollectionForm(instance=collection)
         movie_delete_form = CollectionMovieDeleteForm(instance=collection)
+        collection_poster = [movie.movie_poster for movie in collection.moviecollection_set.all()]
     context = {
         'collection': collection,
         'collection_form': collection_form,
         'movie_delete_form': movie_delete_form,
+        'collection_poster': collection_poster,
     }
     return render(request, 'movies/update.html', context)
 
