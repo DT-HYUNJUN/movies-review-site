@@ -129,21 +129,21 @@ def detail(request, movie_id):
     total_reviews = len(reviews)
 
     review_info_lst = []
-    if request.user.is_authenticated:
-        for review in reviews:
-            review_like = Emote.objects.filter(review=review.pk, emotion=1)
-            review_dislike = Emote.objects.filter(review=review.pk, emotion=0)
-            liked_by_user = False
-            for emote in review_like:
-                if request.user == emote.user:
-                    liked_by_user = True
-                    break
-            disliked_by_user = False
-            for emote in review_dislike:
-                if request.user == emote.user:
-                    disliked_by_user = True
-                    break
-            review_info_lst.append((review, liked_by_user, disliked_by_user))
+    # if request.user.is_authenticated:
+    for review in reviews:
+        review_like = Emote.objects.filter(review=review.pk, emotion=1)
+        review_dislike = Emote.objects.filter(review=review.pk, emotion=0)
+        liked_by_user = False
+        for emote in review_like:
+            if request.user == emote.user:
+                liked_by_user = True
+                break
+        disliked_by_user = False
+        for emote in review_dislike:
+            if request.user == emote.user:
+                disliked_by_user = True
+                break
+        review_info_lst.append((review, liked_by_user, disliked_by_user))
     
     # 평점 계산
     rating_dict = {0.0: 0, 0.5: 0, 1.0: 0, 1.5: 0, 2.0: 0, 2.5: 0, 3.0: 0, 3.5: 0, 4.0: 0, 4.5: 0, 5.0: 0}
