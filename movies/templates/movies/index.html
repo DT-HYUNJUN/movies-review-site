@@ -17,7 +17,7 @@
         {% for play_movie in playing_movies|slice:'5' %}
           <div class="carousel-poster carousel-item {% if forloop.first %} active {% endif %}">
             <button type="button" class="position-relative border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#video{{ forloop.counter }}">
-              <img src="https://image.tmdb.org/t/p/w1280{{ play_movie.backdrop_path }}" class="d-block w-100 carousel-poster" alt="...">
+              <img src="https://image.tmdb.org/t/p/original{{ play_movie.backdrop_path }}" class="d-block w-100 carousel-poster" alt="...">
               <img class="btn-video" src="{% static 'img/btn_video.png' %}" alt="">
               <div class="carousel-movie-title">
               <p>{{ play_movie.title }}</p>
