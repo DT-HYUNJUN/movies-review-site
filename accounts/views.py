@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import get_user_model
 
-from reviews.models import Review
+from reviews.models import Emote, Review
 from movies.models import Collection
 from django.db.models import Prefetch
 
@@ -68,14 +68,36 @@ def logout(request):
 # 유저 정보 외에 다른 영화나 리뷰 정보들은 추후에 작업
 # 지금은 유저만 넘김
 def profile(request, username):
+    
+    
+    
     User = get_user_model()
     person = User.objects.get(username=username)
     collections = Collection.objects.filter(user=person).prefetch_related('moviecollection_set')
     reviews = Review.objects.filter(user_id=person.id).order_by('-pk')
+
+    review_info_lst = []
+    for review in reviews:
+        review_like = Emote.objects.filter(review=review.pk, emotion=1)
+        review_dislike = Emote.objects.filter(review=review.pk, emotion=0)
+        liked_by_user = False
+        for emote in review_like:
+            if request.user == emote.user:
+                liked_by_user = True
+                break
+        disliked_by_user = False
+        for emote in review_dislike:
+            if request.user == emote.user:
+                disliked_by_user = True
+                break
+        review_info_lst.append((review, liked_by_user, disliked_by_user))
+    
+    
     context = {
         'reviews': reviews,
         'person': person,
         'collections': collections,
+        'review_info_lst': review_info_lst,
     }
     return render(request, 'accounts/profile.html', context)
 
