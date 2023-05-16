@@ -17,7 +17,7 @@
         {% for play_movie in playing_movies|slice:'5' %}
           <div class="carousel-poster carousel-item {% if forloop.first %} active {% endif %}">
             <button type="button" class="position-relative border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#video{{ forloop.counter }}">
-              <img src="https://image.tmdb.org/t/p/w1280{{ play_movie.backdrop_path }}" class="d-block w-100 carousel-poster" alt="...">
+              <img src="https://image.tmdb.org/t/p/original{{ play_movie.backdrop_path }}" class="d-block w-100 carousel-poster" alt="...">
               <img class="btn-video" src="{% static 'img/btn_video.png' %}" alt="">
               <div class="carousel-movie-title">
               <p>{{ play_movie.title }}</p>
@@ -263,6 +263,18 @@
         <!--{% endfor %}-->
       </div>
     </div>
+
+    
+    <!-- 컬렉션 -->
+    <div>컬렉션</div>
+    {% for collection in collections %}
+      <a href="{% url 'movies:collection_detail' collection.user collection.pk %}">
+        {% for movie in collection.moviecollection_set.all|slice:"4" %}
+          <img src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="포스터">
+        {% endfor %}
+      </a>
+    {% endfor %}
+
   </div>
 
 <!--비디오 모달창 5개-->

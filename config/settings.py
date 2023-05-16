@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'reviews',
     # 설치
     'django_extensions',
+    'debug_toolbar',
     # allauth
     'django.contrib.sites',
     'allauth',
@@ -56,14 +57,21 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 디버그툴바
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+# 디버그툴바
+INTERNAL_IPS = ('127.0.0.1')
 
 ROOT_URLCONF = 'config.urls'
 
