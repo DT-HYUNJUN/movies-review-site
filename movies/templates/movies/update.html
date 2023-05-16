@@ -23,12 +23,15 @@
               {{ field }}
             </div>
           {% endfor %}
-          <div class="d-flex flex-column text-dark">
-            {{ movie_delete_form }}
+          <h4 class="fs-5 text-dark my-3">추가한 영화</h4>
+          <div class="text-dark">
+            {% for field in movie_delete_form %}
+              {{ field }}
+            {% endfor %}
           </div>
     
           <!-- 추가할 영화 리스트 출력될 부분 -->
-          <h4 class="fs-5 text-dark mt-3">추가한 영화</h4>
+          <h4 class="fs-5 text-dark my-3">추가한 영화</h4>
           <div id="selected-list" class="d-flex gap-3 flex-wrap">
             <button type="button" class="btn btn-secondary movie-poster-size fs-1 opacity-50" data-bs-toggle="modal" data-bs-target="#addList">
               +

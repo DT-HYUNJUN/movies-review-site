@@ -32,3 +32,9 @@
   outline: none;
   width: 100%;
 }
+
+.delete-movie-ul li {
+  display: inline-block;
+  width: 300px;
+  margin-bottom: 5px;
+}
