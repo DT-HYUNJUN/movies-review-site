@@ -6,7 +6,7 @@
     <div class="container container-pt pb-5">
       <!--내용-->
       <div class="container container-pt profile">
-        <div class="border rounded-3 mt-5">
+        <div class="rounded-3 mt-3">
           <!--상단 배너-->
           <div class="rounded-top banner" style="background-color: {{ person.color }};">
             <div class="dropdown">
@@ -26,7 +26,7 @@
             </div>
           </div>
           <!--하단 영역-->
-          <div class="px-5 pb-3 z-3 profile-bg rounded-bottom position-relative">
+          <div class="profile-content pb-3 z-3 profile-bg rounded-bottom position-relative">
             <!--프로필 이미지, 유저이름-->
             <div class="profile-info d-flex align-items-end">
               <div class="profile-img text-center">
@@ -70,10 +70,10 @@
                 </button>
               </div>
             </div>
-            <p class="fs-5 mb-3">평가</p>
-            <hr>
+            <p class="profile-title mb-3">보고싶어요</p>
+            <p class="profile-title mb-3">평가</p>
             <!--리뷰 박스 공간-->
-            <div class="review-box mb-5">
+            <div class="review-box mb-3">
               <div class="profile-review-slide">
                 <!-- Slides -->
                 {% for review in reviews %}
@@ -150,13 +150,12 @@
             </div>
             
             <!-- 컬렉션 -->
-            <div class="d-flex justify-content-between align-items-center">
-              <p class="fs-5">컬렉션</p>
+            <div class="d-flex justify-content-between align-items-center profile-title">
+              <p class="profile-collection-title">컬렉션</p>
               {% if request.user == person %}
                 <a class="fs-3 pink-text" href="{% url 'movies:create' person.username %}"><i class="bi bi-plus-lg"></i></a>
               {% endif %}
             </div>
-            <hr>
             {% comment %} <ul class="collection-list mt-3">
               {% for collection in collections %}
                 <li class="collection-item">
