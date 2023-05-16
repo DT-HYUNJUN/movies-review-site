@@ -26,9 +26,13 @@ class CollectionForm(forms.ModelForm):
 
 class CollectionMovieDeleteForm(forms.ModelForm):
     delete_movies = forms.ModelMultipleChoiceField(
-        label = '삭제할 영화 선택',
+        # label = '삭제할 영화 선택',
         queryset=MovieCollection.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.CheckboxSelectMultiple(
+            attrs={
+                'class': 'text-dark',
+            }
+        ),
         required=False,
     )
     class Meta:

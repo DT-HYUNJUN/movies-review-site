@@ -8,14 +8,14 @@ from django.contrib.auth.forms import AuthenticationForm
 from dotenv import load_dotenv
 import requests
 from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm, CustomAuthenticationForm
-
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import get_user_model
-
 from reviews.models import Review
+from movies.models import Collection, MovieLike
+from reviews.models import Emote, Review
 from movies.models import Collection
 from django.db.models import Prefetch
 
@@ -68,14 +68,46 @@ def logout(request):
 # 유저 정보 외에 다른 영화나 리뷰 정보들은 추후에 작업
 # 지금은 유저만 넘김
 def profile(request, username):
+    
+    
+    
     User = get_user_model()
     person = User.objects.get(username=username)
     collections = Collection.objects.filter(user=person).prefetch_related('moviecollection_set')
     reviews = Review.objects.filter(user_id=person.id).order_by('-pk')
+    review_info_lst = []
+    for review in reviews:
+        review_like = Emote.objects.filter(review=review.pk, emotion=1)
+        review_dislike = Emote.objects.filter(review=review.pk, emotion=0)
+        liked_by_user = False
+        for emote in review_like:
+            if request.user == emote.user:
+                liked_by_user = True
+                break
+        disliked_by_user = False
+        for emote in review_dislike:
+            if request.user == emote.user:
+                disliked_by_user = True
+                break
+        review_info_lst.append((review, liked_by_user, disliked_by_user))
+        
+    like_movies = MovieLike.objects.filter(user=person).order_by('-pk')
+    like_movies_info = []
+    params = {
+        'api_key': api_key,
+        'language': 'ko-KR',
+    }
+    for movie in like_movies:
+        path = f'/movie/{movie.movie_id}'
+        movie = requests.get(base_url+path, params=params).json()
+        like_movies_info.append(movie)
+    
     context = {
         'reviews': reviews,
         'person': person,
         'collections': collections,
+        'like_movies': like_movies_info,
+        'review_info_lst': review_info_lst,
     }
     return render(request, 'accounts/profile.html', context)
 
@@ -88,9 +120,11 @@ class ProfileUpdate(LoginRequiredMixin, View):
         return render(request, 'accounts/update.html', {'form': form})
 
     def post(self, request):
+        print('post pass')
         form = CustomUserChangeForm(request.POST, instance=request.user, files=request.FILES)
 
         if form.is_valid():
+            print('form valid pass')
             form.save()
             return redirect('accounts:profile', request.user)
         
