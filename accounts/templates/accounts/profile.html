@@ -73,81 +73,6 @@
             <p class="fs-5 mb-3">리뷰</p>
             <hr>
             <!--리뷰 박스 공간-->
-            {% comment %} <div class="review-box mb-5">
-              <div class="profile-review-slide">
-                <!-- Slides -->
-                {% for review in reviews %}
-                  <div class="card mx-2 p-2 review-card" style="width: 18rem;">
-                    <!-- 카드 헤더 (프사, 닉네임, 별점) -->
-                    <div class="card-header review-card-header d-flex justify-content-between align-items-center">
-                      <div class="d-flex align-items-center profile-href" OnClick="location.href ='{% url 'accounts:profile' review.user %}'" style="cursor:pointer;">
-                        <img class="review-card-profile-img me-1 rounded-circle" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile-img.png' %}" {% endif %}  alt="review-profile-image">
-                        <p class="card-text">{{ review.user }}</p>
-                      </div>
-                      <p class="card-text d-flex gap-1"><img src="{% static 'img/rating-star.svg' %}" alt="">{{ review.rating }}</p>
-                    </div>
-                    <!-- 카드바디 (리뷰내용) -->
-                    
-      
-                    <div class="card-body review-card-body">
-                      <!-- 스포일러 True False 조건문 -->
-                      {% if review.is_spoiler %}
-                        <p class="spoiler-guide">스포일러가 있어요!!<span class="spoiler-check" data-spoiler="{{ review.is_spoiler }}"> 보기</span></p>
-                        <p class="card-text review-content review-content-overflow content-href hide-spoiler-content" OnClick="location.href ='{% url 'reviews:detail' review.movie review.pk %}'">{{review.content}}</p>
-                      {% else %}
-                        <p class="card-text review-content review-content-overflow content-href"  OnClick="location.href ='{% url 'reviews:detail' review.movie review.pk %}'">{{review.content}}</p>
-                      {% endif %}
-                    </div>
-      
-                    <!-- 카드푸터 (좋아요, 싫어요, 댓글) -->
-                    <div class="card-footer d-flex justify-content-between align-items-center
-                    {% if review.is_spoiler %}
-                      spoiler-review-card-footer
-                    {% else %}
-                      review-card-footer 
-                    {% endif %}
-                    ">
-                      <div class="d-flex">
-      
-                        <form class="like-reviews-forms" data-review-id="{{ review.pk }}">
-                          {% csrf_token %}
-                          {% if review.is_spoiler %}
-                          <button type="submit" class="border-0 bg-transparent spoiler-like-btn" disabled>
-                          {% else %}
-                          <button type="submit" class="border-0 bg-transparent like-btn">
-                          {% endif %}<label class="
-                            {% if review.is_spoiler %}
-                              spoiler-thumbs-up-icon
-                            {% else %}
-                              thumbs-up-icon
-                            {% endif %}
-                            "><i class="bi bi-hand-thumbs-up"></i></label></button>
-                        </form><span>{{ review.num_likes }}</span>
-      
-                        <form action="{% url 'reviews:review_emote' review.pk 0 %}" method="POST">
-                          {% csrf_token %}
-                          {% if review.is_spoiler %}
-                          <button type="submit" class="border-0 bg-transparent spoiler-dislike-btn" disabled>
-                          {% else %}
-                          <button type="submit" class="border-0 bg-transparent dislike-btn">
-                          {% endif %}<label class="
-                            {% if review.is_spoiler %}
-                              spoiler-thumbs-down-icon
-                            {% else %}
-                              thumbs-down-icon
-                            {% endif %}
-                            "><i class="bi bi-hand-thumbs-down"></i></label></button>
-                        </form><span>{{ review.num_dislikes }}</span>
-                      </div>
-                      <div>
-                        <span class="card-text"><label class="chat-label"><i class="bi bi-chat-fill"></i></label></span>
-                        <span>{{ review.reviewcomment_set.all|length }}</span>
-                      </div>
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-            </div> {% endcomment %}
             <div class="review-box mb-5">
               <div class="profile-review-slide">
                 <!-- Slides -->
@@ -243,37 +168,6 @@
               {% endif %}
             </div>
             <hr>
-            {% comment %} <ul class="collection-list mt-3">
-              {% for collection in collections %}
-                <li class="collection-item">
-                  <a href="{% url 'movies:collection_detail' person.username collection.pk %}">
-                    <div class="profile-collection">
-                      <div class="profile-collection-poster-wrapper">
-                        {% for movie in collection.moviecollection_set.all|slice:"4" %}
-                          <img class="profile-collection-poster" src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="">
-                        {% endfor %}
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              {% endfor %}
-            </ul> {% endcomment %}
-            {% comment %} <ul class="collection-list mt-3">
-              {% for collection in collections %}
-                <li class="collection-item">
-                  <a href="{% url 'movies:collection_detail' person.username collection.pk %}">
-                    <div class="profile-collection">
-                      <div class="profile-collection-poster-wrapper">
-                        {% for movie in collection.moviecollection_set.all|slice:"4" %}
-                          <img class="profile-collection-poster" src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="">
-                        {% endfor %}
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              {% endfor %}
-            </ul> {% endcomment %}
-
             <div class="collection-list mt-3">
               {% for collection in collections %}
                 <li class="collection-item">
