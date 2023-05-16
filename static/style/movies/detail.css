@@ -328,4 +328,13 @@
   display: flex;
   color: black;
   align-items: flex-end; 
+
+.detail-collection {
+  position: relative;
+  background: rgb(204, 205, 207);
+  box-sizing: border-box;
+  width: 100%;
+  padding-bottom: 0px;
+  border-radius: 5px;
+  overflow: hidden;
 }

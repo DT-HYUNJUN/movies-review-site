@@ -12,11 +12,12 @@ import requests
 import pycountry
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from django.db.models import Avg
+from django.db.models import Avg, Count
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import json
-from django.views.decorators.cache import cache_page
+from django.db.models import Avg, Count
+
 
 
 load_dotenv()
@@ -25,37 +26,40 @@ api_key = os.getenv('TMDB_API_KEY')
 
 
 def get_average_rating(movies):
+    movie_ids = [movie['id'] for movie in movies]
+    review_counts = Review.objects.filter(movie__in=movie_ids).values('movie').annotate(count=Count('id'))
+
+    rating_sums = {}
+    rating_counts = {}
+
+    for review_count in review_counts:
+        movie_id = review_count['movie']
+        count = review_count['count']
+        rating_sums[movie_id] = 0
+        rating_counts[movie_id] = count
+
+    if review_counts:
+        reviews = Review.objects.filter(movie__in=movie_ids).values('movie').annotate(avg_rating=Avg('rating'))
+        for review in reviews:
+            movie_id = review['movie']
+            avg_rating = review['avg_rating']
+            rating_sums[movie_id] = avg_rating * rating_counts[movie_id]
+
     for movie in movies:
         movie_id = movie['id']
-        # 리뷰
-        reviews = Review.objects.filter(movie=movie_id).order_by('-pk')
-        if len(reviews) == 0:
-            movie['avg_rating'] = ''
-        else:
-            # 평점 계산
-            movies_rating_dict = {0.0: 0, 0.5: 0, 1.0: 0, 1.5: 0, 2.0: 0, 2.5: 0, 3.0: 0, 3.5: 0, 4.0: 0, 4.5: 0, 5.0: 0}
-            for review in reviews:
-                movies_rating_dict[review.rating] += 1
-            
-            sum_ratings = 0
-            avg_rating = 0
-            rating_people = sum(movies_rating_dict.values())
-            for key, value in movies_rating_dict.items():
-                sum_ratings += key * value
-            if rating_people:
-                avg_rating = round((sum_ratings / rating_people), 1)
-            movie['avg_rating'] = avg_rating
+        avg_rating = rating_sums.get(movie_id, 0) / rating_counts.get(movie_id, 1)
+        movie['avg_rating'] = round(avg_rating, 1) if rating_counts.get(movie_id, 0) > 0 else ''
 
 
-@cache_page(60 * 5) # 5분 동안 캐시 유지
 def index(request):
     # 현재 시간
+    print('첫번쨰 함수! 캐싱xxx')
     now_time = timezone.now()
 
     params = {
-        'api_key': api_key,
+        'api_key' : api_key,
         'language': 'ko-kr',
-        'region': 'kr'
+        'region'  : 'kr'
     }
 
     # 현재 상영 영화 인기순으로 5개
@@ -98,13 +102,18 @@ def index(request):
     upcoming_movies = sorted(upcoming_movies_response['results'], key=lambda x: x['popularity'], reverse=True)[:20]
     get_average_rating(upcoming_movies)
 
+    # 컬렉션 인기순
+    collections = Collection.objects.prefetch_related('moviecollection_set').annotate(likes_cnt=Count('like_users')).all().order_by('-likes_cnt')
+    collections = collections[:10] if len(collections) > 10 else collections
+
     context = {
         'playing_movies_trailers': playing_movies_trailers,
         'now_time': now_time,
         'playing_movies': playing_movies,
         'popular_movies': popular_movies,
         'top_movies': top_movies,
-        'upcoming_movies': sorted(upcoming_movies, key=lambda x: x['release_date'])
+        'upcoming_movies': sorted(upcoming_movies, key=lambda x: x['release_date']),
+        'collections': collections,
     }
     
     return render(request, 'movies/index.html', context)
@@ -240,6 +249,9 @@ def detail(request, movie_id):
     else:
         is_like_movie = False
     
+    movie_collections = MovieCollection.objects.filter(movie_id=movie_id).select_related('collection').annotate(like_number=Count('collection__like_users')).order_by('-like_number')
+    print("--------리뷰-----------")
+    print(reviews)
     context = {
         'avg_rating_percent': avg_rating_percent,
         'total_reviews': total_reviews,
@@ -257,6 +269,7 @@ def detail(request, movie_id):
         'review_info_lst': review_info_lst,
         'is_like_movie': is_like_movie,
         'recommend': recommend,
+        'movie_collections': movie_collections,
     }
     return render(request, 'movies/detail.html', context)
 
@@ -479,29 +492,6 @@ def delete(request, username, collection_pk):
         movie.delete()
     collection.delete()
     return redirect('accounts:profile', username)
-
-
-def get_average_rating(movies):
-    for movie in movies:
-        movie_id = movie['id']
-        # 리뷰
-        reviews = Review.objects.filter(movie=movie_id).order_by('-pk')
-        if len(reviews) == 0:
-            movie['avg_rating'] = ''
-        else:
-            # 평점 계산
-            movies_rating_dict = {0.0: 0, 0.5: 0, 1.0: 0, 1.5: 0, 2.0: 0, 2.5: 0, 3.0: 0, 3.5: 0, 4.0: 0, 4.5: 0, 5.0: 0}
-            for review in reviews:
-                movies_rating_dict[review.rating] = movies_rating_dict.get(0, 1) + 1
-            
-            sum_ratings = 0
-            avg_rating = 0
-            rating_people = sum(movies_rating_dict.values())
-            for key, value in movies_rating_dict.items():
-                sum_ratings += key * value
-            if rating_people:
-                avg_rating = round((sum_ratings / rating_people), 1)
-            movie['avg_rating'] = avg_rating
 
 
 def genre_movies(request, genre_name):

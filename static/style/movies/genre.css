@@ -23,3 +23,13 @@
   width: 85px;
   margin-bottom: 10px;
 }
+
+.gnere-select-form {
+  background-color: #1C1D1F;
+  color: rgb(240, 240, 240);
+  border: none;
+}
+
+.gnere-select-form > option:hover {
+  background-color: #3b4869 !important;
+}
