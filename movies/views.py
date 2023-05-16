@@ -50,9 +50,6 @@ def get_average_rating(movies):
         avg_rating = rating_sums.get(movie_id, 0) / rating_counts.get(movie_id, 1)
         movie['avg_rating'] = round(avg_rating, 1) if rating_counts.get(movie_id, 0) > 0 else ''
 
-
-
-
 def index(request):
     # 현재 시간
     print('첫번쨰 함수! 캐싱xxx')
@@ -183,6 +180,15 @@ def detail(request, movie_id):
             video_key = video['key']
             break
 
+    #비슷한 작품
+    movie_id = movie['id']
+    path = f'/movie/{movie_id}/recommendations'
+    params = {
+        'api_key': api_key,
+        'movie_id': movie_id,
+    }
+    recommend = requests.get(base_url+path, params=params).json()['results'][:10]
+
     # 개봉연도
     year = movie['release_date'][:4]
     
@@ -243,7 +249,8 @@ def detail(request, movie_id):
         is_like_movie = False
     
     movie_collections = MovieCollection.objects.filter(movie_id=movie_id).select_related('collection').annotate(like_number=Count('collection__like_users')).order_by('-like_number')
-
+    print("--------리뷰-----------")
+    print(reviews)
     context = {
         'avg_rating_percent': avg_rating_percent,
         'total_reviews': total_reviews,
@@ -260,6 +267,7 @@ def detail(request, movie_id):
         'reviews': reviews,
         'review_info_lst': review_info_lst,
         'is_like_movie': is_like_movie,
+        'recommend': recommend,
         'movie_collections': movie_collections,
     }
     return render(request, 'movies/detail.html', context)

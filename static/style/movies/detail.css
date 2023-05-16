@@ -281,6 +281,54 @@
   width: 100%;
 }
 
+.r-poster-size {
+  height: 267px;
+  width: 178px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.r-card-wrap{
+  display: flex;
+  gap: 20px 20px;
+  flex-wrap: wrap;
+  padding: 15px
+}
+.r-card {
+  display: inline-flex;
+  flex-direction: column;
+  width: 178px;
+  
+}
+
+.r-movie-title {
+  font-size: 14px;
+  margin: 3px 0px 4px;
+  line-height: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  color: black;
+  text-overflow: ellipsis
+}
+
+.r-movie-content {
+  padding-bottom: 3px;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  color: black;
+  text-overflow: ellipsis
+}
+.r-movie-avg {
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 400;
+  display: flex;
+  color: black;
+  align-items: flex-end; 
+
 .detail-collection {
   position: relative;
   background: rgb(204, 205, 207);
