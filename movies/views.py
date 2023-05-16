@@ -16,7 +16,7 @@ from django.db.models import Avg, Count
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import json
-from django.db.models import Avg, Count
+from django.db.models import Avg, Count, Q
 
 
 
@@ -53,7 +53,6 @@ def get_average_rating(movies):
 
 def index(request):
     # 현재 시간
-    print('첫번쨰 함수! 캐싱xxx')
     now_time = timezone.now()
 
     params = {
@@ -255,11 +254,9 @@ def detail(request, movie_id):
     movie_collections = MovieCollection.objects.filter(movie_id=movie_id).select_related('collection').annotate(like_number=Count('collection__like_users')).order_by('-like_number')
 
     # 이 영화가 내 컬렉션에 있는지
-    is_added = False
-    my_collection = Collection.objects.filter(user=request.user)
-    for collection in my_collection:
-        if MovieCollection.objects.filter(collection=collection, movie_id=movie_id).exists():
-            is_added = True
+    my_collection = Collection.objects.filter(user=request.user).annotate(
+        movie_cnt=Count('moviecollection', filter=Q(moviecollection__movie_id=movie_id))
+    )
 
     context = {
         'avg_rating_percent': avg_rating_percent,
@@ -280,7 +277,6 @@ def detail(request, movie_id):
         'recommend': recommend,
         'movie_collections': movie_collections,
         'my_collection': my_collection,
-        'is_added': is_added,
     }
     return render(request, 'movies/detail.html', context)
 
@@ -582,3 +578,16 @@ def like_collection(request, collection_pk):
         liked = True
         
     return JsonResponse({'is_liked': liked, 'like_users_count': collection.like_users.count()})
+
+
+@login_required
+def add_collection_movie(request, collection_pk, movie_id):
+    collection = Collection.objects.get(pk=collection_pk)
+    path = f'/movie/{movie_id}'
+    params = {
+        'api_key': api_key,
+        'language': 'ko-KR',
+    }
+    movie = requests.get(base_url+path, params=params).json()
+    MovieCollection.objects.create(collection=collection, movie_id=movie_id, movie_poster=movie['poster_path'])
+    return redirect('movies:detail', movie_id)
