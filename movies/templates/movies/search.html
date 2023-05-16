@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load humanize %}
 
 {% block content %}
 <!--배경-->
@@ -9,7 +10,7 @@
     <div class="container container-pt white-font">
       <!--결과-->
       <p class="title-size result-title">'{{ key_word }}' 검색 결과</p>
-      <p class="title-size result-title">{{ count_results }}건의 결과</p>
+      <p class="title-size result-text">{{ count_results|intcomma }} 건의 결과가 있습니다.</p>
       
 <!--영화 START-->
 {% if results %}
