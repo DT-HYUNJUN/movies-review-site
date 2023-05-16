@@ -74,11 +74,10 @@
   margin-top: 5px;
   left: 0;
   right: 0;
-  background-color: #fff;
+  background-color: #1C1D1F;
   border-radius: 2px;
   box-shadow: 0.1px 0.1px 3px #1C1D1F,
   0.1px 0.1px 3px #1C1D1F;
-  color: black;
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -93,11 +92,12 @@
 }
 
 .trending-movies:hover {
-  background-color: rgb(240, 240, 240);
+  background-color: #3b4869;
 }
 
 .trending-movies > input {
   background-color: transparent;
+  color: rgb(240, 240, 240);
   border: none;
   margin-left: 8px;
   margin-top: 5px;
