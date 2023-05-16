@@ -70,10 +70,8 @@
                 </button>
               </div>
             </div>
-
-            <p class="profile-title mb-3">보고싶어요</p>
-            <p class="profile-title mb-3">평가</p>
-
+            <p class="fs-5 mb-3">평가</p>
+            <hr>
             <!--리뷰 박스 공간-->
             <div class="review-box mb-3">
               <div class="profile-review-slide">
@@ -163,26 +161,35 @@
             </div>
 
             <!-- 보고 싶어요 -->
-            <div>
-              <p class="fs-5">보고 싶어요</p>
+            <p class="fs-5 mb-3">보고 싶어요</p>
+            <hr>
+            <div class="collection-list mt-3">
               {% for movie in like_movies %}
-                <div>
-                  <img src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" alt="포스터">
-                  {{ movie.title }}
-                  {{ movie.release_date }}
-                  평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ movie.vote_average }}
-                </div>
+                <li class="collection-item">
+                  <a class="text-dark" href="{% url 'movies:detail' movie.id %}">
+                    <div class="profile-like-movies-content">
+                      <div class="profile-collection-poster-wrapper">
+                        <img class="profile-like-movies" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" alt="포스터">
+                        <div class="text-truncate profile-like-movies-info">
+                          <p>{{ movie.title }}</p>
+                          <p>{{ movie.release_date }}</p>
+                          <p>평균<img class="star-size like-movies-star" src="{% static 'img/rating-star.svg' %}" alt="">{{ movie.vote_average|floatformat:1 }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
               {% endfor %}
             </div>
-            
+
             <!-- 컬렉션 -->
             <div class="d-flex justify-content-between align-items-center profile-title">
-              <p class="profile-collection-title">컬렉션</p>
+              {% comment %} <p class="profile-collection-title">컬렉션</p> {% endcomment %}
+              <p class="fs-5">컬렉션</p>
               {% if request.user == person %}
                 <a class="fs-3 pink-text" href="{% url 'movies:create' person.username %}"><i class="bi bi-plus-lg"></i></a>
               {% endif %}
             </div>
-            <hr>
             <div class="collection-list mt-3">
               {% for collection in collections %}
                 <li class="collection-item">

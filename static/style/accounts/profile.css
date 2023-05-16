@@ -134,3 +134,31 @@
   padding-right: 2.5rem;
   padding-left: 2.5rem;
 }
+
+.profile-like-movies-wrapper {
+  box-sizing: border-box;
+  width: 25%;
+  padding: 2px;
+}
+
+.profile-like-movies {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.profile-like-movies-info {
+  font-size: 14px;
+}
+
+.profile-like-movies-content {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding-bottom: 188%;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.like-movies-star {
+  display: inline-block !important;
+}
