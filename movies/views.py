@@ -16,6 +16,7 @@ from django.db.models import Avg
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import json
+from django.views.decorators.cache import cache_page
 
 
 load_dotenv()
@@ -46,6 +47,7 @@ def get_average_rating(movies):
             movie['avg_rating'] = avg_rating
 
 
+@cache_page(60 * 5) # 5분 동안 캐시 유지
 def index(request):
     # 현재 시간
     now_time = timezone.now()
@@ -181,11 +183,14 @@ def detail(request, movie_id):
     genres = '/'.join(tmp)
     
     # 국가 코드
-    country_code = movie['production_countries'][0]['iso_3166_1']
-    try:
-        country = pycountry.countries.get(alpha_2=country_code).name
-    except AttributeError:
-        pass
+    if movie['production_countries']:
+        country_code = movie['production_countries'][0]['iso_3166_1']
+        try:
+            country = pycountry.countries.get(alpha_2=country_code).name
+        except AttributeError:
+            pass
+    else:
+        country = ''
 
     # 감독
     crews = []
