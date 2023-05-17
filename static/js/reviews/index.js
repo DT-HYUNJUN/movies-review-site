@@ -76,7 +76,7 @@ likeReviewsForms.forEach((form) => {
     axios({
       method: 'post',
       // <int:review_pk>/comments/<int:comment_pk>/emotes/<int:emotion>/
-      url: `http://127.0.0.1:8000/reviews/${reviewId}/emotes/1/`,
+      url: `/reviews/${reviewId}/emotes/1/`,
       headers: {'X-CSRFToken': csrftoken,},
     })
       .then((response) => {
@@ -112,7 +112,7 @@ dislikeReviewsForms.forEach((form) => {
     axios({
       method: 'post',
       // <int:review_pk>/comments/<int:comment_pk>/emotes/<int:emotion>/
-      url: `http://127.0.0.1:8000/reviews/${reviewId}/emotes/0/`,
+      url: `/reviews/${reviewId}/emotes/0/`,
       headers: {'X-CSRFToken': csrftoken,},
     })
       .then((response) => {
