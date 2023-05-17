@@ -73,7 +73,6 @@
                     <i class="bi bi-plus-lg pink-color" id="is-not-like"></i>
                   {% endif %}
                   <a data-bs-toggle="modal" data-bs-target="#please-login">보고 싶어요</a>
-                  {% comment %} <a data-bs-toggle="modal" data-bs-target="#please-login" class="my-btn">컬렉션 만들기</a> {% endcomment %}
                 </button>
               </form>
               <div>
@@ -82,12 +81,6 @@
                   코멘트
                 </button>
               </div>
-              <!--
-                <button class="border-0 bg-transparent" data-bs-toggle="modal" {% if request.user.is_authenticated %} data-bs-target="#review-create" {% else %} data-bs-target="#please-login" {% endif %}>
-                <i class="bi bi-pen-fill"></i>
-                코멘트
-              </button>
-              -->
                 <div class="dropdown">
                   <button class="dropdown-toggle border-0 bg-transparent" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     내 컬렉션
@@ -409,39 +402,6 @@
           </a>
           {% endfor %}
         </div>
-
-
-      <!--컬렉션-->
-      {% comment %} <hr>
-        <span class="fs-5 fw-bold">컬렉션</span> <span class="text-secondary">{{ collections.count }}</span>
-      <div>
-        <div class="collection-list mt-3">
-          {% for movie_collection in movie_collections %}
-            <li class="collection-item">
-              <a href="{% url 'movies:collection_detail' movie_collection.collection.user movie_collection.collection.pk %}">
-                <div class="detail-collection">
-                  <div class="detail-collection-poster-wrapper">
-                    {% for movie in movie_collection.collection.moviecollection_set.all|slice:"4" %}
-                      <img class="profile-collection-poster" src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="">
-                    {% endfor %}
-                  </div>
-                </div>
-              </a>
-            </li>
-          {% endfor %}
-        </div>
-      </div> {% endcomment %}
-
-      <!-- 컬렉션 -->
-      {% comment %} {% for movie_collection in movie_collections %}
-        <a href="{% url 'movies:collection_detail' movie_collection.collection.user movie_collection.collection.pk %}">
-          {% for movie in movie_collection.collection.moviecollection_set.all|slice:"4" %}
-            <img src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="포스터">
-          {% endfor %}
-        </a>
-      {% endfor %} {% endcomment %}
-
-
     </div>
   </div>
 </section>

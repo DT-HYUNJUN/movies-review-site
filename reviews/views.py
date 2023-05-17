@@ -2,11 +2,9 @@ from django.shortcuts import render, redirect
 from .models import Review, ReviewComment, Emote
 from .forms import ReviewForm, ReviewCommentForm
 from django.contrib.auth.decorators import login_required
-from django.db.models import Prefetch
 from dotenv import load_dotenv
 import os
 import requests
-from pprint import pprint
 from django.http import JsonResponse
 
 # Create your views here.
@@ -14,16 +12,6 @@ from django.http import JsonResponse
 load_dotenv()
 base_url = 'https://api.themoviedb.org/3'
 api_key = os.getenv('TMDB_API_KEY')
-
-# 테스트용 인덱스
-def index(request):
-    reviews = Review.objects.order_by('-pk')
-    form = ReviewForm()
-    context = {
-        'reviews': reviews,
-        'form': form,
-    }
-    return render(request, 'reviews/index.html', context)
 
 
 @login_required

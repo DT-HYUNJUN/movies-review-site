@@ -10,9 +10,11 @@
           <!--상단 배너-->
           <div class="rounded-top banner" style="background-color: {{ person.color }};">
             <div class="dropdown">
+              {% if request.user.is_authenticated %}
               <button class="border-0 bg-transparent profile-update-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-gear-fill"></i>
               </button>
+              {% endif %}
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{% url 'accounts:update' %}">프로필 수정</a></li>
                 <li><a class="dropdown-item" href="{% url 'accounts:change_password' %}">비밀번호 수정</a></li>

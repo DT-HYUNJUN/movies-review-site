@@ -106,7 +106,7 @@
               </div>
 
               <div class="col d-flex justify-content-center">
-                <button class="d-flex emote-comment-btn rounded" data-bs-toggle="modal" data-bs-target="#comment-create">
+                <button class="d-flex emote-comment-btn rounded" data-bs-toggle="modal" {% if request.user.is_authenticated %}data-bs-target="#comment-create" {% else %} data-bs-target="#please-login" {% endif %} >
                   <div class="me-1">
                     <i class="bi bi-chat"></i>
                   </div>
@@ -273,6 +273,29 @@
           </div>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<!--로그인 안내-->
+<div class="modal fade" id="please-login" tabindex="-1" aria-labelledby="review-createLabel" aria-hidden="true">
+  <div class="modal-dialog login-modal">
+    <div class="modal-content">
+      <div class="modal-header pb-0">
+        <button type="button" class="btn-close text-pink ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="please-login-content">
+          <div class="chat-icon mb-3">
+            <i class="bi bi-chat-fill"></i>
+          </div>
+          <p class="fw-bold fs-5 lh-base">지금 회원가입 혹은 로그인하시고, <p class="fw-bold fs-5 lh-base">영화에 빠져보세요!</p> </p>
+        </div>
+        <div class="d-grid mb-5">
+          <a class="my-btn mb-3" href="{% url 'accounts:signup' %}">회원가입</a>
+          <a class="text-pink a-underline" href="{% url 'accounts:login' %}">로그인</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>

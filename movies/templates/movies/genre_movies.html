@@ -70,10 +70,6 @@
                   <span class="sr-only">Next</span>
                 </a>
               {% else %}
-                {% comment %} <a class="page-link" href="?page={{ pages.next_page_number }}" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                  <span class="sr-only">Next</span>
-                </a> {% endcomment %}
                 <a class="page-link" href="?page={{ pages.paginator.num_pages }}" aria-label="Last">
                   <span aria-hidden="true">&raquo;&raquo;</span>
                   <span class="sr-only">Last</span>
@@ -83,9 +79,6 @@
           {% endif %}
         </ul>
       </div>
-      
-
-
     </div>
   </div>
 </div>

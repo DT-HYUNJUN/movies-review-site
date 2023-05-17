@@ -49,22 +49,7 @@
         </svg>
         {{ now_time|date:"m.d H:i"}} 기준
       </div>
-      <!--영화 리스트-->
-      {% comment %} <div class="row row-cols-2 row-cols-md-5 g-5">
-        {% for p_movie in popular_movies %}
-        <a class="white-font" href="{% url 'movies:detail' p_movie.id %}">
-          <div class="movie-card">
-            <div class="index-poster-wrapper">
-              <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ p_movie.poster_path }}" alt="">
-              <p class="rank">{{ forloop.counter }}</p>
-            </div>
-          </div>
-          <p class="white-movie-title">{{ p_movie.title }}</p>
-          <p class="white-movie-content">{{ p_movie.release_date }}</p>
-          <p class="white-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ p_movie.avg_rating }}</p>
-        </a>
-        {% endfor %}
-      </div> {% endcomment %}
+
       <div class="review-box">
         <div class="movie-slide-black">
           <!-- Slides -->
@@ -115,44 +100,6 @@
         </div>
       </div>
     </div>
-    {% comment %} <div class="playing_movie">
-      <p class="title-size black-font pt-3 mb-3">상영 중 영화</p>
-      <div class="row row-cols-2 row-cols-md-5 g-5">
-        {% for p_movie in playing_movies %}
-        <a class="black-font" href="{% url 'movies:detail' p_movie.id %}">
-          <div class="movie-card">
-            <div class="index-poster-wrapper">
-              <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ p_movie.poster_path }}" alt="">
-              <p class="rank">{{ forloop.counter }}</p>
-            </div>
-          </div>
-          <p class="black-movie-title">{{ p_movie.title }}</p>
-          <p class="black-movie-content">{{ p_movie.release_date }}</p>
-          <p class="black-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ p_movie.avg_rating }}</p>
-        </a>
-        {% endfor %}
-      </div>
-    </div> {% endcomment %}
-
-    <!-- top_movie -->
-    {% comment %} <div class="top_movie">
-      <p class="title-size black-font pt-3 mb-3">평점 높은 영화</p>
-      <div class="row row-cols-2 row-cols-md-5 g-5">
-        {% for t_movie in top_movies %}
-        <a class="black-font" href="{% url 'movies:detail' t_movie.id %}">
-          <div class="movie-card">
-            <div class="index-poster-wrapper">
-              <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ t_movie.poster_path }}" alt="">
-              <p class="rank">{{ forloop.counter }}</p>
-            </div>
-          </div>
-          <p class="black-movie-title">{{ t_movie.title }}</p>
-          <p class="black-movie-content">{{ t_movie.release_date }}</p>
-          <p class="black-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ t_movie.avg_rating }}</p>
-        </a>
-        {% endfor %}
-      </div>
-    </div> {% endcomment %}
     <div class="top_movie">
       <div class="review-box">
         <p class="title-size black-font pt-3 mb-3">평점 높은 영화</p>
@@ -177,25 +124,6 @@
       </div>
     </div>
     
-    <!-- upcoming_movie -->
-    {% comment %} <div class="upcoming_movie">
-      <p class="title-size white-font pt-3 mb-3">상영예정작</p>
-      <div class="row row-cols-2 row-cols-md-5 g-5">
-        {% for u_movie in upcoming_movies %}
-        <a class="white-font" href="{% url 'movies:detail' u_movie.id %}">
-          <div class="movie-card">
-            <div class="index-poster-wrapper">
-              <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ u_movie.poster_path }}" alt="">
-              <p class="rank">{{ forloop.counter }}</p>
-            </div>
-          </div>
-          <p class="white-movie-title">{{ u_movie.title }}</p>
-          <p class="white-movie-content">{{ u_movie.release_date }}</p>
-          <p class="white-movie-avg">평균<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ u_movie.avg_rating }}</p>
-        </a>
-        {% endfor %}
-      </div>
-    </div> {% endcomment %}
     <div class="upcoming_movie">
       <div class="review-box">
         <p class="title-size white-font pt-3 mb-3">상영예정작</p>
@@ -220,31 +148,6 @@
       </div>
     </div>
 
-    <!--테스트용 컬렉션 자리-->
-    {% comment %} <div class="index-collection-section">
-      <div class="review-box">
-        <p class="title-size white-font pt-3 mb-3">상영예정작</p>
-        <div class="movie-slide-black">
-          <!-- Slides -->
-          {% for u_movie in upcoming_movies %}
-          <div>
-            <a class="white-font" href="{% url 'movies:detail' u_movie.id %}">
-              <div class="movie-card">
-                <div class="index-poster-wrapper">
-                  <img class="poster-size" src="https://image.tmdb.org/t/p/w500{{ u_movie.poster_path }}" alt="">
-                  <p class="rank">{{ forloop.counter }}</p>
-                </div>
-              </div>
-              <p class="white-movie-title">{{ u_movie.title }}</p>
-              <p class="white-movie-content">{{ u_movie.release_date }}</p>
-              <p class="white-movie-avg">평점<img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ u_movie.avg_rating }}</p>
-            </a>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div> {% endcomment %}
-
     <!--컬렉션-->
     <div class="index-collection-section">
       <p class="title-size white-font pt-3 mb-3">컬렉션</p>
@@ -264,18 +167,6 @@
         {% endfor %}
       </div>
     </div>
-
-    
-    <!-- 컬렉션 -->
-    {% comment %} <div>컬렉션</div>
-    {% for collection in collections %}
-      <a href="{% url 'movies:collection_detail' collection.user collection.pk %}">
-        {% for movie in collection.moviecollection_set.all|slice:"4" %}
-          <img src="https://image.tmdb.org/t/p/w500/{{ movie.movie_poster }}" alt="포스터">
-        {% endfor %}
-      </a>
-    {% endfor %} {% endcomment %}
-
   </div>
 
 <!--비디오 모달창 5개-->

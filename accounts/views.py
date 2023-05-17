@@ -1,10 +1,8 @@
 import os
-from pprint import pprint
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.views import View 
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import AuthenticationForm
 from dotenv import load_dotenv
 import requests
 from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm, CustomAuthenticationForm
@@ -17,7 +15,6 @@ from reviews.models import Review
 from movies.models import Collection, MovieLike
 from reviews.models import Emote, Review
 from movies.models import Collection
-from django.db.models import Prefetch
 
 load_dotenv()
 base_url = 'https://api.themoviedb.org/3'
@@ -158,16 +155,6 @@ def delete(request):
 
 @login_required
 def follow(request, user_pk):
-    # User = get_user_model()
-    # you = User.objects.get(pk=user_pk)
-    # me = request.user
-
-    # if you != me:
-    #     if you.followers.filter(username=request.user.username).exists():
-    #         you.followers.remove(me)
-    #     else:
-    #         you.followers.add(me)
-    # return redirect('accounts:profile', username = you.username)
     User = get_user_model()
     you = User.objects.get(pk=user_pk)
     me = request.user

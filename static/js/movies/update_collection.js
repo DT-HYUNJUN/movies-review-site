@@ -12,19 +12,29 @@ async function getApiKey() {
 
 // movie_delete_form 이미지 나오게
 // form의 구조 : ul-li-label-input&text
+const deleteForm = document.getElementById('delete-form')
+const pathString = deleteForm.dataset.posterPath.replace('[', '').replace(']', '').replace(/\'/gi, '')
+const posterPath = pathString.split(', ')
+
 const deleteUl = document.getElementById('id_delete_movies')
+deleteUl.classList.add('delete-movie-ul')
 const labels = deleteUl.querySelectorAll('li > label')
+
+let i = 0
 labels.forEach(async (label) => {
-  const movie_title = label.textContent
-  const api_key = await getApiKey()
-  const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${movie_title}&language=ko-KR`);
-  const movie_response = await response.json()
-  const movie = movie_response.results
-  console.log(movie[0].poster_path)
+  label.classList.add('me-3', 'd-flex','justify-content-between', 'align-items-center')
+  const labelInput = label.querySelector('input')
+  labelInput.classList.add('me-2')
+
   const formPoster = document.createElement('img')
-  formPoster.src = `https://image.tmdb.org/t/p/w500/${movie[0].poster_path}`
-  formPoster.classList.add('movie-poster-size')
+  if (posterPath[i] != '') {
+    formPoster.src = `https://image.tmdb.org/t/p/w500${posterPath[i]}`  
+  } else {
+    formPoster.src = ''
+  }
+  formPoster.classList.add('movie-poster-size', 'ms-2')
   label.appendChild(formPoster)
+  i++
 })
 
 
@@ -47,10 +57,19 @@ searchInput.addEventListener('input', async (event) => {
       searchResults.innerHTML = ''
       movies.results.forEach((movie) => {
         const divTag = document.createElement('div')
-        divTag.classList.add('d-flex')
+        divTag.classList.add('d-flex','justify-content-between', 'align-items-center', 'gap-1', 'mb-2')
+
+        const divTag2 = document.createElement('div')
+        divTag2.classList.add('d-flex', 'align-items-center', 'gap-1')
 
         const imgTag = document.createElement('img')
-        const imgUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+        console.log(movie.poster_path)
+        let imgUrl = ''
+        if (movie.poster_path) {
+          imgUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+        } else {
+          imgUrl = ''
+        }
         imgTag.setAttribute('src', imgUrl)
         imgTag.classList.add('movie-poster-size')
 
@@ -63,11 +82,14 @@ searchInput.addEventListener('input', async (event) => {
         const addBtn = document.createElement('button')
         addBtn.classList.add('add-btn')
         addBtn.textContent = '추가'
+
         addBtn.addEventListener('click', function (event) {
           // 클릭 시 버튼 체크모양
           addBtn.textContent = ''
           const iTag = document.createElement('i')
           iTag.classList.add('bi', 'bi-check2-circle')
+          addBtn.style.opacity = 0.5
+          addBtn.disabled = true
           addBtn.appendChild(iTag)
 
           // selectedList 배열에 movie추가 후 문자열로 변환하여 input 필드 값으로 설정
@@ -84,9 +106,13 @@ searchInput.addEventListener('input', async (event) => {
         
         textDiv.appendChild(titleDiv)
         textDiv.appendChild(dateDiv)
-        divTag.appendChild(imgTag)
-        divTag.appendChild(textDiv)
+
+        divTag2.appendChild(imgTag)
+        divTag2.appendChild(textDiv)
+
+        divTag.appendChild(divTag2)
         divTag.appendChild(addBtn)
+
         searchResults.appendChild(divTag)
       })
     } catch (error) {

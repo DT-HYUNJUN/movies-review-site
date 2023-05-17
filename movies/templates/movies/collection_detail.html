@@ -55,20 +55,11 @@
           <span id="like_users_count">{{ like_users_count }}</span>
         </form>
         
-        
-        {% comment %} <span>좋아요 {{ collection.like_users|length }}</span> {% endcomment %}
         <hr>
         <div class='mb-3 d-flex align-items-center gap-2'>
           <span class="c-main-title">작품들</span>
           <span class="collection-movie-count">{{ movies|length }}</span>
         </div>
-        {% comment %} {% for movie in movies %}
-          <a href="{% url 'movies:detail' movie.id %}">
-            <img class="collection-movie-poster" src="https://image.tmdb.org/t/p/w1280{{ movie.poster_path }}" alt="포스터 이미지">
-            {{ movie.title }}
-            평균 ★{{ movie.avg|floatformat:1 }}
-          </a>
-        {% endfor %} {% endcomment %}
 
         <div class="row row-cols-2 row-cols-md-5 g-1">
           {% for movie in movies %}
