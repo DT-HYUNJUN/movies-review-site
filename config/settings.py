@@ -30,6 +30,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'seenema.kro.kr',
     'port-0-seenema-17xqnr2algn95l6h.sel3.cloudtype.app',
     'localhost',
     '127.0.0.1',
