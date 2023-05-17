@@ -34,7 +34,7 @@ likeCommentForms.forEach((form) => {
     axios({
       method: 'post',
       // <int:review_pk>/comments/<int:comment_pk>/emotes/<int:emotion>/
-      url: `http://127.0.0.1:8000/reviews/${reviewId}/comments/${commentId}/emotes/1/`,
+      url: `/reviews/${reviewId}/comments/${commentId}/emotes/1/`,
       headers: {'X-CSRFToken': csrftoken,},
     })
       .then((response) => {
@@ -76,7 +76,7 @@ dislikeCommentForms.forEach((form) => {
     axios({
       method: 'post',
       // <int:review_pk>/comments/<int:comment_pk>/emotes/<int:emotion>/
-      url: `http://127.0.0.1:8000/reviews/${reviewId}/comments/${commentId}/emotes/0/`,
+      url: `/reviews/${reviewId}/comments/${commentId}/emotes/0/`,
       headers: {'X-CSRFToken': csrftoken,},
     })
       .then((response) => {
@@ -118,7 +118,7 @@ likeReviewForms.addEventListener('submit', (event) => {
   axios({
     method: 'post',
     //<int:review_pk>/emotes/<int:emotion>/
-    url: `http://127.0.0.1:8000/reviews/${reviewId}/emotes/1/`,
+    url: `/reviews/${reviewId}/emotes/1/`,
     headers: {'X-CSRFToken': csrftoken,},
   })
     .then((response) => {
@@ -153,7 +153,7 @@ dislikeReviewForms.addEventListener('submit', (event) => {
   axios({
     method: 'post',
     //<int:review_pk>/emotes/<int:emotion>/
-    url: `http://127.0.0.1:8000/reviews/${reviewId}/emotes/0/`,
+    url: `/reviews/${reviewId}/emotes/0/`,
     headers: {'X-CSRFToken': csrftoken,},
   })
     .then((response) => {
