@@ -10,6 +10,22 @@ async function getApiKey() {
 }
 
 
+function removeMovie(movie) {
+  const movieIndex = selectedList.findIndex((selectedMovie) => selectedMovie.id === movie.id)
+  // 배열에서 해당 영화를 제거 후 input 필드 값으로 업데이트
+  if (movieIndex !== -1) {
+    selectedList.splice(movieIndex, 1)
+    moviesInput.value = JSON.stringify(selectedList);
+  }
+
+  // 이미지를 제거
+  const movieImg = document.querySelector(`[data-delete-movie-id="${movie.id}"]`)
+  if (movieImg) {
+    movieImg.remove()
+  }
+}
+
+
 // 검색창에 text입력 시 바로 검색결과 나오는 기능
 const searchInput = document.getElementById('search-input')
 const searchResults = document.getElementById('search-results')
@@ -70,15 +86,22 @@ searchInput.addEventListener('input', async (event) => {
           moviesInput.value = JSON.stringify(selectedList)
 
           // 추가한 영화 목록 사용자가 볼 수 있도록 출력
-          const selectedMovieDiv = document.createElement('div')
           const selectedMovieImg = document.createElement('img')
-          selectedMovieImg.src = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+          if (movie.poster_path) {
+            selectedMovieImg.src = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+          } else {
+            selectedMovieImg.src = '/static/img/no-poster-2.png'
+          }
           selectedMovieImg.classList.add('movie-poster-size')
           selectedMovieImg.style.borderRadius = '5px'
-          const selectedMovieTitle = document.createElement('div')
-          selectedMovieTitle.textContent = movie.title
-          const selectedMovieDate = document.createElement('div')
-          selectedMovieDate.textContent = movie.release_date
+          selectedMovieImg.setAttribute('data-delete-movie-id', movie.id)
+          selectedMovieImg.addEventListener('click', function () {
+            removeMovie(movie);
+          })
+          // const selectedMovieTitle = document.createElement('div')
+          // selectedMovieTitle.textContent = movie.title
+          // const selectedMovieDate = document.createElement('div')
+          // selectedMovieDate.textContent = movie.release_date
           
           moviesDiv.appendChild(selectedMovieImg)
         })
