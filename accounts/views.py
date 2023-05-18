@@ -67,7 +67,7 @@ def logout(request):
 def profile(request, username):
     User = get_user_model()
     person = User.objects.get(username=username)
-    collections = Collection.objects.filter(user=person).prefetch_related('moviecollection_set')
+    collections = Collection.objects.filter(user=person).prefetch_related('moviecollection_set').order_by('-pk')
     reviews = Review.objects.filter(user_id=person.id).order_by('-pk')
     review_info_lst = []
     for review in reviews:

@@ -104,7 +104,7 @@ def index(request):
     get_average_rating(upcoming_movies)
 
     # 컬렉션 인기순
-    collections = Collection.objects.prefetch_related('moviecollection_set').annotate(likes_cnt=Count('like_users')).all().order_by('-likes_cnt')
+    collections = Collection.objects.prefetch_related('moviecollection_set').annotate(likes_cnt=Count('like_users')).all().order_by('-likes_cnt', '-pk')
     collections = collections[:10] if len(collections) > 10 else collections
 
     context = {
@@ -258,7 +258,7 @@ def detail(request, movie_id):
         is_like_movie = False
     
     # 해당 영화가 담긴 컬렉션
-    movie_collections = MovieCollection.objects.filter(movie_id=movie_id).select_related('collection').annotate(like_number=Count('collection__like_users')).order_by('-like_number')
+    movie_collections = MovieCollection.objects.filter(movie_id=movie_id).select_related('collection').annotate(like_number=Count('collection__like_users')).order_by('-like_number', '-pk')
 
     # 이 영화가 내 컬렉션에 있는지
     if request.user.is_authenticated:
@@ -268,20 +268,20 @@ def detail(request, movie_id):
     else:
         my_collection = False
 
-    # 키워드 테스트
-    path = f'/movie/{movie_id}/keywords'
-    params = {
-        'api_key': api_key,
-    }
-    test = requests.get(base_url+path, params=params).json()['keywords']
-    translator = Translator()
-    keywords = [i['name'] for i in test[:4]]
-    kr_keywords = []
-    for keyword in keywords:
-        translation = translator.translate(keyword, src='en', dest='ko')
-        if translation.text == '계속':
-            translation.text = '시퀄'
-        kr_keywords.append(translation.text)
+    # # 키워드 테스트
+    # path = f'/movie/{movie_id}/keywords'
+    # params = {
+    #     'api_key': api_key,
+    # }
+    # test = requests.get(base_url+path, params=params).json()['keywords']
+    # translator = Translator()
+    # keywords = [i['name'] for i in test[:4]]
+    # kr_keywords = []
+    # for keyword in keywords:
+    #     translation = translator.translate(keyword, src='en', dest='ko')
+    #     if translation.text == '계속':
+    #         translation.text = '시퀄'
+    #     kr_keywords.append(translation.text)
         
     # test_response = requests.get(base_url+path, params=params).json()
     # test = test_response.get('keywords', [])
@@ -322,7 +322,7 @@ def detail(request, movie_id):
         'recommend': recommend,
         'movie_collections': movie_collections,
         'my_collection': my_collection,
-        'kr_keywords': kr_keywords,
+        # 'kr_keywords': kr_keywords,
     }
 
     
