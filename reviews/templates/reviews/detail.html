@@ -24,7 +24,7 @@
               </div>
 
               <div class="mt-3" OnClick="location.href ='{% url 'movies:detail' review.movie %}'" style="cursor:pointer;">
-                <h2>{{ review.title }}</h2>
+                <h2 class="movie-review-title">{{ review.title }}</h2>
                 <span class="review-movie-info text-secondary mt-1">영화 · {{ year }}</span>
               </div>
             </div>
@@ -136,7 +136,7 @@
             <div class="d-flex flex-column comment-detail-box">
               <div class="d-flex justify-content-between">
                 <a href="{% url 'accounts:profile' comment.user %}" class="me-2 comment-user">{{ comment.user.nickname }}</a>
-                <span class="text-secondary comment-detail-time">{{ review.time_since_created }}</span>
+                <span class="text-secondary comment-detail-time">{{ comment.time_since_created }}</span>
               </div>
               <span class="mt-2 comment-content">{{ comment.content }}</span>
               <div class="d-flex mt-2 justify-content-between">
@@ -181,7 +181,7 @@
                 </form>
                 </div>
                 <!-- 댓글 수정/삭제 드롭다운 -->
-                {% if request.user == review.user %}
+                {% if request.user == comment.user %}
                 <div class="dropdown-center">
                   <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-three-dots-vertical menu-icon"></i>
@@ -246,7 +246,7 @@
             {{ comment_form.as_p }}
           </div>
           <div class="align-items-center d-flex justify-content-end">
-            <button id="comment-btn" type="submit" class="comment-btn fs-5">작성</button>
+            <button id="comment-btn" type="submit" class="comment-btn">작성</button>
           </div>
         </div>
       </form>
@@ -269,7 +269,7 @@
             {{ review_update_form.as_p }}
           </div>
           <div class="align-items-center d-flex justify-content-end">
-            <button id="comment-btn" type="submit" class="comment-btn fs-5">작성</button>
+            <button id="comment-btn" type="submit" class="comment-btn">작성</button>
           </div>
         </div>
       </form>

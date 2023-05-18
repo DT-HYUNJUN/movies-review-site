@@ -289,7 +289,7 @@
   background: rgb(204, 205, 207);
   box-sizing: border-box;
   width: 100%;
-  padding-bottom: 148%;
+  padding-bottom: 147%;
   border-radius: 5px;
   overflow: hidden;
 }
@@ -302,7 +302,8 @@
   left: 0px;
   flex-wrap: wrap;
   box-sizing: border-box;
-  width: 100%;
+  width: 304px;
+  height: 225px;
   padding: 2px;
 }
 

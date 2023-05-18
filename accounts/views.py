@@ -65,9 +65,6 @@ def logout(request):
 # 유저 정보 외에 다른 영화나 리뷰 정보들은 추후에 작업
 # 지금은 유저만 넘김
 def profile(request, username):
-    
-    
-    
     User = get_user_model()
     person = User.objects.get(username=username)
     collections = Collection.objects.filter(user=person).prefetch_related('moviecollection_set')

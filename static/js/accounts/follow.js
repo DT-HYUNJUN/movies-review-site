@@ -5,7 +5,8 @@ const followerList = document.querySelector('#follower-list')
 const child = followerList.querySelectorAll('div')
 
 const addFollower = (e) => {
-  const myName = e.target.dataset.myname
+  const myName = e.target.dataset.username
+  const myNickname = e.target.dataset.myname
   const image = e.target.dataset.image
 
   const follower = document.createElement('div')
@@ -24,7 +25,7 @@ const addFollower = (e) => {
   img.setAttribute('src', `${image}`)
 
   const pTag = document.createElement('p')
-  pTag.textContent = myName
+  pTag.textContent = myNickname
   pTag.classList.add('text-center')
 
   divTag.appendChild(img)
@@ -38,8 +39,8 @@ const addFollower = (e) => {
 }
 
 const deleteFollower = (e) => {
-  const myName = e.target.dataset.myname
-  const follower = document.querySelector(`#${myName}`)
+  const myname = e.target.dataset.username
+  const follower = document.querySelector(`#${myname}`)
   followerList.removeChild(follower)
 }
 

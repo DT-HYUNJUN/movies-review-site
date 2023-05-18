@@ -41,4 +41,4 @@ class User(AbstractUser):
         super(User, self).save(*args, **kwargs)
 
     birthday = models.DateField(null=True, blank=True)
-    color = models.CharField(max_length=20, blank=True, null=True)
+    color = models.CharField(max_length=100, blank=True, null=True)

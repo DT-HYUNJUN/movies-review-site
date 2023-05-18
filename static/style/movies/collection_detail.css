@@ -5,11 +5,14 @@
 .collection-movie-poster {
   width: 11rem;
   height: 16rem;
+  border-radius: 5px;
+  border: 1px solid #0000000f;
 }
 
 .collection-poster-wrapper {
   width: 11rem;
   height: 16rem;
+  border-radius: 5px
 }
 
 .bg-collection-poster-size {
@@ -22,7 +25,7 @@
 
 .collcetion-bg-carousel {
   z-index: -10;
-  height: 550px;
+  height: 570px;
   position: relative; /* position 속성 추가 */
   background-color: black;
 }
@@ -34,7 +37,7 @@
   left: 0;
   right: 0;
   top: 0;
-  height: 550px; /* 변경된 부분 */
+  height: 570px; /* 변경된 부분 */
   background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 5%, rgba(255,255,255,0) 85%, rgba(0,0,0,1) 90%, rgba(0,0,0,1) 100%);
 }
 

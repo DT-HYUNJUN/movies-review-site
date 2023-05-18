@@ -1,13 +1,90 @@
 const commentFields = document.querySelectorAll("#comment-field")
-const movieTitle = document.querySelector(".comment-update-form").getAttribute("data-movie-title")
-
+const movieTitle = document.querySelector(".movie-review-title").textContent
 commentFields.forEach((commentField) => {
   commentField.setAttribute('placeholder', `이 ${movieTitle}에 대한 생각을 자유롭게 표현해주세요.`)
 })
 
-const commentLikeBtn = document.querySelector(".comment-like-btn")
-console.log(commentLikeBtn)
 const reviewLikeBtn = document.querySelector(".review-like-btn")
+
+
+
+// 리뷰 좋아요/싫어요 비동기
+const likeReviewForms = document.querySelector('.like-review-forms')
+const dislikeReviewForms = document.querySelector('.dislike-review-forms')
+const csrftoken = document.querySelector('.like-review-forms>[name=csrfmiddlewaretoken]').value
+
+likeReviewForms.addEventListener('submit', (event) => {
+  event.preventDefault()
+  const reviewId = event.target.dataset.reviewId
+  axios({
+    method: 'post',
+    //<int:review_pk>/emotes/<int:emotion>/
+    url: `/reviews/${reviewId}/emotes/1/`,
+    headers: {'X-CSRFToken': csrftoken,},
+  })
+    .then((response) => {
+      const isChecked = response.data.is_checked
+      const likeReviewBtn = document.querySelector(`#like-review-btn-${reviewId}`)
+      const likeReviewIcon = document.querySelector(`#like-review-icon-${reviewId}`)
+      const emoteCnt = response.data.cnt
+      const likeReviewCnt = document.querySelector(`#like-review-cnt-${reviewId}`)
+      const isAlert = response.data.alert
+
+      if (isAlert === true) {
+        alert("이미 싫어요를 눌렀습니다.")
+      } else if (isChecked === true) {
+        likeReviewBtn.classList.add('is-liked-btn')
+        likeReviewIcon.classList.add('bi-hand-thumbs-up-fill')
+        likeReviewIcon.classList.remove('bi-hand-thumbs-up')
+        likeReviewCnt.textContent = emoteCnt
+        // likeReviewIcon.classList.replace('bi-hand-thumbs-up-fill', 'bi-hand-thumbs-up')
+      } else {
+        likeReviewBtn.classList.remove('is-liked-btn')
+        likeReviewIcon.classList.add('bi-hand-thumbs-up')
+        likeReviewIcon.classList.remove('bi-hand-thumbs-up-fill')
+        likeReviewCnt.textContent = emoteCnt
+      }
+    })
+})
+
+
+dislikeReviewForms.addEventListener('submit', (event) => {
+  event.preventDefault()
+  const reviewId = event.target.dataset.reviewId
+  axios({
+    method: 'post',
+    //<int:review_pk>/emotes/<int:emotion>/
+    url: `/reviews/${reviewId}/emotes/0/`,
+    headers: {'X-CSRFToken': csrftoken,},
+  })
+    .then((response) => {
+      const isChecked = response.data.is_checked
+      const dislikeReviewBtn = document.querySelector(`#dislike-review-btn-${reviewId}`)
+      const dislikeReviewIcon = document.querySelector(`#dislike-review-icon-${reviewId}`)
+      const emoteCnt = response.data.cnt
+      const dislikeReviewCnt = document.querySelector(`#dislike-review-cnt-${reviewId}`)
+      const isAlert = response.data.alert
+
+      if (isAlert === true) {
+        alert("이미 좋아요를 눌렀습니다.")
+      } else if (isChecked === true) {
+        dislikeReviewBtn.classList.add('is-disliked-btn')
+        dislikeReviewIcon.classList.add('bi-hand-thumbs-down-fill')
+        dislikeReviewIcon.classList.remove('bi-hand-thumbs-down')
+        dislikeReviewCnt.textContent = emoteCnt
+        // likeReviewIcon.classList.replace('bi-hand-thumbs-up-fill', 'bi-hand-thumbs-up')
+      } else {
+        dislikeReviewBtn.classList.remove('is-disliked-btn')
+        dislikeReviewIcon.classList.add('bi-hand-thumbs-down')
+        dislikeReviewIcon.classList.remove('bi-hand-thumbs-down-fill')
+        dislikeReviewCnt.textContent = emoteCnt
+      }
+    })
+})
+
+
+// 댓글 좋아요/싫어요 비동기
+const commentLikeBtn = document.querySelector(".comment-like-btn")
 let isLiked = 0
 
 commentLikeBtn.addEventListener("click", () => {
@@ -20,10 +97,9 @@ commentLikeBtn.addEventListener("click", () => {
   }
 })
 
-// 댓글 좋아요/싫어요 비동기
 const likeCommentForms = document.querySelectorAll('.like-comment-forms')
 const dislikeCommentForms = document.querySelectorAll('.dislike-comment-forms')
-const csrftoken = document.querySelector('.like-comment-forms>[name=csrfmiddlewaretoken]').value
+
 
 likeCommentForms.forEach((form) => {
   form.addEventListener('submit', (event) => {
@@ -107,76 +183,3 @@ dislikeCommentForms.forEach((form) => {
   })
 })
 
-
-// 리뷰 좋아요/싫어요 비동기
-const likeReviewForms = document.querySelector('.like-review-forms')
-const dislikeReviewForms = document.querySelector('.dislike-review-forms')
-
-likeReviewForms.addEventListener('submit', (event) => {
-  event.preventDefault()
-  const reviewId = event.target.dataset.reviewId
-  axios({
-    method: 'post',
-    //<int:review_pk>/emotes/<int:emotion>/
-    url: `/reviews/${reviewId}/emotes/1/`,
-    headers: {'X-CSRFToken': csrftoken,},
-  })
-    .then((response) => {
-      const isChecked = response.data.is_checked
-      const likeReviewBtn = document.querySelector(`#like-review-btn-${reviewId}`)
-      const likeReviewIcon = document.querySelector(`#like-review-icon-${reviewId}`)
-      const emoteCnt = response.data.cnt
-      const likeReviewCnt = document.querySelector(`#like-review-cnt-${reviewId}`)
-      const isAlert = response.data.alert
-
-      if (isAlert === true) {
-        alert("이미 싫어요를 눌렀습니다.")
-      } else if (isChecked === true) {
-        likeReviewBtn.classList.add('is-liked-btn')
-        likeReviewIcon.classList.add('bi-hand-thumbs-up-fill')
-        likeReviewIcon.classList.remove('bi-hand-thumbs-up')
-        likeReviewCnt.textContent = emoteCnt
-        // likeReviewIcon.classList.replace('bi-hand-thumbs-up-fill', 'bi-hand-thumbs-up')
-      } else {
-        likeReviewBtn.classList.remove('is-liked-btn')
-        likeReviewIcon.classList.add('bi-hand-thumbs-up')
-        likeReviewIcon.classList.remove('bi-hand-thumbs-up-fill')
-        likeReviewCnt.textContent = emoteCnt
-      }
-    })
-})
-
-
-dislikeReviewForms.addEventListener('submit', (event) => {
-  event.preventDefault()
-  const reviewId = event.target.dataset.reviewId
-  axios({
-    method: 'post',
-    //<int:review_pk>/emotes/<int:emotion>/
-    url: `/reviews/${reviewId}/emotes/0/`,
-    headers: {'X-CSRFToken': csrftoken,},
-  })
-    .then((response) => {
-      const isChecked = response.data.is_checked
-      const dislikeReviewBtn = document.querySelector(`#dislike-review-btn-${reviewId}`)
-      const dislikeReviewIcon = document.querySelector(`#dislike-review-icon-${reviewId}`)
-      const emoteCnt = response.data.cnt
-      const dislikeReviewCnt = document.querySelector(`#dislike-review-cnt-${reviewId}`)
-      const isAlert = response.data.alert
-
-      if (isAlert === true) {
-        alert("이미 좋아요를 눌렀습니다.")
-      } else if (isChecked === true) {
-        dislikeReviewBtn.classList.add('is-disliked-btn')
-        dislikeReviewIcon.classList.add('bi-hand-thumbs-down-fill')
-        dislikeReviewIcon.classList.remove('bi-hand-thumbs-down')
-        dislikeReviewCnt.textContent = emoteCnt
-        // likeReviewIcon.classList.replace('bi-hand-thumbs-up-fill', 'bi-hand-thumbs-up')
-      } else {
-        dislikeReviewBtn.classList.remove('is-disliked-btn')
-        dislikeReviewIcon.classList.add('bi-hand-thumbs-down')
-        dislikeReviewIcon.classList.remove('bi-hand-thumbs-down-fill')
-        dislikeReviewCnt.textContent = emoteCnt
-      }
-    })
-})

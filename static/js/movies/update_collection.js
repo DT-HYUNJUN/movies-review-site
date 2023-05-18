@@ -27,12 +27,13 @@ labels.forEach(async (label) => {
   labelInput.classList.add('me-2')
 
   const formPoster = document.createElement('img')
-  if (posterPath[i] != '') {
+  if (posterPath[i] != 'None') {
     formPoster.src = `https://image.tmdb.org/t/p/w500${posterPath[i]}`  
   } else {
-    formPoster.src = ''
+    formPoster.src = '/static/img/no-poster-2.png'
   }
   formPoster.classList.add('movie-poster-size', 'ms-2')
+  formPoster.style.borderRadius = '5px'
   label.appendChild(formPoster)
   i++
 })
@@ -64,13 +65,14 @@ searchInput.addEventListener('input', async (event) => {
 
         const imgTag = document.createElement('img')
         console.log(movie.poster_path)
-        let imgUrl = ''
+        let imgUrl
         if (movie.poster_path) {
           imgUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
         } else {
-          imgUrl = ''
+          imgUrl = '/static/img/no-poster-2.png'
         }
         imgTag.setAttribute('src', imgUrl)
+        imgTag.style.borderRadius = '5px'
         imgTag.classList.add('movie-poster-size')
 
         const textDiv = document.createElement('div')
@@ -98,8 +100,13 @@ searchInput.addEventListener('input', async (event) => {
 
           // 추가한 영화 목록 사용자가 볼 수 있도록 출력
           const selectedMovieImg = document.createElement('img')
-          selectedMovieImg.src = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+          if (movie.poster_path) {
+            selectedMovieImg.src = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+          } else {
+            selectedMovieImg.src = '/static/img/no-poster-2.png'
+          }
           selectedMovieImg.classList.add('movie-poster-size')
+          selectedMovieImg.style.borderRadius = '5px'
 
           moviesDiv.appendChild(selectedMovieImg)
         })

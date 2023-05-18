@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'reviews',
     # 설치
     'django_extensions',
+    'mathfilters',
     # allauth
     'django.contrib.sites',
     'allauth',

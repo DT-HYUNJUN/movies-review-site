@@ -35,8 +35,15 @@ searchInput.addEventListener('input', async (event) => {
         divTag2.classList.add('d-flex', 'align-items-center', 'gap-1')
 
         const imgTag = document.createElement('img')
-        const imgUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+        let imgUrl
+        if (movie.poster_path) {
+          imgUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+        }
+        else {
+          imgUrl = '/static/img/no-poster-2.png'
+        }
         imgTag.setAttribute('src', imgUrl)
+        imgTag.style.borderRadius = '5px'
         imgTag.classList.add('movie-poster-size')
 
         const textDiv = document.createElement('div')
@@ -67,6 +74,7 @@ searchInput.addEventListener('input', async (event) => {
           const selectedMovieImg = document.createElement('img')
           selectedMovieImg.src = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
           selectedMovieImg.classList.add('movie-poster-size')
+          selectedMovieImg.style.borderRadius = '5px'
           const selectedMovieTitle = document.createElement('div')
           selectedMovieTitle.textContent = movie.title
           const selectedMovieDate = document.createElement('div')

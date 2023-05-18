@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
+
 {% load static %}
+{% load mathfilters %}
+
 {% block content %}
 <div class="page-bg-wrapper">
   <div class="page-bg-inner">
@@ -8,9 +11,9 @@
       <div class="container container-pt profile">
         <div class="rounded-3 mt-3">
           <!--상단 배너-->
-          <div class="rounded-top banner" style="background-color: {{ person.color }};">
+          <div class="rounded-top banner profile-bg-pattern" style="background-color: {{ person.color }};">
             <div class="dropdown">
-              {% if request.user.is_authenticated %}
+              {% if request.user.is_authenticated and request.user == person %}
               <button class="border-0 bg-transparent profile-update-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-gear-fill"></i>
               </button>
@@ -43,7 +46,7 @@
             <div class="d-flex justify-content-between align-items-center movie-section mb-5">
               <p class="fs-5 fw-bold">{{ person.nickname }}</p>
               <div class="text-center">
-                <form id="follow-form" data-myname="{{ request.user.username }}" data-userpk="{{ person.pk }}" {% if request.user.profile_image %} data-image="{{ request.user.profile_image.url }}" {% else %} data-image="{% static 'img/profile-img.png' %}" {% endif %} >
+                <form class="mb-3" id="follow-form" data-username="{{ request.user.username }}" data-myname="{{ request.user.nickname }}" data-userpk="{{ person.pk }}" {% if request.user.profile_image %} data-image="{{ request.user.profile_image.url }}" {% else %} data-image="{% static 'img/profile-img.png' %}" {% endif %} >
                   {% csrf_token %}
                     {% if request.user != person %}
                       {% if request.user in person.followers.all %}
@@ -72,7 +75,7 @@
                 </button>
               </div>
             </div>
-            <p class="fs-5 mb-3">평가</p>
+            <p class="section mb-3">평가</p>
             <hr>
             <!--리뷰 박스 공간-->
             <div class="review-box">
@@ -81,12 +84,9 @@
                 {% for review, liked_by_user, disliked_by_user in review_info_lst %}
                   <div class="card mx-2 p-2 review-card mb-3" style="width: 18rem;">
                     <!-- 카드 헤더 (프사, 닉네임, 별점) -->
-                    <div class="card-header review-card-header d-flex justify-content-between align-items-center">
-                      <div class="d-flex align-items-center profile-href" OnClick="location.href ='{% url 'accounts:profile' review.user %}'" style="cursor:pointer;">
-                        <img class="review-card-profile-img me-1 rounded-circle" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile-img.png' %}" {% endif %}  alt="review-profile-image">
-                        <p class="card-text">{{ review.user.nickname }}</p>
-                      </div>
-                      <p class="card-text d-flex gap-1"><img src="{% static 'img/rating-star.svg' %}" alt="">{{ review.rating }}</p>
+                    <div class="card-header review-card-header d-flex align-items-center justify-content-between">
+                      <p class="card-text profile-review-title">{{ review.title }}</p>
+                      <p class="card-text d-flex align-items-center gap-1"><img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">{{ review.rating }}</p>
                     </div>
                     <!-- 카드바디 (리뷰내용) -->
       
@@ -163,7 +163,7 @@
             </div>
 
             <!-- 보고 싶어요 -->
-            <p class="fs-5 mb-3">보고 싶어요</p>
+            <p class="section mb-3">보고 싶어요</p>
             <hr>
             <div class="collection-list mt-3">
               {% for movie in like_movies %}
@@ -172,10 +172,10 @@
                     <div class="profile-like-movies-content">
                       <div class="profile-collection-poster-wrapper">
                         <img class="profile-like-movies" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" alt="포스터">
-                        <div class="text-truncate profile-like-movies-info">
+                        <div class="profile-collection-title text-truncate profile-like-movies-info mt-1">
                           <p>{{ movie.title }}</p>
                           <p>{{ movie.release_date }}</p>
-                          <p>평균<img class="star-size like-movies-star" src="{% static 'img/rating-star.svg' %}" alt="">{{ movie.vote_average|floatformat:1 }}</p>
+                          <p>평균<img class="star-size like-movies-star" src="{% static 'img/rating-star.svg' %}" alt="">{{ movie.vote_average|mul:0.5|floatformat:1 }}</p>
                         </div>
                       </div>
                     </div>
@@ -187,7 +187,7 @@
             <!-- 컬렉션 -->
             <div class="d-flex justify-content-between align-items-center profile-title">
               {% comment %} <p class="profile-collection-title">컬렉션</p> {% endcomment %}
-              <p class="fs-5">컬렉션</p>
+              <p class="section">컬렉션</p>
               {% if request.user == person %}
                 <a class="fs-3 pink-text" href="{% url 'movies:create' person.username %}"><i class="bi bi-plus-lg"></i></a>
               {% endif %}
@@ -204,6 +204,7 @@
                       </div>
                     </div>
                   </a>
+                  <p class="text-center mt-1 profile-collection-title">{{ collection.title }}</p>
                 </li>
               {% endfor %}
             </div>
@@ -224,7 +225,7 @@
     <div id="follower-list" class='d-flex m-3'>
       {% for follower in person.followers.all %}
       <!--기존 팔로워-->
-      <div id="{{ follower.username }}" class='m-2'>
+      <div id="{{ follower.username }}" class='m-2 w-25'>
         <a href="{% url 'accounts:profile' follower.username %}" class="userinfo-txt">
           <div class="userinfo_box">
             {% if follower.profile_image %}
@@ -233,7 +234,7 @@
               <img src="{% static 'img/profile-img.png' %}" alt="profile_image_none" class="userinfo_img">
             {% endif %}
           </div>
-          <p class="text-center">{{ follower.nickname }}</p>
+          <p class="text-center text-truncate">{{ follower.nickname }}</p>
         </a>
       </div>
       <!---->
@@ -254,7 +255,7 @@
     <div class='d-flex m-3'>
       {% for following in person.followings.all %}
       <!--기존 팔로워-->
-      <div id="{{ following.username }}" class='m-2'>
+      <div id="{{ following.username }}" class='m-2 w-25'>
         <a href="{% url 'accounts:profile' following.username %}" class="userinfo-txt">
           <div class="userinfo_box">
             {% if following.profile_image %}
@@ -263,7 +264,7 @@
               <img src="{% static 'img/profile-img.png' %}" alt="profile_image_none" class="userinfo_img">
             {% endif %}
           </div>
-          <p class="text-center">{{ following.nickname }}</p>
+          <p class="text-center text-truncate">{{ following.nickname }}</p>
         </a>
       </div>
       {% empty %}

@@ -102,7 +102,7 @@
     </div>
     <div class="top_movie">
       <div class="review-box">
-        <p class="title-size black-font pt-3 mb-3">평점 높은 영화</p>
+        <p class="title-size black-font pt-3 mb-3">명작 영화</p>
         <div class="movie-slide">
           <!-- Slides -->
           {% for t_movie in top_movies %}
@@ -163,6 +163,7 @@
                 </div>
               </div>
             </a>
+            <p class="text-white text-center mt-1">{{ collection.title }}</p>
           </li>
         {% endfor %}
       </div>

@@ -21,7 +21,7 @@ class Collection(models.Model):
 class MovieCollection(models.Model):
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
     movie_id = models.IntegerField()
-    movie_poster = models.CharField(max_length=200, default='')
+    movie_poster = models.CharField(max_length=200, default='', null=True)
 
     def __str__(self):
         url = f'https://api.themoviedb.org/3/movie/{self.movie_id}'

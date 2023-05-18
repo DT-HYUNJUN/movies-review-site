@@ -172,6 +172,54 @@
   background-color: #ffdd53;
 }
 
+.bar:hover {
+  background-color: #f3cc30;
+}
+
+.bar {
+  position: relative;
+  display: inline-block;
+}
+
+
+.bar .tooltip-chart-text {
+  visibility: hidden;
+  width: 60px;
+  background-color: #3b4869;
+  color: rgb(240, 240, 240);
+  text-align: center;
+  padding: 5px 0;
+  margin-bottom: 25px;
+  margin-right: 10px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  font-style: normal;
+}
+
+.tooltip-chart-text {
+  font-size: 16px;
+  width: 160px;
+  bottom: 80%;
+  left: -28%;
+}
+
+.bar:hover .tooltip-chart-text{
+  visibility: visible;
+}
+
+.bar .tooltip-chart-text::after {
+  content: " ";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #3b4869 transparent transparent transparent;
+}
+
+
 #chart div:nth-child(2n) {
   margin-bottom: 12px;
 }
@@ -335,7 +383,7 @@
   background: rgb(204, 205, 207);
   box-sizing: border-box;
   width: 100%;
-  padding-bottom: 148%;
+  padding-bottom: 145.5%;
   border-radius: 5px;
   overflow: hidden;
 }
@@ -348,7 +396,8 @@
   left: 0px;
   flex-wrap: wrap;
   box-sizing: border-box;
-  width: 100%;
+  width: 232px;
+  height: 171px;
   padding: 2px;
 }
 

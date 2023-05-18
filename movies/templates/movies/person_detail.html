@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load mathfilters %}
 
 {% block content %}
 <!--인물 배경-->
@@ -42,8 +43,12 @@
                     <td class="p-td p-year">{{ movie.release_date|slice:":4" }}</td>
                     <td class="p-td">
                       <a href="{% url 'movies:detail' movie.id %}">
-                        <div class="p-title">                        
+                        <div class="p-title">
+                          {% if movie.poster_path %}
                           <img class="person-poster" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
+                          {% else %}
+                          <img class='person-poster' src="{% static 'img/no-poster-2.png' %}" alt="">
+                          {% endif %}
                          <span class="p-title-text">{{ movie.title }}</span>
                         </div>
                       </a>
@@ -51,7 +56,7 @@
                     <td class="p-td p-rating">
                       <p>
                         <img class="star-size" src="{% static 'img/rating-star.svg' %}" alt="">
-                        {{ p_movie.avg_rating }}{{ movie.vote_average|floatformat:1 }}
+                        {{ p_movie.avg_rating }}{{ movie.vote_average|mul:0.5|floatformat:1 }}
                       </p>
                     </td>
                   </tr>
