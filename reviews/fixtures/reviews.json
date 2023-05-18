@@ -1,0 +1,968 @@
+[
+{
+    "model": "reviews.review",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "title": "앤트맨과 와스프: 퀀텀매니아",
+        "content": "볼만합니다",
+        "movie": 640146,
+        "rating": 3.5,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:17:10.769Z",
+        "updated_at": "2023-05-17T05:17:10.769Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 2,
+    "fields": {
+        "user": 1,
+        "title": "슈퍼 마리오 브라더스",
+        "content": "마리오가 나와요",
+        "movie": 502356,
+        "rating": 5.0,
+        "is_spoiler": true,
+        "created_at": "2023-05-17T05:25:31.176Z",
+        "updated_at": "2023-05-17T05:25:31.176Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 3,
+    "fields": {
+        "user": 2,
+        "title": "앤트맨과 와스프: 퀀텀매니아",
+        "content": "나는 이 작품에 실망했다.",
+        "movie": 640146,
+        "rating": 2.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:28:42.788Z",
+        "updated_at": "2023-05-17T05:28:42.788Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 4,
+    "fields": {
+        "user": 1,
+        "title": "엑소시스트: 더 바티칸",
+        "content": "무서워서 반만 봤어요",
+        "movie": 758323,
+        "rating": 2.5,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:29:06.629Z",
+        "updated_at": "2023-05-17T05:29:06.629Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 5,
+    "fields": {
+        "user": 1,
+        "title": "가디언즈 오브 갤럭시: Volume 3",
+        "content": "플젝 끝나고 볼 영화 1순위",
+        "movie": 447365,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:30:22.164Z",
+        "updated_at": "2023-05-17T05:30:22.164Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 6,
+    "fields": {
+        "user": 2,
+        "title": "슈퍼 마리오 브라더스",
+        "content": "너무 재밌어요!\r\n\r\n집 가서 마리오카트 해야지~",
+        "movie": 502356,
+        "rating": 4.5,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:30:28.173Z",
+        "updated_at": "2023-05-17T05:30:28.173Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 7,
+    "fields": {
+        "user": 1,
+        "title": "고스팅",
+        "content": "제가 만드는 게 더 나을 듯",
+        "movie": 868759,
+        "rating": 2.0,
+        "is_spoiler": true,
+        "created_at": "2023-05-17T05:34:24.026Z",
+        "updated_at": "2023-05-17T05:34:24.026Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 8,
+    "fields": {
+        "user": 4,
+        "title": "바스터즈: 거친 녀석들",
+        "content": "내가 만들었지만 진짜 재밌네",
+        "movie": 16869,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:36:05.192Z",
+        "updated_at": "2023-05-17T05:36:05.192Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 9,
+    "fields": {
+        "user": 4,
+        "title": "존 윅 4",
+        "content": "키아누 리브스는 나한테 와라.",
+        "movie": 603692,
+        "rating": 2.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:39:08.372Z",
+        "updated_at": "2023-05-17T05:39:08.372Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 10,
+    "fields": {
+        "user": 5,
+        "title": "앤트맨과 와스프: 퀀텀매니아",
+        "content": "명감독이죠",
+        "movie": 640146,
+        "rating": 4.5,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:39:20.677Z",
+        "updated_at": "2023-05-17T05:39:20.677Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 11,
+    "fields": {
+        "user": 2,
+        "title": "고스팅",
+        "content": "코미디 부분도 있어서 재밌었어요!",
+        "movie": 868759,
+        "rating": 3.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:40:24.900Z",
+        "updated_at": "2023-05-17T05:40:24.900Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 12,
+    "fields": {
+        "user": 5,
+        "title": "슈퍼 마리오 브라더스",
+        "content": "마리오 너무 재밌어요 가족과 함께 보세요",
+        "movie": 502356,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:40:31.661Z",
+        "updated_at": "2023-05-17T05:40:31.661Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 13,
+    "fields": {
+        "user": 3,
+        "title": "센과 치히로의 행방불명",
+        "content": "하쿠 ㅠㅠㅠ죽지마",
+        "movie": 129,
+        "rating": 5.0,
+        "is_spoiler": true,
+        "created_at": "2023-05-17T05:40:49.252Z",
+        "updated_at": "2023-05-17T05:40:49.252Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 14,
+    "fields": {
+        "user": 4,
+        "title": "기생충",
+        "content": "My friend Bong!",
+        "movie": 496243,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:40:57.307Z",
+        "updated_at": "2023-05-17T05:40:57.307Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 15,
+    "fields": {
+        "user": 1,
+        "title": "아바타: 물의 길",
+        "content": "3시간 보기 힘들었는데 잼게 봤어요",
+        "movie": 76600,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:41:14.217Z",
+        "updated_at": "2023-05-17T05:41:14.217Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 16,
+    "fields": {
+        "user": 2,
+        "title": "샤잠! 신들의 분노",
+        "content": "배우분이 멋지게 생겼어요!!",
+        "movie": 594767,
+        "rating": 3.5,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:41:31.676Z",
+        "updated_at": "2023-05-17T05:41:31.676Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 17,
+    "fields": {
+        "user": 1,
+        "title": "대부",
+        "content": "띵작입니다",
+        "movie": 238,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:41:41.979Z",
+        "updated_at": "2023-05-17T05:41:41.979Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 18,
+    "fields": {
+        "user": 5,
+        "title": "쇼생크 탈출",
+        "content": "전설의 영화",
+        "movie": 278,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:41:44.782Z",
+        "updated_at": "2023-05-17T05:41:44.782Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 19,
+    "fields": {
+        "user": 5,
+        "title": "존 윅 4",
+        "content": "키아누리브스 멋져요",
+        "movie": 603692,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:42:20.683Z",
+        "updated_at": "2023-05-17T05:42:20.683Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 21,
+    "fields": {
+        "user": 1,
+        "title": "너의 이름은.",
+        "content": "미츠하..",
+        "movie": 372058,
+        "rating": 5.0,
+        "is_spoiler": true,
+        "created_at": "2023-05-17T05:42:52.291Z",
+        "updated_at": "2023-05-17T05:42:52.291Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 22,
+    "fields": {
+        "user": 5,
+        "title": "대부",
+        "content": "명작",
+        "movie": 238,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:43:04.599Z",
+        "updated_at": "2023-05-17T05:43:04.599Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 23,
+    "fields": {
+        "user": 5,
+        "title": "던전 앤 드래곤 - 도적들의 명예",
+        "content": "포스터 머리가 너무 커요",
+        "movie": 493529,
+        "rating": 0.5,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:43:33.641Z",
+        "updated_at": "2023-05-17T05:43:33.641Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 24,
+    "fields": {
+        "user": 1,
+        "title": "존 윅 4",
+        "content": "존윅형님도 세월은 못피하시네,,",
+        "movie": 603692,
+        "rating": 4.5,
+        "is_spoiler": true,
+        "created_at": "2023-05-17T05:43:51.311Z",
+        "updated_at": "2023-05-17T05:43:51.311Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 25,
+    "fields": {
+        "user": 1,
+        "title": "장고: 분노의 추적자",
+        "content": "저도 장고 좀 칩니다",
+        "movie": 68718,
+        "rating": 4.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:44:32.624Z",
+        "updated_at": "2023-05-17T05:56:23.415Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 26,
+    "fields": {
+        "user": 1,
+        "title": "앤트맨과 와스프: 퀀텀매니아",
+        "content": "앤트맨이라 개미로 변할 줄 알았는데 그냥 개미만큼 작아지네;",
+        "movie": 640146,
+        "rating": 4.0,
+        "is_spoiler": true,
+        "created_at": "2023-05-17T05:47:30.266Z",
+        "updated_at": "2023-05-17T05:47:30.266Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 27,
+    "fields": {
+        "user": 5,
+        "title": "분노의 질주: 라이드 오어 다이",
+        "content": "재밌어요 화나요",
+        "movie": 385687,
+        "rating": 5.0,
+        "is_spoiler": true,
+        "created_at": "2023-05-17T05:54:25.837Z",
+        "updated_at": "2023-05-17T05:54:25.837Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 28,
+    "fields": {
+        "user": 1,
+        "title": "기생충",
+        "content": "어떻게 이런 영화를 만들 수 있는 거지",
+        "movie": 496243,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:54:50.504Z",
+        "updated_at": "2023-05-17T05:54:50.504Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 29,
+    "fields": {
+        "user": 4,
+        "title": "앤트맨과 와스프: 퀀텀매니아",
+        "content": "My B-movie is more fun.",
+        "movie": 640146,
+        "rating": 2.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T05:59:21.752Z",
+        "updated_at": "2023-05-17T05:59:21.752Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 30,
+    "fields": {
+        "user": 4,
+        "title": "다크 나이트",
+        "content": "내 취향은 중요하지 않아.\r\n이건 놀란 영화잖아",
+        "movie": 155,
+        "rating": 4.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:02:22.997Z",
+        "updated_at": "2023-05-17T06:02:22.997Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 31,
+    "fields": {
+        "user": 3,
+        "title": "엑소시스트: 더 바티칸",
+        "content": "미쳤다...... 바티칸 공식 엑소시스트라니",
+        "movie": 758323,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:02:58.337Z",
+        "updated_at": "2023-05-17T06:02:58.337Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 33,
+    "fields": {
+        "user": 4,
+        "title": "쇼생크 탈출",
+        "content": "(BBC 선정)\r\n시험 끝나고 선생님이 틀어주는 영화 4위",
+        "movie": 278,
+        "rating": 3.5,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:04:24.794Z",
+        "updated_at": "2023-05-17T06:04:44.121Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 34,
+    "fields": {
+        "user": 4,
+        "title": "조커",
+        "content": "끝판왕 조커",
+        "movie": 475557,
+        "rating": 4.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:06:41.355Z",
+        "updated_at": "2023-05-17T06:06:41.355Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 35,
+    "fields": {
+        "user": 5,
+        "title": "쉰들러 리스트",
+        "content": "스필버그 감독 작품",
+        "movie": 424,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:12:16.777Z",
+        "updated_at": "2023-05-17T06:12:16.777Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 36,
+    "fields": {
+        "user": 5,
+        "title": "센과 치히로의 행방불명",
+        "content": "미아자키 하야오 명작",
+        "movie": 129,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:12:38.688Z",
+        "updated_at": "2023-05-17T06:12:38.688Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 37,
+    "fields": {
+        "user": 4,
+        "title": "인터스텔라",
+        "content": "매튜 맥커너히 pom-michyeotda",
+        "movie": 157336,
+        "rating": 4.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:13:43.872Z",
+        "updated_at": "2023-05-17T06:13:43.872Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 39,
+    "fields": {
+        "user": 2,
+        "title": "즐겁지 않은 지식",
+        "content": "흥미로운 영화입니다.",
+        "movie": 1122976,
+        "rating": 4.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:19:43.825Z",
+        "updated_at": "2023-05-17T06:19:43.826Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 40,
+    "fields": {
+        "user": 4,
+        "title": "너의 이름은.",
+        "content": "가슴이 웅장해져요",
+        "movie": 372058,
+        "rating": 3.5,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:20:50.288Z",
+        "updated_at": "2023-05-17T06:20:50.289Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 41,
+    "fields": {
+        "user": 2,
+        "title": "대부",
+        "content": "명작은 명작이다.",
+        "movie": 238,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:21:37.056Z",
+        "updated_at": "2023-05-17T06:21:37.056Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 42,
+    "fields": {
+        "user": 5,
+        "title": "너의 이름은.",
+        "content": "서유영",
+        "movie": 372058,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:22:16.986Z",
+        "updated_at": "2023-05-17T06:22:16.986Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 43,
+    "fields": {
+        "user": 2,
+        "title": "쇼생크 탈출",
+        "content": "명작은 명작이다.",
+        "movie": 278,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:22:27.123Z",
+        "updated_at": "2023-05-17T06:22:27.123Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 44,
+    "fields": {
+        "user": 4,
+        "title": "대부",
+        "content": "나 이런거 좋아하네",
+        "movie": 238,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:22:34.568Z",
+        "updated_at": "2023-05-17T06:22:34.568Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 45,
+    "fields": {
+        "user": 2,
+        "title": "존 윅 4",
+        "content": "존 윅 최고의 작품",
+        "movie": 603692,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:24:13.792Z",
+        "updated_at": "2023-05-17T06:24:13.792Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 46,
+    "fields": {
+        "user": 2,
+        "title": "가디언즈 오브 갤럭시: Volume 3",
+        "content": "가오갤 영화에는 감동이 있다.",
+        "movie": 447365,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T06:28:27.644Z",
+        "updated_at": "2023-05-17T06:28:27.644Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 47,
+    "fields": {
+        "user": 3,
+        "title": "가디언즈 오브 갤럭시: Volume 3",
+        "content": "비로소야 그루트의 말이\r\n무슨 뜻인지 들리는 관객들",
+        "movie": 447365,
+        "rating": 5.0,
+        "is_spoiler": true,
+        "created_at": "2023-05-17T06:29:14.136Z",
+        "updated_at": "2023-05-17T06:29:14.136Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 48,
+    "fields": {
+        "user": 5,
+        "title": "가디언즈 오브 갤럭시: Volume 3",
+        "content": "그런거 없음",
+        "movie": 447365,
+        "rating": 5.0,
+        "is_spoiler": true,
+        "created_at": "2023-05-17T07:04:16.034Z",
+        "updated_at": "2023-05-17T07:04:16.034Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 49,
+    "fields": {
+        "user": 5,
+        "title": "슬픔의 삼각형",
+        "content": "슬퍼요",
+        "movie": 497828,
+        "rating": 3.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T07:15:10.704Z",
+        "updated_at": "2023-05-17T07:15:10.704Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 50,
+    "fields": {
+        "user": 3,
+        "title": "바깥 나라의 소녀",
+        "content": "기기괴괴",
+        "movie": 802699,
+        "rating": 4.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T07:40:16.844Z",
+        "updated_at": "2023-05-17T07:40:16.844Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 51,
+    "fields": {
+        "user": 5,
+        "title": "65",
+        "content": "으아 공룡이다",
+        "movie": 700391,
+        "rating": 3.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:32:44.824Z",
+        "updated_at": "2023-05-17T08:32:44.824Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 52,
+    "fields": {
+        "user": 2,
+        "title": "던전 앤 드래곤 - 도적들의 명예",
+        "content": "와! 드래곤 멋져요!!!!",
+        "movie": 493529,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:32:51.461Z",
+        "updated_at": "2023-05-17T08:32:51.461Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 53,
+    "fields": {
+        "user": 1,
+        "title": "던전 앤 드래곤 - 도적들의 명예",
+        "content": "진짜 재밌네 이거",
+        "movie": 493529,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:33:08.560Z",
+        "updated_at": "2023-05-17T08:33:08.560Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 54,
+    "fields": {
+        "user": 4,
+        "title": "던전 앤 드래곤 - 도적들의 명예",
+        "content": "음...",
+        "movie": 493529,
+        "rating": 2.5,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:33:10.636Z",
+        "updated_at": "2023-05-17T08:33:10.636Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 55,
+    "fields": {
+        "user": 3,
+        "title": "던전 앤 드래곤 - 도적들의 명예",
+        "content": "살벌하다;",
+        "movie": 493529,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:33:21.311Z",
+        "updated_at": "2023-05-17T08:33:21.311Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 56,
+    "fields": {
+        "user": 5,
+        "title": "렌필드",
+        "content": "엄마랑 같이보세요",
+        "movie": 649609,
+        "rating": 1.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:33:42.985Z",
+        "updated_at": "2023-05-17T08:33:42.985Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 57,
+    "fields": {
+        "user": 6,
+        "title": "메리 마이 데드 바디",
+        "content": "너무 뻔하다~~",
+        "movie": 983883,
+        "rating": 3.0,
+        "is_spoiler": true,
+        "created_at": "2023-05-17T08:35:25.111Z",
+        "updated_at": "2023-05-17T08:35:25.111Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 58,
+    "fields": {
+        "user": 5,
+        "title": "에어",
+        "content": "이거 보고 조던 사러 갑니다",
+        "movie": 964980,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:35:29.842Z",
+        "updated_at": "2023-05-17T08:35:29.842Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 59,
+    "fields": {
+        "user": 2,
+        "title": "스타워즈 에피소드 6: 제다이의 귀환",
+        "content": "나도 루크 아빠 하고 싶어요.",
+        "movie": 1892,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:36:03.438Z",
+        "updated_at": "2023-05-17T08:36:03.438Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 60,
+    "fields": {
+        "user": 6,
+        "title": "크리드 3",
+        "content": "나도 강해지고싶다",
+        "movie": 677179,
+        "rating": 4.5,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:36:07.182Z",
+        "updated_at": "2023-05-17T08:36:07.182Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 61,
+    "fields": {
+        "user": 5,
+        "title": "펄프 픽션",
+        "content": "우와 재미있어요",
+        "movie": 680,
+        "rating": 4.5,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:37:59.239Z",
+        "updated_at": "2023-05-17T08:37:59.239Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 62,
+    "fields": {
+        "user": 6,
+        "title": "장화신은 고양이: 끝내주는 모험",
+        "content": "아아아아아아아아앙아앙앙 너무 귀여워요ㅠㅠㅠㅠ나만 고양이 없어ㅠ",
+        "movie": 315162,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:39:00.576Z",
+        "updated_at": "2023-05-17T08:39:00.576Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 63,
+    "fields": {
+        "user": 5,
+        "title": "곰돌이 푸: 피와 꿀",
+        "content": "너무잔인해",
+        "movie": 980078,
+        "rating": 3.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:39:05.179Z",
+        "updated_at": "2023-05-17T08:39:05.179Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 64,
+    "fields": {
+        "user": 2,
+        "title": "곰돌이 푸: 피와 꿀",
+        "content": "너무 기괴....",
+        "movie": 980078,
+        "rating": 2.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:39:05.335Z",
+        "updated_at": "2023-05-17T08:39:05.335Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 65,
+    "fields": {
+        "user": 5,
+        "title": "레디 플레이어 원",
+        "content": "오 이거 왜 다시상영하지",
+        "movie": 333339,
+        "rating": 4.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:39:59.806Z",
+        "updated_at": "2023-05-17T08:39:59.806Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 66,
+    "fields": {
+        "user": 2,
+        "title": "스타워즈 에피소드 1: 보이지 않는 위험",
+        "content": "다스 몰이 멋쪄요",
+        "movie": 1893,
+        "rating": 4.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:40:31.856Z",
+        "updated_at": "2023-05-17T08:40:31.856Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 67,
+    "fields": {
+        "user": 5,
+        "title": "내 이름은 마더",
+        "content": "나는 파더",
+        "movie": 552688,
+        "rating": 3.5,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:40:34.064Z",
+        "updated_at": "2023-05-17T08:40:34.064Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 68,
+    "fields": {
+        "user": 1,
+        "title": "울지마 엄마",
+        "content": "슬퍼요 ㅜ",
+        "movie": 1106054,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:41:08.394Z",
+        "updated_at": "2023-05-17T08:41:08.394Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 69,
+    "fields": {
+        "user": 6,
+        "title": "가디언즈 오브 갤럭시 Vol. 2",
+        "content": "저렇게 멋있을 일인가!!!!!",
+        "movie": 283995,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:41:26.192Z",
+        "updated_at": "2023-05-17T08:41:26.192Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 70,
+    "fields": {
+        "user": 6,
+        "title": "유랑지구 2",
+        "content": "soso..",
+        "movie": 842675,
+        "rating": 2.5,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:44:55.370Z",
+        "updated_at": "2023-05-17T08:44:55.370Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 71,
+    "fields": {
+        "user": 5,
+        "title": "가디언즈 오브 갤럭시",
+        "content": "믿고보는 가오갤",
+        "movie": 118340,
+        "rating": 5.0,
+        "is_spoiler": false,
+        "created_at": "2023-05-17T08:44:59.582Z",
+        "updated_at": "2023-05-17T08:44:59.582Z"
+    }
+},
+{
+    "model": "reviews.review",
+    "pk": 72,
+    "fields": {
+        "user": 2,
+        "title": "앤트맨과 와스프: 퀀텀매니아",
+        "content": "좋아요!",
+        "movie": 640146,
+        "rating": 5.0,
+        "is_spoiler": true,
+        "created_at": "2023-05-18T00:39:04.879Z",
+        "updated_at": "2023-05-18T00:39:04.879Z"
+    }
+}
+]

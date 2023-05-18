@@ -1,0 +1,154 @@
+[
+{
+    "model": "accounts.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$NUG40xiH60vPLd6qUORQug$W7zY173mHAExpbkmiC4M3mczxZwyOh5YtdklLYd0rww=",
+        "last_login": "2023-05-17T01:26:49.706Z",
+        "is_superuser": false,
+        "username": "test",
+        "first_name": "",
+        "last_name": "test",
+        "email": "test@email.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-05-17T01:26:49.611Z",
+        "nickname": "봉준호",
+        "profile_image": "",
+        "birthday": null,
+        "color": "#d0e0e3",
+        "groups": [],
+        "user_permissions": [],
+        "followings": [
+            2,
+            3,
+            4
+        ]
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$5Ig50ipUUsJzagd5ewhpuc$14mbZPD2SwyoWnWr1usclD1PHtmMLxYn+TXwjIfHAK4=",
+        "last_login": "2023-05-18T01:22:22.419Z",
+        "is_superuser": false,
+        "username": "park",
+        "first_name": "",
+        "last_name": "박현준",
+        "email": "park@email.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-05-17T05:20:24.443Z",
+        "nickname": "아뿔사 우리 조장 박현준",
+        "profile_image": "",
+        "birthday": "1998-03-07",
+        "color": "#3d85c6",
+        "groups": [],
+        "user_permissions": [],
+        "followings": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$vMCMmoXynaxcXX2dS9tBhA$Yg25QlMeyK6t2T4aH/1CjsuHSG/wOvy0o9PAMqj9RVU=",
+        "last_login": "2023-05-17T05:28:47.726Z",
+        "is_superuser": false,
+        "username": "suhyun",
+        "first_name": "",
+        "last_name": "수현",
+        "email": "sw92522@naver.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-05-17T05:28:47.651Z",
+        "nickname": "ssssu",
+        "profile_image": "",
+        "birthday": "1997-08-22",
+        "color": "#a9b3f6",
+        "groups": [],
+        "user_permissions": [],
+        "followings": [
+            2
+        ]
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$4hajHpXQA5RhvXouXsGcRM$oLPDioX95U6CsBnU5E2KzmhwxeXwmzTIo9TdyKQ4xHY=",
+        "last_login": "2023-05-17T05:34:43.515Z",
+        "is_superuser": false,
+        "username": "dltngks54",
+        "first_name": "",
+        "last_name": "",
+        "email": "suhan@naver.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-05-17T05:34:43.434Z",
+        "nickname": "타란티노",
+        "profile_image": "",
+        "birthday": null,
+        "color": null,
+        "groups": [],
+        "user_permissions": [],
+        "followings": [
+            1,
+            2,
+            3
+        ]
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$uyQf5xG0SFWf2UuKwYyUHM$/jmvadVInZVw5btJotA/dQUv2eSFYjN4OD46mLXHQ0E=",
+        "last_login": "2023-05-17T07:03:50.379Z",
+        "is_superuser": false,
+        "username": "yuyoung",
+        "first_name": "",
+        "last_name": "",
+        "email": "asdf@asdf.asdf",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-05-17T05:34:49.478Z",
+        "nickname": "김유영",
+        "profile_image": "",
+        "birthday": null,
+        "color": "#6aa84f",
+        "groups": [],
+        "user_permissions": [],
+        "followings": [
+            2,
+            3,
+            4
+        ]
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 6,
+    "fields": {
+        "password": "!UKlQ0TiAgdv2uAQAF7GGylWOB6OzYlHX0cZed31X",
+        "last_login": "2023-05-17T08:34:32.655Z",
+        "is_superuser": false,
+        "username": "103310933466065790736",
+        "first_name": "Shyun",
+        "last_name": "",
+        "email": "sw92522@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-05-17T08:34:19.272Z",
+        "nickname": "doradora",
+        "profile_image": "",
+        "birthday": null,
+        "color": null,
+        "groups": [],
+        "user_permissions": [],
+        "followings": []
+    }
+}
+]

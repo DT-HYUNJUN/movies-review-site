@@ -1,0 +1,101 @@
+[
+{
+    "model": "reviews.reviewcomment",
+    "pk": 1,
+    "fields": {
+        "review": 3,
+        "user": 1,
+        "content": "왜요?",
+        "created_at": "2023-05-17T05:31:18.841Z",
+        "updated_at": "2023-05-17T05:31:18.841Z"
+    }
+},
+{
+    "model": "reviews.reviewcomment",
+    "pk": 2,
+    "fields": {
+        "review": 4,
+        "user": 2,
+        "content": "리뷰가 장난입니까?!",
+        "created_at": "2023-05-17T05:34:51.886Z",
+        "updated_at": "2023-05-17T05:34:51.886Z"
+    }
+},
+{
+    "model": "reviews.reviewcomment",
+    "pk": 3,
+    "fields": {
+        "review": 9,
+        "user": 1,
+        "content": "이름 어디 작명소에서 지었나요? 영화 잘 만들 것 같은 이름이네요",
+        "created_at": "2023-05-17T05:52:56.877Z",
+        "updated_at": "2023-05-17T05:52:56.877Z"
+    }
+},
+{
+    "model": "reviews.reviewcomment",
+    "pk": 4,
+    "fields": {
+        "review": 10,
+        "user": 5,
+        "content": "대머리",
+        "created_at": "2023-05-17T05:56:59.402Z",
+        "updated_at": "2023-05-17T05:56:59.402Z"
+    }
+},
+{
+    "model": "reviews.reviewcomment",
+    "pk": 6,
+    "fields": {
+        "review": 23,
+        "user": 2,
+        "content": "재밌네요",
+        "created_at": "2023-05-17T06:20:15.077Z",
+        "updated_at": "2023-05-17T06:20:15.077Z"
+    }
+},
+{
+    "model": "reviews.reviewcomment",
+    "pk": 7,
+    "fields": {
+        "review": 47,
+        "user": 2,
+        "content": "???",
+        "created_at": "2023-05-17T07:00:41.789Z",
+        "updated_at": "2023-05-17T07:00:41.789Z"
+    }
+},
+{
+    "model": "reviews.reviewcomment",
+    "pk": 8,
+    "fields": {
+        "review": 5,
+        "user": 3,
+        "content": "나도 무조건!!!!",
+        "created_at": "2023-05-17T07:04:14.764Z",
+        "updated_at": "2023-05-17T07:04:14.764Z"
+    }
+},
+{
+    "model": "reviews.reviewcomment",
+    "pk": 9,
+    "fields": {
+        "review": 46,
+        "user": 6,
+        "content": "노래도 너무 좋아",
+        "created_at": "2023-05-17T09:00:01.574Z",
+        "updated_at": "2023-05-17T09:00:01.574Z"
+    }
+},
+{
+    "model": "reviews.reviewcomment",
+    "pk": 10,
+    "fields": {
+        "review": 72,
+        "user": 2,
+        "content": "좋아요!!!",
+        "created_at": "2023-05-18T00:42:35.685Z",
+        "updated_at": "2023-05-18T00:42:44.700Z"
+    }
+}
+]

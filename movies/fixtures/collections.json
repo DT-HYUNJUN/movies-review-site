@@ -1,0 +1,169 @@
+[
+{
+    "model": "movies.collection",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "title": "죽기 전에 꼭 봐야할 명작 모음",
+        "content": "진짜 잼써요",
+        "like_users": []
+    }
+},
+{
+    "model": "movies.collection",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "title": "DC 총 출동!!!",
+        "content": "DC 영화 모아봤어요",
+        "like_users": []
+    }
+},
+{
+    "model": "movies.collection",
+    "pk": 3,
+    "fields": {
+        "user": 4,
+        "title": "내가 만든 영화",
+        "content": "ㅎㅎ",
+        "like_users": [
+            1,
+            4
+        ]
+    }
+},
+{
+    "model": "movies.collection",
+    "pk": 4,
+    "fields": {
+        "user": 2,
+        "title": "마블 내추럴 영웅들",
+        "content": "초인적인 힘이 아닌 인간으로서의 히어로 들을 모아봤어요!",
+        "like_users": [
+            3
+        ]
+    }
+},
+{
+    "model": "movies.collection",
+    "pk": 5,
+    "fields": {
+        "user": 3,
+        "title": "어린시절 추억 소환",
+        "content": "다들 어릴 때 한번쯤 봤잖아...?",
+        "like_users": [
+            3
+        ]
+    }
+},
+{
+    "model": "movies.collection",
+    "pk": 6,
+    "fields": {
+        "user": 5,
+        "title": "분노의 질주 시리즈",
+        "content": "상남자",
+        "like_users": [
+            5
+        ]
+    }
+},
+{
+    "model": "movies.collection",
+    "pk": 7,
+    "fields": {
+        "user": 4,
+        "title": "다큐 빠돌이",
+        "content": "The documentary is a real movie\r\n\r\n재밌게 본거",
+        "like_users": []
+    }
+},
+{
+    "model": "movies.collection",
+    "pk": 8,
+    "fields": {
+        "user": 2,
+        "title": "가디언즈 오브 갤럭시 총 출동!!!",
+        "content": "언제나 감동을 주는 가디언즈 오브 갤럭시!!!\r\n\r\n제가 모아봤습니다.",
+        "like_users": [
+            1
+        ]
+    }
+},
+{
+    "model": "movies.collection",
+    "pk": 9,
+    "fields": {
+        "user": 2,
+        "title": "스타워즈 시리즈 총 출동!!!!",
+        "content": "스타워즈 모아봤습니다.",
+        "like_users": [
+            2
+        ]
+    }
+},
+{
+    "model": "movies.collection",
+    "pk": 11,
+    "fields": {
+        "user": 5,
+        "title": "요즘 인기있는 영화들",
+        "content": "요즘 인기있는 영화 모음입니다",
+        "like_users": []
+    }
+},
+{
+    "model": "movies.collection",
+    "pk": 12,
+    "fields": {
+        "user": 6,
+        "title": "🌈my hero🌟",
+        "content": "내가 뽑은 영웅들",
+        "like_users": [
+            6
+        ]
+    }
+},
+{
+    "model": "movies.collection",
+    "pk": 13,
+    "fields": {
+        "user": 4,
+        "title": "죽기전 봐야되는 한국영화",
+        "content": "놓치지 마세요",
+        "like_users": []
+    }
+},
+{
+    "model": "movies.collection",
+    "pk": 15,
+    "fields": {
+        "user": 2,
+        "title": "어벤져스 총 출동!!!",
+        "content": "어벤져스 모아봤습니다.",
+        "like_users": []
+    }
+},
+{
+    "model": "movies.collection",
+    "pk": 16,
+    "fields": {
+        "user": 2,
+        "title": "나만의 컬렉션",
+        "content": "컬렉션입니다.",
+        "like_users": [
+            2
+        ]
+    }
+},
+{
+    "model": "movies.collection",
+    "pk": 17,
+    "fields": {
+        "user": 2,
+        "title": "컬렉션",
+        "content": "내용",
+        "like_users": []
+    }
+}
+]

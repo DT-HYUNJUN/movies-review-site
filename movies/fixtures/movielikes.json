@@ -1,0 +1,82 @@
+[
+{
+    "model": "movies.movielike",
+    "pk": 7,
+    "fields": {
+        "user": 1,
+        "movie_id": 502356
+    }
+},
+{
+    "model": "movies.movielike",
+    "pk": 10,
+    "fields": {
+        "user": 2,
+        "movie_id": 502356
+    }
+},
+{
+    "model": "movies.movielike",
+    "pk": 14,
+    "fields": {
+        "user": 3,
+        "movie_id": 758323
+    }
+},
+{
+    "model": "movies.movielike",
+    "pk": 15,
+    "fields": {
+        "user": 4,
+        "movie_id": 502356
+    }
+},
+{
+    "model": "movies.movielike",
+    "pk": 16,
+    "fields": {
+        "user": 2,
+        "movie_id": 603692
+    }
+},
+{
+    "model": "movies.movielike",
+    "pk": 17,
+    "fields": {
+        "user": 2,
+        "movie_id": 447365
+    }
+},
+{
+    "model": "movies.movielike",
+    "pk": 19,
+    "fields": {
+        "user": 3,
+        "movie_id": 802699
+    }
+},
+{
+    "model": "movies.movielike",
+    "pk": 20,
+    "fields": {
+        "user": 5,
+        "movie_id": 640146
+    }
+},
+{
+    "model": "movies.movielike",
+    "pk": 22,
+    "fields": {
+        "user": 2,
+        "movie_id": 640146
+    }
+},
+{
+    "model": "movies.movielike",
+    "pk": 23,
+    "fields": {
+        "user": 2,
+        "movie_id": 730629
+    }
+}
+]
