@@ -131,7 +131,7 @@
           {% for comment, comment_update_form, comment_liked_by_user, comment_disliked_by_user in comment_update_form_lst %}
           <div class="d-flex">
             <div>
-              <a href="{% url 'accounts:profile' comment.user %}" class="profile-img-href"><img class="review-card-profile-img rounded-circle" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile-img.png' %}" {% endif %}  alt="review-profile-image"></a>
+              <a href="{% url 'accounts:profile' comment.user %}" class="profile-img-href"><img class="review-card-profile-img rounded-circle" {% if comment.user.profile_image %} src="{{ comment.user.profile_image.url }}" {% else %} src="{% static 'img/profile-img.png' %}" {% endif %}  alt="review-profile-image"></a>
             </div>
             <div class="d-flex flex-column comment-detail-box">
               <div class="d-flex justify-content-between">
