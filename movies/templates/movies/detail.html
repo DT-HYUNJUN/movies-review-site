@@ -323,9 +323,9 @@
                 <!-- 스포일러 True False 조건문 -->
                 {% if review.is_spoiler %}
                   <p class="spoiler-guide">스포일러가 있어요!!<span class="spoiler-check" data-spoiler="{{ review.is_spoiler }}" data-isLiked="{{liked_by_user}}" data-isDisliked="{{disliked_by_user}}" > 보기</span></p>
-                  <p class="card-text review-content review-content-overflow content-href hide-spoiler-content" OnClick="location.href ='{% url 'reviews:detail' review.movie review.pk %}'">{{review.content}}</p>
+                  <p class="card-text review-content review-content-overflow content-href hide-spoiler-content" OnClick="location.href ='{% url 'reviews:detail' review.movie review.pk %}'">{{review.content|linebreaksbr}}</p>
                 {% else %}
-                  <p class="card-text review-content review-content-overflow content-href"  OnClick="location.href ='{% url 'reviews:detail' review.movie review.pk %}'">{{review.content}}</p>
+                  <p class="card-text review-content review-content-overflow content-href"  OnClick="location.href ='{% url 'reviews:detail' review.movie review.pk %}'">{{review.content|linebreaksbr}}</p>
                 {% endif %}
               </div>
 
